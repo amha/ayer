@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _navigateToLogin() {
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginForm()),

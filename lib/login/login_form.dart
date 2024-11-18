@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../air/feed_detail.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -135,10 +136,9 @@ class _LoginFormState extends State<LoginForm> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            // TODO: Implement sign in logic
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const Placeholder(),
+                                builder: (context) => const FeedDetail(),
                               ),
                             );
                           }
@@ -152,7 +152,11 @@ class _LoginFormState extends State<LoginForm> {
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () {
-                        // TODO: Navigate to create account screen
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const FeedDetail(),
+                          ),
+                        );
                       },
                       child: const Text('Create New Account'),
                     ),
