@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -22,7 +23,7 @@ class _FeedDetailState extends State<FeedDetail> {
 
   Future<void> _fetchFeedData() async {
     try {
-      const String url = 'http://api.waqi.info/feed/newyorkcity/?token=demo';
+      String url = dotenv.env['BASE_URL'] ?? '';
 
       final response = await http.get(
         Uri.parse(url),
@@ -54,18 +55,66 @@ class _FeedDetailState extends State<FeedDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('Feed Detail'),
+        title: const Text('Demo Data'),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
               ? Center(child: Text(_error!))
-              : SingleChildScrollView(
+              : Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    const JsonEncoder.withIndent('  ').convert(_feedData),
-                    style: const TextStyle(fontSize: 16),
+                  child: Column(
+                    children: [
+                      Card(
+                        color: Colors.white,
+                        elevation: 0,
+                        borderOnForeground: false,
+                        child: ListTile(
+                          title: const Text(
+                            'Status',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          subtitle: Text(
+                              style: TextStyle(
+                                  fontSize: 48, fontWeight: FontWeight.w300),
+                              _feedData['status'] ?? 'N/A'),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Card(
+                        color: Colors.white,
+                        elevation: 0,
+                        borderOnForeground: true,
+                        child: ListTile(
+                          title: const Text(
+                            'AQI',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          subtitle: Text(
+                              style: const TextStyle(
+                                  fontSize: 48, fontWeight: FontWeight.w300),
+                              (_feedData['data']['aqi'] ?? 'N/A').toString()),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Card(
+                        color: Colors.white,
+                        elevation: 0,
+                        borderOnForeground: true,
+                        child: ListTile(
+                          title: const Text(
+                            'City Name',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          subtitle: Text(
+                              style: const TextStyle(
+                                  fontSize: 36, fontWeight: FontWeight.w300),
+                              _feedData['data']['city']['name'] ?? 'N/A'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
     );
