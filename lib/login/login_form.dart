@@ -1,5 +1,5 @@
+import 'package:ayer/home.dart';
 import 'package:flutter/material.dart';
-import '../air/feed_detail.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -138,7 +138,7 @@ class _LoginFormState extends State<LoginForm> {
                           if (_formKey.currentState!.validate()) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const FeedDetail(),
+                                builder: (context) => const HomeScreen(),
                               ),
                             );
                           }
@@ -154,7 +154,7 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const FeedDetail(),
+                            builder: (context) => const HomeScreen(),
                           ),
                         );
                       },

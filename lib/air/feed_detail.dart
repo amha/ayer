@@ -77,7 +77,7 @@ class _FeedDetailState extends State<FeedDetail> {
                             style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                           subtitle: Text(
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 48, fontWeight: FontWeight.w300),
                               _feedData['status'] ?? 'N/A'),
                         ),
