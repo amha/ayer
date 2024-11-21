@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'feed_detail.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -10,11 +11,11 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   // Example list of strings - replace with your actual data
   final List<String> items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
+    'New York City',
+    'Montreal',
+    'Addis Ababa',
+    'Athens',
+    'Paris',
   ];
 
   List<String> filteredItems = [];
@@ -96,7 +97,13 @@ class _SearchScreenState extends State<SearchScreen> {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                    // Add item selection logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            FeedDetail(cityName: filteredItems[index]),
+                      ),
+                    );
                   },
                 );
               },
