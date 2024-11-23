@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:ayer/main.dart';
 
 /// FeedDetail is a StatefulWidget that displays detailed air quality information for a specific city
 class FeedDetail extends StatefulWidget {
@@ -43,7 +45,7 @@ class _FeedDetailState extends State<FeedDetail> {
       String url = dotenv.env['BASE_URL'] ?? '';
       String token = dotenv.env['API_TOKEN'] ?? '';
       // Construct the full request URL with city name and token
-      String requestURL = url + widget.cityName + '/?token=' + token.toString();
+      String requestURL = '$url${widget.cityName}/?token=$token';
 
       // Make GET request to the API
       final response = await http.get(
@@ -163,6 +165,8 @@ class _FeedDetailState extends State<FeedDetail> {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           onPressed: () {
+                            Provider.of<SavedCities>(context, listen: false)
+                                .addCity(widget.cityName);
                             Navigator.pop(context, widget.cityName);
                           },
                           child: const Text('Save City'),

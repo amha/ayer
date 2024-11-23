@@ -1,11 +1,32 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'login/login_form.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
-  runApp(const MyApp());
+
+  runApp(ChangeNotifierProvider(
+      create: (context) => SavedCities(), child: const MyApp()));
+}
+
+class SavedCities with ChangeNotifier {
+  List<String> _cities = [];
+
+  void addCity(String cityName) {
+    _cities.add(cityName);
+    notifyListeners();
+  }
+
+  void removeCity(String cityName) {
+    _cities.remove(cityName);
+    notifyListeners();
+  }
+
+  int citiesCount() {
+    return _cities.length;
+  }
 }
 
 class MyApp extends StatelessWidget {

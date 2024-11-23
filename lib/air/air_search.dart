@@ -93,8 +93,8 @@ class _SearchScreenState extends State<SearchScreen> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(filteredItems[index],
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w400)),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.push(

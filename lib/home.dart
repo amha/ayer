@@ -1,6 +1,8 @@
+import 'package:ayer/main.dart';
 import 'package:flutter/material.dart';
 import 'air/air_search.dart';
 import 'air/feed_detail.dart';
+import 'package:provider/provider.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -13,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // List to store saved cities
-  final List<String> savedCities = ['London', 'New York', 'Tokyo'];
+  final List<String> savedCities = [];
 
   // Widget to display when there are no saved cities
   Widget _buildEmptyState() {
@@ -52,6 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: const Text('Search'),
               ),
+              Consumer<SavedCities>(builder: (context, savedCities, child) {
+                return Text('Cities: ${savedCities.citiesCount()}');
+              })
             ],
           ),
         ),
