@@ -14,9 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // List to store saved cities
-  final List<String> savedCities = [];
-
   // Widget to display when there are no saved cities
   Widget _buildEmptyState() {
     return Center(
@@ -65,37 +62,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Widget to display the list of saved cities
-  Widget _buildCityList() {
+  Widget _buildCityList(BuildContext context) {
+    final SavedCities cities = context.read<SavedCities>();
+
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
-      itemCount: savedCities.length,
+      itemCount: cities.citiesCount(),
       itemBuilder: (context, index) {
         return Card(
           margin: const EdgeInsets.only(bottom: 8.0),
           child: ListTile(
-            title: Text(savedCities[index]),
+            title: Text(cities.cities[index]),
             onTap: () {
               // Add navigation to city detail page here
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        FeedDetail(cityName: savedCities[index])),
+                        FeedDetail(cityName: cities.cities[index])),
               );
             },
           ),
         );
       },
     );
-  }
-
-  // Add this method to handle adding cities
-  void addCity(String cityName) {
-    if (!savedCities.contains(cityName)) {
-      setState(() {
-        savedCities.add(cityName);
-      });
-    }
   }
 
   // Modify the search navigation to handle the result
@@ -106,12 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     if (result != null && result is String) {
-      addCity(result);
+      SavedCities().addCity(result);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final cities = context.watch<SavedCities>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ayer'),
@@ -122,7 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: savedCities.isEmpty ? _buildEmptyState() : _buildCityList(),
+      body: cities.citiesCount() == 0
+          ? _buildEmptyState()
+          : _buildCityList(context),
     );
   }
 }

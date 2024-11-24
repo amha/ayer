@@ -24,6 +24,8 @@ class SavedCities with ChangeNotifier {
     notifyListeners();
   }
 
+  List<String> get cities => _cities;
+
   int citiesCount() {
     return _cities.length;
   }
