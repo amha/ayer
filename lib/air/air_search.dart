@@ -74,7 +74,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              onChanged: _filterItems,
+              //onChanged: _filterItems,
+              onSubmitted: (value) {
+                if (value.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedDetail(cityName: value),
+                    ),
+                  );
+                }
+              },
             ),
           ),
           const Padding(

@@ -165,9 +165,20 @@ class _FeedDetailState extends State<FeedDetail> {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           onPressed: () {
-                            Provider.of<SavedCities>(context, listen: false)
-                                .addCity(widget.cityName);
-                            Navigator.pop(context, widget.cityName);
+                            if (context
+                                .read<SavedCities>()
+                                .cities
+                                .contains(widget.cityName)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('This city already exists in the list'),
+                                ),
+                              );
+                            } else {
+                              Provider.of<SavedCities>(context, listen: false)
+                                  .addCity(widget.cityName);
+                              Navigator.pop(context, widget.cityName);
+                            }
                           },
                           child: const Text('Save City'),
                         ),
