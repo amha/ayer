@@ -230,10 +230,8 @@ class _FeedDetailState extends State<FeedDetail> {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           onPressed: () {
-                            if (context
-                                .read<SavedCities>()
-                                .cities
-                                .contains(widget.cityName)) {
+                            if (context.read<SavedCities>().cities.any(
+                                (city) => city.cityName == widget.cityName)) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
