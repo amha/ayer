@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:ayer/main.dart';
+import 'package:ayer/home.dart';
 
 /// FeedDetail is a StatefulWidget that displays detailed air quality information for a specific city
 class FeedDetail extends StatefulWidget {
@@ -83,9 +84,9 @@ class _FeedDetailState extends State<FeedDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text('Demo Data'),
+        backgroundColor: Colors.transparent,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -98,55 +99,116 @@ class _FeedDetailState extends State<FeedDetail> {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
-                            Card(
-                              color: Colors.white,
-                              elevation: 0,
-                              borderOnForeground: false,
-                              child: ListTile(
-                                title: const Text(
-                                  'Status',
-                                  style: TextStyle(fontWeight: FontWeight.w700),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 3,
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 3,
+                                    blurRadius: 6,
+                                    offset: const Offset(0, -1),
+                                  ),
+                                ],
+                              ),
+                              child: Card(
+                                elevation: 0,
+                                color: Colors.white,
+                                margin: EdgeInsets.zero,
+                                child: ListTile(
+                                  title: const Text(
+                                    'Status',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w700),
+                                  ),
+                                  subtitle: Text(
+                                      style: const TextStyle(
+                                          fontSize: 48,
+                                          fontWeight: FontWeight.w300),
+                                      _feedData['status'] ?? 'N/A'),
                                 ),
-                                subtitle: Text(
-                                    style: const TextStyle(
-                                        fontSize: 48,
-                                        fontWeight: FontWeight.w300),
-                                    _feedData['status'] ?? 'N/A'),
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            Card(
-                              color: Colors.white,
-                              elevation: 0,
-                              borderOnForeground: true,
-                              child: ListTile(
-                                title: const Text(
-                                  'AQI',
-                                  style: TextStyle(fontWeight: FontWeight.w700),
+                            const SizedBox(height: 24),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 3,
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 3,
+                                    blurRadius: 6,
+                                    offset: const Offset(0, -1),
+                                  ),
+                                ],
+                              ),
+                              child: Card(
+                                elevation: 0,
+                                color: Colors.white,
+                                margin: EdgeInsets.zero,
+                                child: ListTile(
+                                  title: const Text(
+                                    'AQI',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w700),
+                                  ),
+                                  subtitle: Text(
+                                      style: const TextStyle(
+                                          fontSize: 48,
+                                          fontWeight: FontWeight.w300),
+                                      (_feedData['data']['aqi'] ?? 'N/A')
+                                          .toString()),
                                 ),
-                                subtitle: Text(
-                                    style: const TextStyle(
-                                        fontSize: 48,
-                                        fontWeight: FontWeight.w300),
-                                    (_feedData['data']['aqi'] ?? 'N/A')
-                                        .toString()),
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            Card(
-                              color: Colors.white,
-                              elevation: 0,
-                              borderOnForeground: true,
-                              child: ListTile(
-                                title: const Text(
-                                  'City Name',
-                                  style: TextStyle(fontWeight: FontWeight.w700),
+                            const SizedBox(height: 24),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 3,
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 3,
+                                    blurRadius: 6,
+                                    offset: const Offset(0, -1),
+                                  ),
+                                ],
+                              ),
+                              child: Card(
+                                elevation: 0,
+                                color: Colors.white,
+                                margin: EdgeInsets.zero,
+                                child: ListTile(
+                                  title: const Text(
+                                    'City Name',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w700),
+                                  ),
+                                  subtitle: Text(
+                                      style: const TextStyle(
+                                          fontSize: 36,
+                                          fontWeight: FontWeight.w300),
+                                      _feedData['data']['city']['name'] ??
+                                          'N/A'),
                                 ),
-                                subtitle: Text(
-                                    style: const TextStyle(
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.w300),
-                                    _feedData['data']['city']['name'] ?? 'N/A'),
                               ),
                             ),
                           ],
@@ -159,6 +221,8 @@ class _FeedDetailState extends State<FeedDetail> {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -171,13 +235,31 @@ class _FeedDetailState extends State<FeedDetail> {
                                 .contains(widget.cityName)) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('This city already exists in the list'),
+                                  content: Text(
+                                      'This city already exists in the list'),
                                 ),
                               );
                             } else {
                               Provider.of<SavedCities>(context, listen: false)
                                   .addCity(widget.cityName);
-                              Navigator.pop(context, widget.cityName);
+                              Navigator.pushReplacement(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      const HomeScreen(),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(-1.0, 0.0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
                             }
                           },
                           child: const Text('Save City'),

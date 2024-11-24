@@ -97,28 +97,28 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(filteredItems[index],
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w400)),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            FeedDetail(cityName: filteredItems[index]),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: filteredItems.length,
+          //     itemBuilder: (context, index) {
+          //       return ListTile(
+          //         title: Text(filteredItems[index],
+          //             style: const TextStyle(
+          //                 fontSize: 18, fontWeight: FontWeight.w400)),
+          //         trailing: const Icon(Icons.arrow_forward_ios),
+          //         onTap: () {
+          //           Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //               builder: (context) =>
+          //                   FeedDetail(cityName: filteredItems[index]),
+          //             ),
+          //           );
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

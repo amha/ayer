@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'login/login_form.dart';
+import 'home.dart';
+import 'air/air_search.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -38,9 +40,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/login': (context) => const LoginForm(),
+        '/search': (context) => const SearchScreen(),
+      },
       debugShowCheckedModeBanner: false,
       title: 'Āyer',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
