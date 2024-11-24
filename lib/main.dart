@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'login/login_form.dart';
 import 'home.dart';
 import 'air/air_search.dart';
+import 'air/city_air_data.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -14,10 +15,10 @@ void main() async {
 }
 
 class SavedCities with ChangeNotifier {
-  List<String> _cities = [];
+  List<CityAirData> _cities = [];
 
-  void addCity(String cityName) {
-    _cities.add(cityName);
+  void addCity(CityAirData city) {
+    _cities.add(city);
     notifyListeners();
   }
 
@@ -26,7 +27,7 @@ class SavedCities with ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> get cities => _cities;
+  List<CityAirData> get cities => _cities;
 
   int citiesCount() {
     return _cities.length;

@@ -1,25 +1,25 @@
 class CityAirData {
   String _cityName;
-  double _aqi;
-  double _pm25;
+  int _aqi;
+  int _pm25;
 
   CityAirData({
     required String cityName,
-    required double aqi,
-    required double pm25,
+    required int aqi,
+    required int pm25,
   })  : _cityName = cityName,
         _aqi = aqi,
         _pm25 = pm25;
 
   // Getters
   String get cityName => _cityName;
-  double get aqi => _aqi;
-  double get pm25 => _pm25;
+  int get aqi => _aqi;
+  int get pm25 => _pm25;
 
   // Setters
   set cityName(String value) => _cityName = value;
-  set aqi(double value) => _aqi = value;
-  set pm25(double value) => _pm25 = value;
+  set aqi(int value) => _aqi = value;
+  set pm25(int value) => _pm25 = value;
 
   @override
   bool operator ==(Object other) =>

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:ayer/main.dart';
 import 'package:ayer/home.dart';
+import 'package:ayer/air/city_air_data.dart';
 
 /// FeedDetail is a StatefulWidget that displays detailed air quality information for a specific city
 class FeedDetail extends StatefulWidget {
@@ -241,7 +242,12 @@ class _FeedDetailState extends State<FeedDetail> {
                               );
                             } else {
                               Provider.of<SavedCities>(context, listen: false)
-                                  .addCity(widget.cityName);
+                                  .addCity(CityAirData(
+                                      cityName: _feedData['data']['city']
+                                          ['name'],
+                                      aqi: _feedData['data']['aqi'],
+                                      pm25: _feedData['data']['iaqi']['pm25']
+                                          ['v']));
                               Navigator.pushReplacement(
                                 context,
                                 PageRouteBuilder(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'air/air_search.dart';
 import 'air/feed_detail.dart';
 import 'package:provider/provider.dart';
+import 'air/city_air_data.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -72,14 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
         return Card(
           margin: const EdgeInsets.only(bottom: 8.0),
           child: ListTile(
-            title: Text(cities.cities[index]),
+            title: Text(cities.cities[index].cityName),
+            trailing: Text(cities.cities[index].aqi.toString()),
             onTap: () {
               // Add navigation to city detail page here
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        FeedDetail(cityName: cities.cities[index])),
+                        FeedDetail(cityName: cities.cities[index].cityName)),
               );
             },
           ),
@@ -96,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     if (result != null && result is String) {
-      SavedCities().addCity(result);
+      SavedCities().addCity(CityAirData(cityName: result, aqi: 0, pm25: 0));
+      print(result);
     }
   }
 
