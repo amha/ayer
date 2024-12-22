@@ -85,193 +85,228 @@ class _FeedDetailState extends State<FeedDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Demo Data'),
-        backgroundColor: Colors.transparent,
-      ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-              ? Center(child: Text(_error!))
-              : Column(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
+        appBar: AppBar(
+          title: Text(_feedData['data']['city']['name'].toString()),
+          backgroundColor: Colors.white,
+        ),
+        body: SafeArea(
+          child: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : _error != null
+                  ? Center(child: Text(_error!))
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        // First Child
+                        Container(
+                            padding: EdgeInsets.fromLTRB(0, 12.0, 0.0, 12.0),
+                            height: 300,
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        'AIR QUALITY INDEX',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      const Text(
+                                        'May 8, 2024',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 16),
+                                      ),
+                                      const Chip(
+                                          label: Text(
+                                            'Good',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF1B5E20),
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          backgroundColor: Color(0xFFCFF7D3),
+                                          side: BorderSide.none),
+                                      Text(
+                                        _feedData['data']['aqi'].toString(),
+                                        style: const TextStyle(
+                                            fontSize: 68,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      const Text(
+                                          'Its a great day to be active outside.',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w300)),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      const Text('What does this score mean?',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              decoration:
+                                                  TextDecoration.underline)),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ])),
+
+                        // Second Child
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    spreadRadius: 3,
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 2),
+                              height: 300,
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Divider(
+                                    color: Colors.grey,
+                                    height: 1,
+                                    indent: 16,
+                                    endIndent: 16,
+                                    thickness: .5,
                                   ),
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 3,
-                                    blurRadius: 6,
-                                    offset: const Offset(0, -1),
+                                  ListTile(
+                                    title: Text('CITY NAME',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium),
+                                    trailing: Text('data'),
                                   ),
-                                ],
-                              ),
-                              child: Card(
-                                elevation: 0,
-                                color: Colors.white,
-                                margin: EdgeInsets.zero,
-                                child: ListTile(
-                                  title: const Text(
-                                    'Status',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w700),
+                                  const Divider(
+                                    color: Colors.grey,
+                                    height: 1,
+                                    indent: 16,
+                                    endIndent: 16,
+                                    thickness: .5,
                                   ),
-                                  subtitle: Text(
-                                      style: const TextStyle(
-                                          fontSize: 48,
-                                          fontWeight: FontWeight.w300),
-                                      _feedData['status'] ?? 'N/A'),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    spreadRadius: 3,
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 2),
+                                  ListTile(
+                                    title: Text('AVG. OZONE (O3)',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium),
+                                    trailing: const Text('data'),
                                   ),
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 3,
-                                    blurRadius: 6,
-                                    offset: const Offset(0, -1),
+                                  const Divider(
+                                    color: Colors.grey,
+                                    height: 1,
+                                    indent: 16,
+                                    endIndent: 16,
+                                    thickness: .5,
                                   ),
-                                ],
-                              ),
-                              child: Card(
-                                elevation: 0,
-                                color: Colors.white,
-                                margin: EdgeInsets.zero,
-                                child: ListTile(
-                                  title: const Text(
-                                    'AQI',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w700),
+                                  ListTile(
+                                    title: Text('PARTICULATE MATTER 2.5',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium),
+                                    trailing: Text('data'),
                                   ),
-                                  subtitle: Text(
-                                      style: const TextStyle(
-                                          fontSize: 48,
-                                          fontWeight: FontWeight.w300),
-                                      (_feedData['data']['aqi'] ?? 'N/A')
-                                          .toString()),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    spreadRadius: 3,
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 2),
+                                  const Divider(
+                                    color: Colors.grey,
+                                    height: 1,
+                                    indent: 16,
+                                    endIndent: 16,
+                                    thickness: .5,
                                   ),
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 3,
-                                    blurRadius: 6,
-                                    offset: const Offset(0, -1),
+                                  ListTile(
+                                    title: Text('PARTICULATE MATTER 10.0',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium),
+                                    trailing: Text('data'),
+                                  ),
+                                  const Divider(
+                                    color: Colors.grey,
+                                    height: 1,
+                                    indent: 16,
+                                    endIndent: 16,
+                                    thickness: .5,
                                   ),
                                 ],
                               ),
-                              child: Card(
-                                elevation: 0,
-                                color: Colors.white,
-                                margin: EdgeInsets.zero,
-                                child: ListTile(
-                                  title: const Text(
-                                    'City Name',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w700),
-                                  ),
-                                  subtitle: Text(
-                                      style: const TextStyle(
-                                          fontSize: 36,
-                                          fontWeight: FontWeight.w300),
-                                      _feedData['data']['city']['name'] ??
-                                          'N/A'),
-                                ),
-                              ),
-                            ),
+                            )
                           ],
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                          ),
-                          onPressed: () {
-                            if (context.read<SavedCities>().cities.any(
-                                (city) => city.cityName == widget.cityName)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'This city already exists in the list'),
+
+                        // Third Child
+                        Container(
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
                                 ),
-                              );
-                            } else {
-                              Provider.of<SavedCities>(context, listen: false)
-                                  .addCity(CityAirData(
-                                      cityName: _feedData['data']['city']
-                                          ['name'],
-                                      aqi: _feedData['data']['aqi'],
-                                      pm25: _feedData['data']['iaqi']['pm25']
-                                          ['v']));
-                              Navigator.pushReplacement(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      const HomeScreen(),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: const Offset(-1.0, 0.0),
-                                        end: Offset.zero,
-                                      ).animate(animation),
-                                      child: child,
+                                onPressed: () {
+                                  if (context.read<SavedCities>().cities.any(
+                                      (city) =>
+                                          city.cityName == widget.cityName)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'This city already exists in the list'),
+                                      ),
                                     );
-                                  },
-                                ),
-                              );
-                            }
-                          },
-                          child: const Text('Save City'),
-                        ),
-                      ),
+                                  } else {
+                                    Provider.of<SavedCities>(context,
+                                            listen: false)
+                                        .addCity(CityAirData(
+                                            cityName: _feedData['data']['city']
+                                                ['name'],
+                                            aqi: _feedData['data']['aqi'],
+                                            pm25: _feedData['data']['iaqi']
+                                                ['pm25']['v']));
+                                    Navigator.pushReplacement(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            const HomeScreen(),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return SlideTransition(
+                                            position: Tween<Offset>(
+                                              begin: const Offset(-1.0, 0.0),
+                                              end: Offset.zero,
+                                            ).animate(animation),
+                                            child: child,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: const Text('ADD TO DASHBOARD',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700)),
+                              ),
+                            )),
+                      ],
                     ),
-                  ],
-                ),
-    );
+        ));
   }
 }

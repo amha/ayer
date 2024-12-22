@@ -21,20 +21,23 @@ class _LoginFormState extends State<LoginForm> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 2.0),
-              child: Center(
-                child: Text(
-                  'Āyer',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                  child: Center(
+                    child: Text(
+                      'Āyer',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             const Text(
               'Sign in to your account',

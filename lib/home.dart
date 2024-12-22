@@ -66,27 +66,69 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCityList(BuildContext context) {
     final SavedCities cities = context.read<SavedCities>();
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemCount: cities.citiesCount(),
-      itemBuilder: (context, index) {
-        return Card(
-          margin: const EdgeInsets.only(bottom: 8.0),
-          child: ListTile(
-            title: Text(cities.cities[index].cityName),
-            trailing: Text(cities.cities[index].aqi.toString()),
-            onTap: () {
-              // Add navigation to city detail page here
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        FeedDetail(cityName: cities.cities[index].cityName)),
-              );
-            },
-          ),
-        );
-      },
+    return SizedBox(
+      height: MediaQuery.of(context).size.height - 500,
+      child: Card(
+        color: Colors.white,
+        margin: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Text(
+                'Current Air Quality',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const Divider(
+              thickness: .5,
+              color: Colors.grey,
+              indent: 16,
+              endIndent: 16,
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                itemCount: cities.citiesCount(),
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 65,
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 0.3,
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        cities.cities[index].cityName,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                      trailing: Text(cities.cities[index].aqi.toString()),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FeedDetail(
+                                cityName: cities.cities[index].cityName),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -110,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ayer'),
+        backgroundColor: Colors.transparent,
         actions: [
           IconButton(
             icon: const Icon(Icons.search),

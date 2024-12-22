@@ -6,6 +6,7 @@ import 'login/login_form.dart';
 import 'home.dart';
 import 'air/air_search.dart';
 import 'air/city_air_data.dart';
+import 'design/ayer_text.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
+        textTheme: ayerTextTheme,
       ),
       home: const MyHomePage(),
     );
