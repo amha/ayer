@@ -27,13 +27,13 @@ class _SearchScreenState extends State<SearchScreen> {
     filteredItems = items;
   }
 
-  void _filterItems(String query) {
-    setState(() {
-      filteredItems = items
-          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
+  // void _filterItems(String query) {
+  //   setState(() {
+  //     filteredItems = items
+  //         .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+  //         .toList();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

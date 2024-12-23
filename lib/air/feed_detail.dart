@@ -86,7 +86,7 @@ class _FeedDetailState extends State<FeedDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(_feedData['data']['city']['name'].toString()),
+          title: Text(widget.cityName),
           backgroundColor: Colors.white,
         ),
         body: SafeArea(
@@ -100,7 +100,8 @@ class _FeedDetailState extends State<FeedDetail> {
                       children: <Widget>[
                         // First Child
                         Container(
-                            padding: EdgeInsets.fromLTRB(0, 12.0, 0.0, 12.0),
+                            padding:
+                                const EdgeInsets.fromLTRB(0, 12.0, 0.0, 12.0),
                             height: 300,
                             width: MediaQuery.of(context).size.width,
                             child: Column(children: [
@@ -186,7 +187,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: Text('data'),
+                                    trailing: const Text('data'),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -214,7 +215,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: Text('data'),
+                                    trailing: const Text('data'),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -228,7 +229,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: Text('data'),
+                                    trailing: const Text('data'),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
