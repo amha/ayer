@@ -84,6 +84,11 @@ class _FeedDetailState extends State<FeedDetail> {
 
   @override
   Widget build(BuildContext context) {
+    // inconsistent data readings from the api
+    // so we need to check if the data is null
+    //String? nullableO3 = _feedData['data']['iaqi']['o3']['v'].toString();
+    //String? nullableCo = _feedData['data']['iaqi']['co']['v'].toString();
+
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.cityName),
@@ -187,7 +192,8 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: const Text('data'),
+                                    trailing:
+                                        Text(_feedData['data']['city']['name']),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -197,11 +203,13 @@ class _FeedDetailState extends State<FeedDetail> {
                                     thickness: .5,
                                   ),
                                   ListTile(
-                                    title: Text('AVG. OZONE (O3)',
+                                    title: Text('PM2.5',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: const Text('data'),
+                                    trailing: Text(_feedData['data']['iaqi']
+                                            ['pm25']['v']
+                                        .toString()),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -211,11 +219,11 @@ class _FeedDetailState extends State<FeedDetail> {
                                     thickness: .5,
                                   ),
                                   ListTile(
-                                    title: Text('PARTICULATE MATTER 2.5',
+                                    title: Text('PM10',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: const Text('data'),
+                                    trailing: Text("N/A"),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -225,11 +233,11 @@ class _FeedDetailState extends State<FeedDetail> {
                                     thickness: .5,
                                   ),
                                   ListTile(
-                                    title: Text('PARTICULATE MATTER 10.0',
+                                    title: Text('CO',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: const Text('data'),
+                                    trailing: Text("N/A"),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
