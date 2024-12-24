@@ -17,47 +17,53 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Widget to display when there are no saved cities
   Widget _buildEmptyState() {
-    return Center(
-      child: Card(
-        margin: const EdgeInsets.all(16.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Try searching',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset('assets/wind_turbine_free_vector.jpg'),
+          const Padding(padding: EdgeInsets.all(16.0)),
+          Text(
+            'Track air quality in your city',
+            style: Theme.of(context).textTheme.headlineLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 40),
+          Text(
+            'To get started, search for your city. ',
+            style: Theme.of(context).textTheme.bodyLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 40),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Find a city so you can start tracking air quality',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SearchScreen()),
+                );
+              },
+              child: const Text(
+                'SEARCH',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SearchScreen()),
-                  );
-                },
-                child: const Text('Search'),
-              ),
-              Consumer<SavedCities>(builder: (context, savedCities, child) {
-                return Text('Cities: ${savedCities.citiesCount()}');
-              })
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
