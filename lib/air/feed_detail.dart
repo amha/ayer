@@ -33,6 +33,14 @@ class _FeedDetailState extends State<FeedDetail> {
   // Stores any error messages that occur during data fetching
   String? _error;
 
+  // Store api data for specific measuerments
+  String? pm10_value;
+  String? pm25_value;
+  String? o3_value;
+  String? co_value;
+  String? no2_value;
+  String? cityName_value;
+
   @override
   void initState() {
     super.initState();
@@ -65,6 +73,20 @@ class _FeedDetailState extends State<FeedDetail> {
         setState(() {
           _feedData = data;
           _isLoading = false;
+
+          // Always available from AQI data
+          cityName_value = _feedData['data']['city']['name'].toString();
+          pm25_value = _feedData['data']['iaqi']['pm25']['v'].toString();
+
+          // Sometimes available from AQI data
+          pm10_value =
+              _feedData['data']['iaqi']?['pm10']?['v']?.toString() ?? "N/A";
+          o3_value =
+              _feedData['data']['iaqi']?['o3']?['v']?.toString() ?? "N/A";
+          co_value =
+              _feedData['data']['iaqi']?['co']?['v']?.toString() ?? "N/A";
+          no2_value =
+              _feedData['data']['iaqi']?['no2']?['v']?.toString() ?? "N/A";
         });
       } else {
         // Handle unsuccessful response by setting error message
@@ -84,11 +106,6 @@ class _FeedDetailState extends State<FeedDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // inconsistent data readings from the api
-    // so we need to check if the data is null
-    //String? nullableO3 = _feedData['data']['iaqi']['o3']['v'].toString();
-    //String? nullableCo = _feedData['data']['iaqi']['co']['v'].toString();
-
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.cityName),
@@ -192,8 +209,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing:
-                                        Text(_feedData['data']['city']['name']),
+                                    trailing: Text(cityName_value ?? "Nothing"),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -207,9 +223,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: Text(_feedData['data']['iaqi']
-                                            ['pm25']['v']
-                                        .toString()),
+                                    trailing: Text(pm25_value ?? "null"),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -223,7 +237,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: Text("N/A"),
+                                    trailing: Text(pm10_value ?? "null"),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
@@ -237,7 +251,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
-                                    trailing: Text("N/A"),
+                                    trailing: Text(co_value ?? "N/A"),
                                   ),
                                   const Divider(
                                     color: Colors.grey,
