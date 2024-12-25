@@ -72,69 +72,100 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCityList(BuildContext context) {
     final SavedCities cities = context.read<SavedCities>();
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height - 500,
-      child: Card(
-        color: Colors.white,
-        margin: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Text(
-                'Current Air Quality',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            const Divider(
-              thickness: .5,
-              color: Colors.grey,
-              indent: 16,
-              endIndent: 16,
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                itemCount: cities.citiesCount(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 65,
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 0.3,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: List.generate(
+          cities.citiesCount(),
+          (index) => Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FeedDetail(
+                      cityName: cities.cities[index].cityName,
+                    ),
+                  ),
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          cities.cities[index].cityName.length > 20
+                              ? '${cities.cities[index].cityName.substring(0, 20)}...'
+                              : cities.cities[index].cityName,
+                          style: Theme.of(context).textTheme.headlineLarge,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        cities.cities[index].cityName,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
+                      const Icon(
+                        Icons.chevron_right,
+                        color: Colors.black,
+                        size: 32,
                       ),
-                      trailing: Text(cities.cities[index].aqi.toString()),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FeedDetail(
-                                cityName: cities.cities[index].cityName),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "Current air quality conditions in your city",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildMetricItem(
+                          "PM2.5", cities.cities[index].pm25.toString()),
+                      _buildMetricItem(
+                          "PM10", cities.cities[index].pm10.toString()),
+                      _buildMetricItem(
+                          "O3", cities.cities[index].o3.toString()),
+                      _buildMetricItem(
+                          "AQI", cities.cities[index].aqi.toString()),
+                    ],
+                  ),
+                  const SizedBox(height: 36),
+                  const Divider(
+                    height: 1,
+                    color: Colors.grey,
+                    thickness: 0.5,
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildMetricItem(String label, String value) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 

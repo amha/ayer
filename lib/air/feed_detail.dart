@@ -80,13 +80,11 @@ class _FeedDetailState extends State<FeedDetail> {
 
           // Sometimes available from AQI data
           pm10_value =
-              _feedData['data']['iaqi']?['pm10']?['v']?.toString() ?? "N/A";
-          o3_value =
-              _feedData['data']['iaqi']?['o3']?['v']?.toString() ?? "N/A";
-          co_value =
-              _feedData['data']['iaqi']?['co']?['v']?.toString() ?? "N/A";
+              _feedData['data']['iaqi']?['pm10']?['v']?.toString() ?? "0";
+          o3_value = _feedData['data']['iaqi']?['o3']?['v']?.toString() ?? "0";
+          co_value = _feedData['data']['iaqi']?['co']?['v']?.toString() ?? "0";
           no2_value =
-              _feedData['data']['iaqi']?['no2']?['v']?.toString() ?? "N/A";
+              _feedData['data']['iaqi']?['no2']?['v']?.toString() ?? "0";
         });
       } else {
         // Handle unsuccessful response by setting error message
@@ -185,6 +183,8 @@ class _FeedDetailState extends State<FeedDetail> {
                               ),
                             ])),
 
+                        const SizedBox(height: 16),
+
                         // Second Child
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -266,6 +266,8 @@ class _FeedDetailState extends State<FeedDetail> {
                           ],
                         ),
 
+                        const SizedBox(height: 16),
+
                         // Third Child
                         Container(
                             height: 100,
@@ -299,13 +301,12 @@ class _FeedDetailState extends State<FeedDetail> {
                                         .addCity(CityAirData(
                                             cityName: _feedData['data']['city']
                                                 ['name'],
-                                            aqi: _feedData['data']['aqi'],
-                                            pm25: _feedData['data']['iaqi']
-                                                ['pm25']['v'],
-                                            pm10: _feedData['data']['iaqi']
-                                                ['pm10']['v'],
-                                            o3: _feedData['data']['iaqi']['o3']
-                                                ['v']));
+                                            aqi: int.parse(_feedData['data']
+                                                    ['aqi']
+                                                .toString()),
+                                            pm25: int.parse(pm25_value ?? "0"),
+                                            pm10: int.parse(pm10_value ?? "0"),
+                                            o3: int.parse(o3_value ?? "0")));
                                     Navigator.pushReplacement(
                                       context,
                                       PageRouteBuilder(
