@@ -146,7 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     if (result != null && result is String) {
-      SavedCities().addCity(CityAirData(cityName: result, aqi: 0, pm25: 0));
+      SavedCities().addCity(
+          CityAirData(cityName: result, aqi: 0, pm25: 0, pm10: 0, o3: 0));
     }
   }
 

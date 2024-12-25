@@ -301,7 +301,11 @@ class _FeedDetailState extends State<FeedDetail> {
                                                 ['name'],
                                             aqi: _feedData['data']['aqi'],
                                             pm25: _feedData['data']['iaqi']
-                                                ['pm25']['v']));
+                                                ['pm25']['v'],
+                                            pm10: _feedData['data']['iaqi']
+                                                ['pm10']['v'],
+                                            o3: _feedData['data']['iaqi']['o3']
+                                                ['v']));
                                     Navigator.pushReplacement(
                                       context,
                                       PageRouteBuilder(
