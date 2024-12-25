@@ -24,7 +24,7 @@ class SavedCities with ChangeNotifier {
   }
 
   void removeCity(String cityName) {
-    _cities.remove(cityName);
+    _cities.removeWhere((city) => city.cityName == cityName);
     notifyListeners();
   }
 

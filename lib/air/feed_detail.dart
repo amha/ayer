@@ -277,10 +277,26 @@ class _FeedDetailState extends State<FeedDetail> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
+                                  backgroundColor: context
+                                          .read<SavedCities>()
+                                          .cities
+                                          .any((city) =>
+                                              city.cityName == widget.cityName)
+                                      ? Colors.white
+                                      : Colors.blue,
+                                  foregroundColor: context
+                                          .read<SavedCities>()
+                                          .cities
+                                          .any((city) =>
+                                              city.cityName == widget.cityName)
+                                      ? Colors.blue
+                                      : Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
                                   ),
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 16),
@@ -289,13 +305,30 @@ class _FeedDetailState extends State<FeedDetail> {
                                   if (context.read<SavedCities>().cities.any(
                                       (city) =>
                                           city.cityName == widget.cityName)) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'This city already exists in the list'),
+                                    // Remove city logic
+                                    context
+                                        .read<SavedCities>()
+                                        .removeCity(widget.cityName);
+                                    Navigator.pushReplacement(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            const HomeScreen(),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return SlideTransition(
+                                            position: Tween<Offset>(
+                                              begin: const Offset(-1.0, 0.0),
+                                              end: Offset.zero,
+                                            ).animate(animation),
+                                            child: child,
+                                          );
+                                        },
                                       ),
                                     );
                                   } else {
+                                    // Add city logic (existing code)
                                     Provider.of<SavedCities>(context,
                                             listen: false)
                                         .addCity(CityAirData(
@@ -327,10 +360,16 @@ class _FeedDetailState extends State<FeedDetail> {
                                     );
                                   }
                                 },
-                                child: const Text('ADD TO DASHBOARD',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700)),
+                                child: Text(
+                                  context.read<SavedCities>().cities.any(
+                                          (city) =>
+                                              city.cityName == widget.cityName)
+                                      ? 'REMOVE FROM DASHBOARD'
+                                      : 'ADD TO DASHBOARD',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700),
+                                ),
                               ),
                             )),
                       ],
