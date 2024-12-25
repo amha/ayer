@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'air/air_search.dart';
 import 'air/feed_detail.dart';
 import 'package:provider/provider.dart';
-import 'air/city_air_data.dart';
 import 'legal/terms.dart';
 import 'legal/privacy.dart';
+import 'air/aqi_level_data.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -115,9 +115,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  "Current air quality conditions in your city",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                Chip(
+                  label: Text(
+                    getAQILabel(cities.cities[index].aqi.toInt()),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: getAQIColor(cities.cities[index].aqi.toInt()),
+                      fontSize: 14,
+                    ),
+                  ),
+                  backgroundColor: getAQIColor(cities.cities[index].aqi.toInt())
+                      .withOpacity(0.1),
+                  side: BorderSide.none,
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -167,19 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
-  }
-
-  // Modify the search navigation to handle the result
-  void _navigateToSearch() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SearchScreen()),
-    );
-
-    if (result != null && result is String) {
-      SavedCities().addCity(
-          CityAirData(cityName: result, aqi: 0, pm25: 0, pm10: 0, o3: 0));
-    }
   }
 
   @override
