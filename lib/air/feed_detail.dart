@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ayer/main.dart';
 import 'package:ayer/home.dart';
 import 'package:ayer/air/city_air_data.dart';
+import 'package:ayer/air/aqi_level_data.dart';
 
 /// FeedDetail is a StatefulWidget that displays detailed air quality information for a specific city
 class FeedDetail extends StatefulWidget {
@@ -145,16 +146,21 @@ class _FeedDetailState extends State<FeedDetail> {
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16),
                                         ),
-                                        const Chip(
+                                        Chip(
                                             label: Text(
-                                              'Good',
+                                              getAQILabel(
+                                                  int.parse(pm25_value ?? "0")),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xFF1B5E20),
+                                                color: getAQIColor(int.parse(
+                                                    pm25_value ?? "0")),
                                                 fontSize: 16,
                                               ),
                                             ),
-                                            backgroundColor: Color(0xFFCFF7D3),
+                                            backgroundColor: getAQIColor(
+                                                    int.parse(
+                                                        pm25_value ?? "0"))
+                                                .withOpacity(.1),
                                             side: BorderSide.none),
                                         Text(
                                           _feedData['data']['aqi'].toString(),
