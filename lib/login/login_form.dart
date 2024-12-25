@@ -1,5 +1,7 @@
 import 'package:ayer/home.dart';
 import 'package:flutter/material.dart';
+import 'package:ayer/legal/terms.dart';
+import 'package:ayer/legal/privacy.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -22,22 +24,18 @@ class _LoginFormState extends State<LoginForm> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                  child: Center(
-                    child: Text(
-                      'Āyer',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+            const SizedBox(height: 150),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+              child: Center(
+                child: Text(
+                  'Āyer',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
+              ),
             ),
             const Text(
               'Sign in to your account',
@@ -170,25 +168,28 @@ class _LoginFormState extends State<LoginForm> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
                     onPressed: () {
-                      // TODO: Navigate to Privacy
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicy()),
+                      );
                     },
-                    child: const Text('Privacy'),
+                    child: const Text('Privacy Policy'),
                   ),
+                  const SizedBox(width: 24),
                   TextButton(
                     onPressed: () {
-                      // TODO: Navigate to Terms
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TermsOfUse()),
+                      );
                     },
-                    child: const Text('Terms'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // TODO: Navigate to Help
-                    },
-                    child: const Text('Help'),
+                    child: const Text('Terms of Use'),
                   ),
                 ],
               ),

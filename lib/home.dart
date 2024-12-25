@@ -4,6 +4,8 @@ import 'air/air_search.dart';
 import 'air/feed_detail.dart';
 import 'package:provider/provider.dart';
 import 'air/city_air_data.dart';
+import 'legal/terms.dart';
+import 'legal/privacy.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -190,14 +192,76 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: _navigateToSearch,
+            icon: const Icon(Icons.bar_chart),
+            onPressed: () {
+              // TODO: Implement chart view
+            },
+          ),
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              // Handle menu item selection
+              switch (value) {
+                case 'settings':
+                  // TODO: Navigate to settings
+                  break;
+                case 'about':
+                  // TODO: Navigate to about
+                  break;
+                case 'terms':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TermsOfUse()),
+                  );
+                  break;
+                case 'privacy':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PrivacyPolicy()),
+                  );
+                  break;
+              }
+            },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem<String>(
+                value: 'settings',
+                child: Text('Settings'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'about',
+                child: Text('About'),
+              ),
+              const PopupMenuDivider(),
+              const PopupMenuItem<String>(
+                value: 'terms',
+                child: Text('Terms of Use'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'privacy',
+                child: Text('Privacy Policy'),
+              ),
+            ],
           ),
         ],
       ),
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
           : _buildCityList(context),
+      floatingActionButton: cities.citiesCount() == 0
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SearchScreen()),
+                );
+              },
+              backgroundColor: Colors.blue,
+              child: const Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            ),
     );
   }
 }
