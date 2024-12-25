@@ -114,265 +114,258 @@ class _FeedDetailState extends State<FeedDetail> {
               ? const Center(child: CircularProgressIndicator())
               : _error != null
                   ? Center(child: Text(_error!))
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // First Child
-                        Container(
+                  : SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // First Child - AQI Display
+                          Container(
                             padding:
                                 const EdgeInsets.fromLTRB(0, 12.0, 0.0, 12.0),
-                            height: 300,
                             width: MediaQuery.of(context).size.width,
-                            child: Column(children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        'AIR QUALITY INDEX',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                      const Text(
-                                        'May 8, 2024',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      ),
-                                      const Chip(
-                                          label: Text(
-                                            'Good',
-                                            style: TextStyle(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          'AIR QUALITY INDEX',
+                                          style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFF1B5E20),
-                                              fontSize: 16,
+                                              fontSize: 18),
+                                        ),
+                                        const Text(
+                                          'May 8, 2024',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        const Chip(
+                                            label: Text(
+                                              'Good',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF1B5E20),
+                                                fontSize: 16,
+                                              ),
                                             ),
-                                          ),
-                                          backgroundColor: Color(0xFFCFF7D3),
-                                          side: BorderSide.none),
-                                      Text(
-                                        _feedData['data']['aqi'].toString(),
-                                        style: const TextStyle(
-                                            fontSize: 68,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      const SizedBox(
-                                        height: 12,
-                                      ),
-                                      const Text(
-                                          'Its a great day to be active outside.',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300)),
-                                      const SizedBox(
-                                        height: 12,
-                                      ),
-                                      const Text('What does this score mean?',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              decoration:
-                                                  TextDecoration.underline)),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ])),
+                                            backgroundColor: Color(0xFFCFF7D3),
+                                            side: BorderSide.none),
+                                        Text(
+                                          _feedData['data']['aqi'].toString(),
+                                          style: const TextStyle(
+                                              fontSize: 68,
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                        const SizedBox(
+                                          height: 12,
+                                        ),
+                                        const Text(
+                                            'Its a great day to be active outside.',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w300)),
+                                        const SizedBox(
+                                          height: 12,
+                                        ),
+                                        const Text('What does this score mean?',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
+                                                    TextDecoration.underline)),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
 
-                        const SizedBox(height: 16),
+                          const SizedBox(height: 16),
 
-                        // Second Child
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 300,
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Divider(
-                                    color: Colors.grey,
-                                    height: 1,
-                                    indent: 16,
-                                    endIndent: 16,
-                                    thickness: .5,
-                                  ),
-                                  ListTile(
-                                    title: Text('CITY NAME',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium),
-                                    trailing: Text(cityName_value ?? "Nothing"),
-                                  ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    height: 1,
-                                    indent: 16,
-                                    endIndent: 16,
-                                    thickness: .5,
-                                  ),
-                                  ListTile(
-                                    title: Text('PM2.5',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium),
-                                    trailing: Text(pm25_value ?? "null"),
-                                  ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    height: 1,
-                                    indent: 16,
-                                    endIndent: 16,
-                                    thickness: .5,
-                                  ),
-                                  ListTile(
-                                    title: Text('PM10',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium),
-                                    trailing: Text(pm10_value ?? "null"),
-                                  ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    height: 1,
-                                    indent: 16,
-                                    endIndent: 16,
-                                    thickness: .5,
-                                  ),
-                                  ListTile(
-                                    title: Text('CO',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium),
-                                    trailing: Text(co_value ?? "N/A"),
-                                  ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    height: 1,
-                                    indent: 16,
-                                    endIndent: 16,
-                                    thickness: .5,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Third Child
-                        Container(
-                            height: 100,
+                          // Second Child - Metrics List
+                          Container(
                             width: MediaQuery.of(context).size.width,
-                            child: Container(
-                              padding: const EdgeInsets.all(16.0),
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: context
-                                          .read<SavedCities>()
-                                          .cities
-                                          .any((city) =>
-                                              city.cityName == widget.cityName)
-                                      ? Colors.white
-                                      : Colors.blue,
-                                  foregroundColor: context
-                                          .read<SavedCities>()
-                                          .cities
-                                          .any((city) =>
-                                              city.cityName == widget.cityName)
-                                      ? Colors.blue
-                                      : Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    side: BorderSide(
-                                      color: Colors.blue,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Divider(
+                                  color: Colors.grey,
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                  thickness: .5,
                                 ),
-                                onPressed: () {
-                                  if (context.read<SavedCities>().cities.any(
-                                      (city) =>
-                                          city.cityName == widget.cityName)) {
-                                    // Remove city logic
-                                    context
+                                ListTile(
+                                  title: Text('CITY NAME',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  trailing: Text(cityName_value ?? "Nothing"),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                  thickness: .5,
+                                ),
+                                ListTile(
+                                  title: Text('PM2.5',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  trailing: Text(pm25_value ?? "null"),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                  thickness: .5,
+                                ),
+                                ListTile(
+                                  title: Text('PM10',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  trailing: Text(pm10_value ?? "null"),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                  thickness: .5,
+                                ),
+                                ListTile(
+                                  title: Text('CO',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  trailing: Text(co_value ?? "N/A"),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                  thickness: .5,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Third Child - Button
+                          Container(
+                            padding: const EdgeInsets.all(16.0),
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: context
                                         .read<SavedCities>()
-                                        .removeCity(widget.cityName);
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                                secondaryAnimation) =>
-                                            const HomeScreen(),
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          return SlideTransition(
-                                            position: Tween<Offset>(
-                                              begin: const Offset(-1.0, 0.0),
-                                              end: Offset.zero,
-                                            ).animate(animation),
-                                            child: child,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  } else {
-                                    // Add city logic (existing code)
-                                    Provider.of<SavedCities>(context,
-                                            listen: false)
-                                        .addCity(CityAirData(
-                                            cityName: _feedData['data']['city']
-                                                ['name'],
-                                            aqi: int.parse(_feedData['data']
-                                                    ['aqi']
-                                                .toString()),
-                                            pm25: int.parse(pm25_value ?? "0"),
-                                            pm10: int.parse(pm10_value ?? "0"),
-                                            o3: int.parse(o3_value ?? "0")));
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                                secondaryAnimation) =>
-                                            const HomeScreen(),
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          return SlideTransition(
-                                            position: Tween<Offset>(
-                                              begin: const Offset(-1.0, 0.0),
-                                              end: Offset.zero,
-                                            ).animate(animation),
-                                            child: child,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  context.read<SavedCities>().cities.any(
-                                          (city) =>
-                                              city.cityName == widget.cityName)
-                                      ? 'REMOVE FROM DASHBOARD'
-                                      : 'ADD TO DASHBOARD',
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700),
+                                        .cities
+                                        .any((city) =>
+                                            city.cityName == widget.cityName)
+                                    ? Colors.white
+                                    : Colors.blue,
+                                foregroundColor: context
+                                        .read<SavedCities>()
+                                        .cities
+                                        .any((city) =>
+                                            city.cityName == widget.cityName)
+                                    ? Colors.blue
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: BorderSide(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ),
                                 ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                               ),
-                            )),
-                      ],
+                              onPressed: () {
+                                if (context.read<SavedCities>().cities.any(
+                                    (city) =>
+                                        city.cityName == widget.cityName)) {
+                                  // Remove city logic
+                                  context
+                                      .read<SavedCities>()
+                                      .removeCity(widget.cityName);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          const HomeScreen(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween<Offset>(
+                                            begin: const Offset(-1.0, 0.0),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  // Add city logic (existing code)
+                                  Provider.of<SavedCities>(context,
+                                          listen: false)
+                                      .addCity(CityAirData(
+                                          cityName: _feedData['data']['city']
+                                              ['name'],
+                                          aqi: double.parse(_feedData['data']
+                                                  ['aqi']
+                                              .toString()),
+                                          pm25: double.parse(pm25_value ?? "0"),
+                                          pm10: double.parse(pm10_value ?? "0"),
+                                          o3: double.parse(o3_value ?? "0")));
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          const HomeScreen(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween<Offset>(
+                                            begin: const Offset(-1.0, 0.0),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Text(
+                                context.read<SavedCities>().cities.any((city) =>
+                                        city.cityName == widget.cityName)
+                                    ? 'REMOVE FROM DASHBOARD'
+                                    : 'ADD TO DASHBOARD',
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
         ));
   }

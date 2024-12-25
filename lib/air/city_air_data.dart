@@ -1,16 +1,16 @@
 class CityAirData {
   String _cityName;
-  int _aqi;
-  int _pm25;
-  int _pm10;
-  int _o3;
+  double _aqi;
+  double _pm25;
+  double _pm10;
+  double _o3;
 
   CityAirData({
     required String cityName,
-    required int aqi,
-    required int pm25,
-    required int pm10,
-    required int o3,
+    required double aqi,
+    required double pm25,
+    required double pm10,
+    required double o3,
   })  : _cityName = cityName,
         _aqi = aqi,
         _pm25 = pm25,
@@ -19,16 +19,16 @@ class CityAirData {
 
   // Getters
   String get cityName => _cityName;
-  int get aqi => _aqi;
-  int get pm25 => _pm25;
-  int get pm10 => _pm10;
-  int get o3 => _o3;
+  double get aqi => _aqi;
+  double get pm25 => _pm25;
+  double get pm10 => _pm10;
+  double get o3 => _o3;
   // Setters
   set cityName(String value) => _cityName = value;
-  set aqi(int value) => _aqi = value;
-  set pm25(int value) => _pm25 = value;
-  set pm10(int value) => _pm10 = value;
-  set o3(int value) => _o3 = value;
+  set aqi(double value) => _aqi = value;
+  set pm25(double value) => _pm25 = value;
+  set pm10(double value) => _pm10 = value;
+  set o3(double value) => _o3 = value;
 
   @override
   bool operator ==(Object other) =>

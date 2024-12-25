@@ -74,71 +74,69 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: List.generate(
-          cities.citiesCount(),
-          (index) => Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FeedDetail(
-                      cityName: cities.cities[index].cityName,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: cities.citiesCount(),
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedDetail(
+                    cityName: cities.cities[index].cityName,
+                  ),
+                ),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        cities.cities[index].cityName.length > 20
+                            ? '${cities.cities[index].cityName.substring(0, 20)}...'
+                            : cities.cities[index].cityName,
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                );
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          cities.cities[index].cityName.length > 20
-                              ? '${cities.cities[index].cityName.substring(0, 20)}...'
-                              : cities.cities[index].cityName,
-                          style: Theme.of(context).textTheme.headlineLarge,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const Icon(
-                        Icons.chevron_right,
-                        color: Colors.black,
-                        size: 32,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    "Current air quality conditions in your city",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildMetricItem(
-                          "PM2.5", cities.cities[index].pm25.toString()),
-                      _buildMetricItem(
-                          "PM10", cities.cities[index].pm10.toString()),
-                      _buildMetricItem(
-                          "O3", cities.cities[index].o3.toString()),
-                      _buildMetricItem(
-                          "AQI", cities.cities[index].aqi.toString()),
-                    ],
-                  ),
-                  const SizedBox(height: 36),
-                  const Divider(
-                    height: 1,
-                    color: Colors.grey,
-                    thickness: 0.5,
-                  ),
-                ],
-              ),
+                    const Icon(
+                      Icons.chevron_right,
+                      color: Colors.black,
+                      size: 32,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Current air quality conditions in your city",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildMetricItem(
+                        "PM2.5", cities.cities[index].pm25.toString()),
+                    _buildMetricItem(
+                        "PM10", cities.cities[index].pm10.toString()),
+                    _buildMetricItem("O3", cities.cities[index].o3.toString()),
+                    _buildMetricItem(
+                        "AQI", cities.cities[index].aqi.toString()),
+                  ],
+                ),
+                const SizedBox(height: 36),
+                const Divider(
+                  height: 1,
+                  color: Colors.grey,
+                  thickness: 0.5,
+                ),
+              ],
             ),
           ),
         ),
