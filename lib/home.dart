@@ -1,3 +1,4 @@
+import 'package:ayer/air/aqi_basics.dart';
 import 'package:ayer/main.dart';
 import 'package:flutter/material.dart';
 import 'air/air_search.dart';
@@ -117,7 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 Chip(
                   label: Text(
-                    getAQILabel(cities.cities[index].aqi.toInt()),
+                    "CONDITIONS ARE " +
+                        getAQILabel(cities.cities[index].aqi.toInt()),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: getAQIColor(cities.cities[index].aqi.toInt()),
@@ -156,25 +158,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMetricItem(String label, String value) {
-    return Column(
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
-          ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey.shade300,
+          width: 1,
         ),
-        const SizedBox(height: 8),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -186,6 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Ayer'),
         backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.bar_chart),
@@ -201,7 +214,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   // TODO: Navigate to settings
                   break;
                 case 'about':
-                  // TODO: Navigate to about
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AQIBasics()),
+                  );
                   break;
                 case 'terms':
                   Navigator.push(
@@ -225,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const PopupMenuItem<String>(
                 value: 'about',
-                child: Text('About'),
+                child: Text('AQI Basics'),
               ),
               const PopupMenuDivider(),
               const PopupMenuItem<String>(
