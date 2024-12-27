@@ -25,7 +25,7 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           children: [
             const SizedBox(height: 150),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
               child: Center(
                 child: Text(

@@ -35,12 +35,12 @@ class _FeedDetailState extends State<FeedDetail> {
   String? _error;
 
   // Store api data for specific measuerments
-  String? pm10_value;
-  String? pm25_value;
-  String? o3_value;
-  String? co_value;
-  String? no2_value;
-  String? cityName_value;
+  String? pm10Value;
+  String? pm25Value;
+  String? o3Value;
+  String? coValue;
+  String? no2Value;
+  String? cityNameValue;
 
   @override
   void initState() {
@@ -76,16 +76,15 @@ class _FeedDetailState extends State<FeedDetail> {
           _isLoading = false;
 
           // Always available from AQI data
-          cityName_value = _feedData['data']['city']['name'].toString();
-          pm25_value = _feedData['data']['iaqi']['pm25']['v'].toString();
+          cityNameValue = _feedData['data']['city']['name'].toString();
+          pm25Value = _feedData['data']['iaqi']['pm25']['v'].toString();
 
           // Sometimes available from AQI data
-          pm10_value =
+          pm10Value =
               _feedData['data']['iaqi']?['pm10']?['v']?.toString() ?? "0";
-          o3_value = _feedData['data']['iaqi']?['o3']?['v']?.toString() ?? "0";
-          co_value = _feedData['data']['iaqi']?['co']?['v']?.toString() ?? "0";
-          no2_value =
-              _feedData['data']['iaqi']?['no2']?['v']?.toString() ?? "0";
+          o3Value = _feedData['data']['iaqi']?['o3']?['v']?.toString() ?? "0";
+          coValue = _feedData['data']['iaqi']?['co']?['v']?.toString() ?? "0";
+          no2Value = _feedData['data']['iaqi']?['no2']?['v']?.toString() ?? "0";
         });
       } else {
         // Handle unsuccessful response by setting error message
@@ -149,17 +148,16 @@ class _FeedDetailState extends State<FeedDetail> {
                                         Chip(
                                             label: Text(
                                               getAQILabel(
-                                                  int.parse(pm25_value ?? "0")),
+                                                  int.parse(pm25Value ?? "0")),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: getAQIColor(int.parse(
-                                                    pm25_value ?? "0")),
+                                                    pm25Value ?? "0")),
                                                 fontSize: 16,
                                               ),
                                             ),
                                             backgroundColor: getAQIColor(
-                                                    int.parse(
-                                                        pm25_value ?? "0"))
+                                                    int.parse(pm25Value ?? "0"))
                                                 .withOpacity(.1),
                                             side: BorderSide.none),
                                         Text(
@@ -214,7 +212,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),
-                                  trailing: Text(cityName_value ?? "Nothing"),
+                                  trailing: Text(cityNameValue ?? "Nothing"),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -228,7 +226,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),
-                                  trailing: Text(pm25_value ?? "null"),
+                                  trailing: Text(pm25Value ?? "null"),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -242,7 +240,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),
-                                  trailing: Text(pm10_value ?? "null"),
+                                  trailing: Text(pm10Value ?? "null"),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -256,7 +254,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),
-                                  trailing: Text(co_value ?? "N/A"),
+                                  trailing: Text(coValue ?? "N/A"),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -293,7 +291,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                     : Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                     color: Colors.blue,
                                     width: 2,
                                   ),
@@ -337,9 +335,9 @@ class _FeedDetailState extends State<FeedDetail> {
                                           aqi: double.parse(_feedData['data']
                                                   ['aqi']
                                               .toString()),
-                                          pm25: double.parse(pm25_value ?? "0"),
-                                          pm10: double.parse(pm10_value ?? "0"),
-                                          o3: double.parse(o3_value ?? "0")));
+                                          pm25: double.parse(pm25Value ?? "0"),
+                                          pm10: double.parse(pm10Value ?? "0"),
+                                          o3: double.parse(o3Value ?? "0")));
                                   Navigator.pushReplacement(
                                     context,
                                     PageRouteBuilder(

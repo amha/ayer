@@ -16,7 +16,7 @@ void main() async {
 }
 
 class SavedCities with ChangeNotifier {
-  List<CityAirData> _cities = [];
+  final List<CityAirData> _cities = [];
 
   void addCity(CityAirData city) {
     _cities.add(city);
@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _navigateToLogin() {
     Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginForm()),

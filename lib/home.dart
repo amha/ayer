@@ -118,8 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 Chip(
                   label: Text(
-                    "CONDITIONS ARE " +
-                        getAQILabel(cities.cities[index].aqi.toInt()),
+                    "CONDITIONS ARE ${getAQILabel(cities.cities[index].aqi.toInt())}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: getAQIColor(cities.cities[index].aqi.toInt()),
@@ -163,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey.shade300,
-          width: 1,
+          width: 2,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
