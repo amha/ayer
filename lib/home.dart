@@ -17,7 +17,30 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+enum ViewType {
+  card, // default view
+  table,
+  chart,
+  story,
+}
+
 class _HomeScreenState extends State<HomeScreen> {
+  ViewType _currentView = ViewType.card;
+
+  Widget _getSelectedView(SavedCities cities) {
+    switch (_currentView) {
+      case ViewType.table:
+        return _buildTableView(cities);
+      case ViewType.chart:
+        return _buildChartView(cities);
+      case ViewType.story:
+        return _buildStoryView(cities);
+      case ViewType.card:
+      default:
+        return _buildCityList(context);
+    }
+  }
+
   // Widget to display when there are no saved cities
   Widget _buildEmptyState() {
     return Padding(
@@ -189,21 +212,197 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Add new view builders
+  Widget _buildTableView(SavedCities cities) {
+    return ListView(
+      padding: const EdgeInsets.all(0.0),
+      children: [
+        DataTable(
+          dataRowMinHeight: 64,
+          dataRowMaxHeight: 64,
+          horizontalMargin: 0,
+          columnSpacing: 16,
+          showCheckboxColumn: false,
+          columns: const [
+            DataColumn(
+              label: Padding(
+                padding: EdgeInsets.only(left: 16.0),
+                child:
+                    Text('City', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
+            DataColumn(
+              numeric: true,
+              label: Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child:
+                    Text('AQI', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
+            DataColumn(
+              numeric: true,
+              label: Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: Text('PM2.5',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
+            DataColumn(
+              numeric: true,
+              label: Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child:
+                    Text('PM10', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ],
+          rows: cities.cities.map((city) {
+            bool isLastRow = cities.cities.last == city;
+            return DataRow(
+              onSelectChanged: (_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FeedDetail(
+                      cityName: city.cityName,
+                    ),
+                  ),
+                );
+              },
+              cells: [
+                DataCell(
+                  Container(
+                    width: 150,
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: isLastRow
+                        ? BoxDecoration(
+                            color: Colors.grey[200],
+                            border: const Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.5),
+                            ),
+                          )
+                        : BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.transparent),
+                          ),
+                    child: Text(
+                      city.cityName,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ),
+                DataCell(
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 16.0),
+                    decoration: isLastRow
+                        ? const BoxDecoration(
+                            border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.5),
+                            ),
+                          )
+                        : null,
+                    child: Text(city.aqi.toString()),
+                  ),
+                ),
+                DataCell(
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 16.0),
+                    decoration: isLastRow
+                        ? const BoxDecoration(
+                            border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.5),
+                            ),
+                          )
+                        : null,
+                    child: Text(city.pm25.toString()),
+                  ),
+                ),
+                DataCell(
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 16.0),
+                    decoration: isLastRow
+                        ? const BoxDecoration(
+                            border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.5),
+                            ),
+                          )
+                        : null,
+                    child: Text(city.pm10.toString()),
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
+        )
+      ],
+    );
+  }
+
+  Widget _buildChartView(SavedCities cities) {
+    // TODO: Implement chart view
+    return const Center(child: Text('Chart View Coming Soon'));
+  }
+
+  Widget _buildStoryView(SavedCities cities) {
+    // TODO: Implement story view
+    return const Center(child: Text('Story View Coming Soon'));
+  }
+
   @override
   Widget build(BuildContext context) {
     final cities = context.watch<SavedCities>();
 
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text('Ayer'),
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
+          PopupMenuButton<ViewType>(
+            tooltip: 'View options',
             icon: const Icon(Icons.bar_chart),
-            onPressed: () {
-              // TODO: Implement chart view
+            onSelected: (ViewType value) {
+              setState(() {
+                _currentView = value;
+              });
             },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem<ViewType>(
+                enabled: false,
+                child: Text(
+                  'View as',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              PopupMenuItem<ViewType>(
+                value: ViewType.card,
+                child: const Text('Default'),
+              ),
+              PopupMenuItem<ViewType>(
+                value: ViewType.table,
+                child: const Text('Table'),
+              ),
+              PopupMenuItem<ViewType>(
+                value: ViewType.chart,
+                child: const Text('Chart'),
+              ),
+              PopupMenuItem<ViewType>(
+                value: ViewType.story,
+                child: const Text('Story'),
+              ),
+            ],
           ),
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -257,7 +456,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
-          : _buildCityList(context),
+          : _getSelectedView(cities),
       floatingActionButton: cities.citiesCount() == 0
           ? null
           : FloatingActionButton(
