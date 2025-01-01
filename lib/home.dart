@@ -448,8 +448,13 @@ class _HomeScreenState extends State<HomeScreen> {
         return Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Card(
-            elevation: 0,
+            elevation: 27,
+            shadowColor: Colors.black.withOpacity(0.45),
             color: getAQIColor(cities.cities[index].aqi.toInt()),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            surfaceTintColor: Colors.transparent,
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -582,7 +587,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Ayer'),
+        title: const Text('Ayer', style: TextStyle(fontSize: 24)),
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         actions: cities.citiesCount() == 0
