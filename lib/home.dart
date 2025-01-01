@@ -49,7 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset('assets/wind_turbine_free_vector.jpg'),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey[200]!,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset('assets/wind_turbine_free_vector.jpg'),
+            ),
+          ),
           const Padding(padding: EdgeInsets.all(16.0)),
           Text(
             'Track air quality in your city',
@@ -57,10 +69,90 @@ class _HomeScreenState extends State<HomeScreen> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
-          Text(
-            'To get started, search for your city. ',
-            style: Theme.of(context).textTheme.bodyLarge,
-            textAlign: TextAlign.center,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '1',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Learn about Air Quality Basics (AQI)',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '2',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Search and save cities you visit',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '3',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Review AQI before you go out',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+            ],
           ),
           const SizedBox(height: 40),
           SizedBox(
@@ -218,10 +310,10 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(0.0),
       children: [
         DataTable(
-          dataRowMinHeight: 64,
-          dataRowMaxHeight: 64,
+          dataRowMinHeight: 72,
+          dataRowMaxHeight: 72,
           horizontalMargin: 0,
-          columnSpacing: 16,
+          columnSpacing: 24,
           showCheckboxColumn: false,
           columns: const [
             DataColumn(
@@ -272,21 +364,19 @@ class _HomeScreenState extends State<HomeScreen> {
               cells: [
                 DataCell(
                   Container(
-                    width: 150,
+                    width: 180,
                     alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    decoration: isLastRow
-                        ? BoxDecoration(
-                            color: Colors.grey[200],
-                            border: const Border(
-                              bottom:
-                                  BorderSide(color: Colors.grey, width: 0.5),
-                            ),
-                          )
-                        : BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(color: Colors.transparent),
-                          ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 12.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF1F3F4),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
+                    ),
                     child: Text(
                       city.cityName,
                       style: const TextStyle(fontSize: 14),
@@ -314,6 +404,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(right: 16.0),
                     decoration: isLastRow
                         ? const BoxDecoration(
+                            color: Colors.teal,
                             border: Border(
                               bottom:
                                   BorderSide(color: Colors.grey, width: 0.5),
@@ -329,9 +420,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(right: 16.0),
                     decoration: isLastRow
                         ? const BoxDecoration(
+                            color: Colors.amber,
                             border: Border(
                               bottom:
-                                  BorderSide(color: Colors.grey, width: 0.5),
+                                  BorderSide(color: Colors.blue, width: 0.5),
                             ),
                           )
                         : null,
@@ -366,93 +458,97 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Ayer'),
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        actions: [
-          PopupMenuButton<ViewType>(
-            tooltip: 'View options',
-            icon: const Icon(Icons.bar_chart),
-            onSelected: (ViewType value) {
-              setState(() {
-                _currentView = value;
-              });
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem<ViewType>(
-                enabled: false,
-                child: Text(
-                  'View as',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                  ),
+        actions: cities.citiesCount() == 0
+            ? null
+            : [
+                PopupMenuButton<ViewType>(
+                  tooltip: 'View options',
+                  icon: const Icon(Icons.bar_chart),
+                  onSelected: (ViewType value) {
+                    setState(() {
+                      _currentView = value;
+                    });
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem<ViewType>(
+                      enabled: false,
+                      child: Text(
+                        'View as',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<ViewType>(
+                      value: ViewType.card,
+                      child: const Text('Default'),
+                    ),
+                    PopupMenuItem<ViewType>(
+                      value: ViewType.table,
+                      child: const Text('Table'),
+                    ),
+                    PopupMenuItem<ViewType>(
+                      value: ViewType.chart,
+                      child: const Text('Chart'),
+                    ),
+                    PopupMenuItem<ViewType>(
+                      value: ViewType.story,
+                      child: const Text('Story'),
+                    ),
+                  ],
                 ),
-              ),
-              PopupMenuItem<ViewType>(
-                value: ViewType.card,
-                child: const Text('Default'),
-              ),
-              PopupMenuItem<ViewType>(
-                value: ViewType.table,
-                child: const Text('Table'),
-              ),
-              PopupMenuItem<ViewType>(
-                value: ViewType.chart,
-                child: const Text('Chart'),
-              ),
-              PopupMenuItem<ViewType>(
-                value: ViewType.story,
-                child: const Text('Story'),
-              ),
-            ],
-          ),
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              // Handle menu item selection
-              switch (value) {
-                case 'settings':
-                  // TODO: Navigate to settings
-                  break;
-                case 'about':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AQIBasics()),
-                  );
-                  break;
-                case 'terms':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TermsOfUse()),
-                  );
-                  break;
-                case 'privacy':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PrivacyPolicy()),
-                  );
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem<String>(
-                value: 'settings',
-                child: Text('Settings'),
-              ),
-              const PopupMenuItem<String>(
-                value: 'about',
-                child: Text('AQI Basics'),
-              ),
-              const PopupMenuDivider(),
-              const PopupMenuItem<String>(
-                value: 'terms',
-                child: Text('Terms of Use'),
-              ),
-              const PopupMenuItem<String>(
-                value: 'privacy',
-                child: Text('Privacy Policy'),
-              ),
-            ],
-          ),
-        ],
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    // Handle menu item selection
+                    switch (value) {
+                      case 'settings':
+                        // TODO: Navigate to settings
+                        break;
+                      case 'about':
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AQIBasics()),
+                        );
+                        break;
+                      case 'terms':
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TermsOfUse()),
+                        );
+                        break;
+                      case 'privacy':
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PrivacyPolicy()),
+                        );
+                        break;
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem<String>(
+                      value: 'settings',
+                      child: Text('Settings'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'about',
+                      child: Text('AQI Basics'),
+                    ),
+                    const PopupMenuDivider(),
+                    const PopupMenuItem<String>(
+                      value: 'terms',
+                      child: Text('Terms of Use'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'privacy',
+                      child: Text('Privacy Policy'),
+                    ),
+                  ],
+                ),
+              ],
       ),
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
