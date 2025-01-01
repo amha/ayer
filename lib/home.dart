@@ -439,8 +439,135 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildChartView(SavedCities cities) {
-    // TODO: Implement chart view
-    return const Center(child: Text('Chart View Coming Soon'));
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: cities.citiesCount(),
+      itemBuilder: (context, index) {
+        double cardWidth =
+            MediaQuery.of(context).size.width - 32; // Full width minus padding
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Card(
+            elevation: 0,
+            color: getAQIColor(cities.cities[index].aqi.toInt()),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FeedDetail(
+                      cityName: cities.cities[index].cityName,
+                    ),
+                  ),
+                );
+              },
+              child: SizedBox(
+                width: cardWidth,
+                height: cardWidth * 0.75,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: Column(
+                    children: [
+                      // First row (1/5 height)
+                      SizedBox(
+                        height: (cardWidth * 0.75) * 0.14,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              getAQILabel(cities.cities[index].aqi.toInt()),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            PopupMenuButton<String>(
+                              icon: const Icon(
+                                Icons.settings,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                              onSelected: (value) {
+                                switch (value) {
+                                  case 'details':
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FeedDetail(
+                                          cityName:
+                                              cities.cities[index].cityName,
+                                        ),
+                                      ),
+                                    );
+                                    break;
+                                  case 'remove':
+                                    context.read<SavedCities>().removeCity(
+                                        cities.cities[index].cityName);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('🗑️ City removed'),
+                                        duration: Duration(seconds: 2),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
+                                    break;
+                                }
+                              },
+                              itemBuilder: (BuildContext context) => [
+                                const PopupMenuItem<String>(
+                                  value: 'details',
+                                  child: Text('View details'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'remove',
+                                  child: Text('Remove from list'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Second row (3/5 height)
+                      SizedBox(
+                        height: (cardWidth * 0.75) * 0.65,
+                        child: Center(
+                          child: Text(
+                            cities.cities[index].aqi.toInt().toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 120,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Third row (1/5 height)
+                      SizedBox(
+                        height: (cardWidth * 0.75) * 0.14,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            cities.cities[index].cityName,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildStoryView(SavedCities cities) {
