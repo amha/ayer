@@ -17,6 +17,7 @@ void main() async {
 
 class SavedCities with ChangeNotifier {
   final List<CityAirData> _cities = [];
+  ViewType _currentView = ViewType.card;
 
   void addCity(CityAirData city) {
     _cities.add(city);
@@ -28,11 +29,14 @@ class SavedCities with ChangeNotifier {
     notifyListeners();
   }
 
-  List<CityAirData> get cities => _cities;
-
-  int citiesCount() {
-    return _cities.length;
+  void setCurrentView(ViewType viewType) {
+    _currentView = viewType;
+    notifyListeners();
   }
+
+  ViewType get currentView => _currentView;
+  List<CityAirData> get cities => _cities;
+  int citiesCount() => _cities.length;
 }
 
 class MyApp extends StatelessWidget {

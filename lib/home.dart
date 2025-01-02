@@ -25,10 +25,8 @@ enum ViewType {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ViewType _currentView = ViewType.card;
-
   Widget _getSelectedView(SavedCities cities) {
-    switch (_currentView) {
+    switch (cities.currentView) {
       case ViewType.table:
         return _buildTableView(cities);
       case ViewType.chart:
@@ -597,9 +595,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   tooltip: 'View options',
                   icon: const Icon(Icons.bar_chart),
                   onSelected: (ViewType value) {
-                    setState(() {
-                      _currentView = value;
-                    });
+                    context.read<SavedCities>().setCurrentView(value);
                   },
                   itemBuilder: (BuildContext context) => [
                     const PopupMenuItem<ViewType>(
