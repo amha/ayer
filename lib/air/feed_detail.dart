@@ -242,7 +242,7 @@ class _FeedDetailState extends State<FeedDetail> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 48),
-                              backgroundColor: Colors.blue,
+                              backgroundColor: Colors.black,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -426,19 +426,19 @@ class _FeedDetailState extends State<FeedDetail> {
                                         .any((city) =>
                                             city.cityName == widget.cityName)
                                     ? Colors.white
-                                    : Colors.blue,
+                                    : Colors.black,
                                 foregroundColor: context
                                         .read<SavedCities>()
                                         .cities
                                         .any((city) =>
                                             city.cityName == widget.cityName)
-                                    ? Colors.blue
+                                    ? Colors.black
                                     : Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(36),
                                   side: const BorderSide(
-                                    color: Colors.blue,
-                                    width: 2,
+                                    color: Colors.black,
+                                    width: 1,
                                   ),
                                 ),
                                 padding:
