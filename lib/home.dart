@@ -478,10 +478,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              getAQILabel(cities.cities[index].aqi.toInt()),
+                              cities.cities[index].cityName.length > 25
+                                  ? '${cities.cities[index].cityName.substring(0, 25)}...'
+                                  : cities.cities[index].cityName,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -536,13 +538,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: (cardWidth * 0.75) * 0.65,
                         child: Center(
-                          child: Text(
-                            cities.cities[index].aqi.toInt().toString(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 120,
-                              fontWeight: FontWeight.w300,
-                            ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'AQI',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Text(
+                                  cities.cities[index].aqi.toInt().toString(),
+                                  textHeightBehavior: const TextHeightBehavior(
+                                      applyHeightToFirstAscent: false),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 100,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -553,10 +574,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            cities.cities[index].cityName,
+                            "CONDITIONS: ${getAQILabel(cities.cities[index].aqi.toInt())}",
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
