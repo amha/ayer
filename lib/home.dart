@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.blue,
                       shape: BoxShape.circle,
                     ),
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.blue,
                       shape: BoxShape.circle,
                     ),
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.blue,
                       shape: BoxShape.circle,
                     ),
@@ -366,8 +366,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 12.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF1F3F4),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF1F3F4),
                       border: Border(
                         bottom: BorderSide(
                           color: Colors.grey,
@@ -629,21 +629,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    PopupMenuItem<ViewType>(
+                    const PopupMenuItem<ViewType>(
                       value: ViewType.card,
-                      child: const Text('Default'),
+                      child: Text('Default'),
                     ),
-                    PopupMenuItem<ViewType>(
+                    const PopupMenuItem<ViewType>(
                       value: ViewType.table,
-                      child: const Text('Table'),
+                      child: Text('Table'),
                     ),
-                    PopupMenuItem<ViewType>(
+                    const PopupMenuItem<ViewType>(
                       value: ViewType.chart,
-                      child: const Text('Chart'),
+                      child: Text('Chart'),
                     ),
-                    PopupMenuItem<ViewType>(
+                    const PopupMenuItem<ViewType>(
                       value: ViewType.story,
-                      child: const Text('Story'),
+                      child: Text('Story'),
                     ),
                   ],
                 ),

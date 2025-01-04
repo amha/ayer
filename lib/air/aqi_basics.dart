@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ayer/air/aqi_level_data.dart';
 
+/// AQIBasics is a StatelessWidget that displays detailed information about
+/// different Air Quality Index (AQI) levels and their health implications
 class AQIBasics extends StatelessWidget {
   const AQIBasics({super.key});
 
@@ -11,6 +13,9 @@ class AQIBasics extends StatelessWidget {
         title: const Text('AQI Information'),
         backgroundColor: Colors.white,
       ),
+
+      /// Creates a scrollable list of AQI levels using ListView.builder
+      /// Each item represents a different AQI level with its description
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: aqiLevels.length,
@@ -21,6 +26,8 @@ class AQIBasics extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                /// Displays the AQI level label (e.g., "Good", "Moderate")
+                /// in a container with a colored border and background
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -41,11 +48,15 @@ class AQIBasics extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
+
+                /// Displays the AQI range for this level
                 Text(
                   'Air Quality Index (AQI): ${level.min} - ${level.max}',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 24),
+
+                /// Displays the health implications and description for this AQI level
                 Text(
                   _getDescription(level.label),
                   style: const TextStyle(
@@ -64,6 +75,10 @@ class AQIBasics extends StatelessWidget {
     );
   }
 
+  /// Returns a detailed description of health implications for each AQI level
+  ///
+  /// [label] is the AQI level label (e.g., "Good", "Moderate")
+  /// Returns a String containing health implications and recommendations
   String _getDescription(String label) {
     switch (label) {
       case "Good":

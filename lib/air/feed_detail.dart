@@ -339,7 +339,7 @@ class _FeedDetailState extends State<FeedDetail> {
                           const SizedBox(height: 16),
 
                           // Second Child - Metrics List
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
