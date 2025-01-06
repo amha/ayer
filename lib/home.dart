@@ -34,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
       case ViewType.story:
         return _buildStoryView(cities);
       case ViewType.card:
-      default:
         return _buildCityList(context);
     }
   }
@@ -231,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 Chip(
                   label: Text(
-                    "CONDITIONS ARE ${getAQILabel(cities.cities[index].aqi.toInt())}",
+                    "Conditions are ${getAQILabel(cities.cities[index].aqi.toInt())}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: getAQIColor(cities.cities[index].aqi.toInt()),
@@ -239,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   backgroundColor: getAQIColor(cities.cities[index].aqi.toInt())
-                      .withOpacity(0.1),
+                      .withAlpha(40),
                   side: BorderSide.none,
                 ),
                 const SizedBox(height: 16),
@@ -447,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Card(
             elevation: 27,
-            shadowColor: Colors.black.withOpacity(0.45),
+            shadowColor: Colors.black.withAlpha(115),
             color: getAQIColor(cities.cities[index].aqi.toInt()),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -489,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             PopupMenuButton<String>(
                               icon: const Icon(
-                                Icons.settings,
+                                Icons.more_vert,
                                 color: Colors.white,
                                 size: 24,
                               ),

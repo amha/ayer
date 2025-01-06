@@ -41,6 +41,7 @@ class _FeedDetailState extends State<FeedDetail> {
   String? coValue;
   String? no2Value;
   String? cityNameValue;
+  String? timeStampValue;
 
   @override
   void initState() {
@@ -91,6 +92,7 @@ class _FeedDetailState extends State<FeedDetail> {
           o3Value = _feedData['data']['iaqi']?['o3']?['v']?.toString() ?? "0";
           coValue = _feedData['data']['iaqi']?['co']?['v']?.toString() ?? "0";
           no2Value = _feedData['data']['iaqi']?['no2']?['v']?.toString() ?? "0";
+          timeStampValue = _feedData['data']['time']['s']?.toString() ?? "0";
         });
       } else {
         // Handle unsuccessful response by setting error message
@@ -266,6 +268,7 @@ class _FeedDetailState extends State<FeedDetail> {
                         children: <Widget>[
                           // First Child - AQI Display
                           Container(
+                            color: Colors.white,
                             padding:
                                 const EdgeInsets.fromLTRB(0, 12.0, 0.0, 12.0),
                             width: MediaQuery.of(context).size.width,
@@ -278,17 +281,18 @@ class _FeedDetailState extends State<FeedDetail> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        const Text(
+                                        Text(
                                           'AIR QUALITY INDEX',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge,
                                         ),
-                                        const Text(
-                                          'May 8, 2024',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16),
+                                        Text(
+                                          timeStampValue ?? "0",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(color: Colors.grey),
                                         ),
                                         Chip(
                                             label: Text(
@@ -303,13 +307,13 @@ class _FeedDetailState extends State<FeedDetail> {
                                             ),
                                             backgroundColor: getAQIColor(
                                                     int.parse(pm25Value ?? "0"))
-                                                .withOpacity(.1),
+                                                .withAlpha(40),
                                             side: BorderSide.none),
                                         Text(
                                           _feedData['data']['aqi'].toString(),
                                           style: const TextStyle(
-                                              fontSize: 68,
-                                              fontWeight: FontWeight.w300),
+                                              fontSize: 90,
+                                              fontWeight: FontWeight.w200),
                                         ),
                                         const SizedBox(
                                           height: 12,
@@ -322,10 +326,10 @@ class _FeedDetailState extends State<FeedDetail> {
                                         const SizedBox(
                                           height: 12,
                                         ),
-                                        const Text('What does this score mean?',
+                                        const Text('Learn more about AQI',
                                             style: TextStyle(
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.w500,
                                                 decoration:
                                                     TextDecoration.underline)),
                                       ],
@@ -356,8 +360,12 @@ class _FeedDetailState extends State<FeedDetail> {
                                   title: Text('CITY NAME',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium),
-                                  trailing: Text(cityNameValue ?? "Nothing"),
+                                          .labelMedium),
+                                  trailing: Text(
+                                    cityNameValue ?? "Nothing",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -370,8 +378,12 @@ class _FeedDetailState extends State<FeedDetail> {
                                   title: Text('PM2.5',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium),
-                                  trailing: Text(pm25Value ?? "null"),
+                                          .labelMedium),
+                                  trailing: Text(
+                                    pm25Value ?? "null",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -384,8 +396,12 @@ class _FeedDetailState extends State<FeedDetail> {
                                   title: Text('PM10',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium),
-                                  trailing: Text(pm10Value ?? "null"),
+                                          .labelMedium),
+                                  trailing: Text(
+                                    pm10Value ?? "null",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -398,8 +414,12 @@ class _FeedDetailState extends State<FeedDetail> {
                                   title: Text('CO',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium),
-                                  trailing: Text(coValue ?? "N/A"),
+                                          .labelMedium),
+                                  trailing: Text(
+                                    coValue ?? "N/A",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -508,8 +528,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                         city.cityName == widget.cityName)
                                     ? 'REMOVE FROM DASHBOARD'
                                     : 'ADD TO DASHBOARD',
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w700),
+                                style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
                           ),
