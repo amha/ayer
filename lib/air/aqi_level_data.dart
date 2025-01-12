@@ -31,18 +31,18 @@ final List<AQILevel> aqiLevels = [
   AQILevel(min: 301, max: 500, label: "Hazardous", color: Colors.brown),
 ];
 
-String getAQILabel(int aqi) {
+String getAQILabel(double aqi) {
   for (var level in aqiLevels) {
-    if (level.contains(aqi)) {
+    if (level.contains(aqi.toInt())) {
       return level.label;
     }
   }
   return "Unknown"; // Fallback for invalid AQI values
 }
 
-Color getAQIColor(int aqi) {
+Color getAQIColor(double aqi) {
   for (var level in aqiLevels) {
-    if (level.contains(aqi)) {
+    if (level.contains(aqi.toInt())) {
       return level.color;
     }
   }

@@ -12,8 +12,8 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final _mobileController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _mobileController = TextEditingController(text: 'user@service.com');
+  final _passwordController = TextEditingController(text: '12345');
   bool _obscurePassword = true;
   bool _useBiometric = false;
 

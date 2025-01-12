@@ -230,15 +230,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 16),
                 Chip(
                   label: Text(
-                    "Conditions are ${getAQILabel(cities.cities[index].aqi.toInt())}",
+                    "Conditions are ${getAQILabel(cities.cities[index].aqi)}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: getAQIColor(cities.cities[index].aqi.toInt()),
+                      color: getAQIColor(cities.cities[index].aqi),
                       fontSize: 14,
                     ),
                   ),
-                  backgroundColor: getAQIColor(cities.cities[index].aqi.toInt())
-                      .withAlpha(40),
+                  backgroundColor:
+                      getAQIColor(cities.cities[index].aqi).withAlpha(40),
                   side: BorderSide.none,
                 ),
                 const SizedBox(height: 16),
@@ -447,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Card(
             elevation: 27,
             shadowColor: Colors.black.withAlpha(115),
-            color: getAQIColor(cities.cities[index].aqi.toInt()),
+            color: getAQIColor(cities.cities[index].aqi),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -573,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            "CONDITIONS: ${getAQILabel(cities.cities[index].aqi.toInt())}",
+                            "CONDITIONS: ${getAQILabel(cities.cities[index].aqi)}",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,

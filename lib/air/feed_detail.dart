@@ -34,14 +34,15 @@ class _FeedDetailState extends State<FeedDetail> {
   // Stores any error messages that occur during data fetching
   String? _error;
 
+  late CityAirData cityAirData;
   // Store api data for specific measuerments
-  String? pm10Value;
-  String? pm25Value;
-  String? o3Value;
-  String? coValue;
-  String? no2Value;
-  String? cityNameValue;
-  String? timeStampValue;
+  // String? pm10Value;
+  // String? pm25Value;
+  // String? o3Value;
+  // String? coValue;
+  // String? no2Value;
+  // String? cityNameValue;
+  // String? timeStampValue;
 
   @override
   void initState() {
@@ -71,28 +72,20 @@ class _FeedDetailState extends State<FeedDetail> {
       if (response.statusCode == 200) {
         // Parse the JSON response
         final data = json.decode(response.body);
+
         // Update state with the fetched data and set loading to false
         setState(() {
           _feedData = data;
           _isLoading = false;
 
-          if (_feedData['status'] == 'error') {
+          if (_feedData['data'].containsKey('city')) {
+            cityAirData = CityAirData.fromJson(_feedData['data']);
+            _isLoading = false;
+          } else {
             _error = 'Error: ${_feedData['message']}';
             _isLoading = false;
             return;
           }
-
-          // Always available from AQI data
-          cityNameValue = _feedData['data']['city']['name'].toString();
-          pm25Value = _feedData['data']['iaqi']['pm25']['v'].toString();
-
-          // Sometimes available from AQI data
-          pm10Value =
-              _feedData['data']['iaqi']?['pm10']?['v']?.toString() ?? "0";
-          o3Value = _feedData['data']['iaqi']?['o3']?['v']?.toString() ?? "0";
-          coValue = _feedData['data']['iaqi']?['co']?['v']?.toString() ?? "0";
-          no2Value = _feedData['data']['iaqi']?['no2']?['v']?.toString() ?? "0";
-          timeStampValue = _feedData['data']['time']['s']?.toString() ?? "0";
         });
       } else {
         // Handle unsuccessful response by setting error message
@@ -288,7 +281,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                               .titleLarge,
                                         ),
                                         Text(
-                                          timeStampValue ?? "0",
+                                          "Time",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
@@ -296,17 +289,20 @@ class _FeedDetailState extends State<FeedDetail> {
                                         ),
                                         Chip(
                                             label: Text(
-                                              getAQILabel(
-                                                  int.parse(pm25Value ?? "0")),
+                                              getAQILabel(double.parse(
+                                                  cityAirData.pm25.toString())),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: getAQIColor(int.parse(
-                                                    pm25Value ?? "0")),
+                                                color: getAQIColor(double.parse(
+                                                    cityAirData.pm25
+                                                        .toString())),
                                                 fontSize: 16,
                                               ),
                                             ),
                                             backgroundColor: getAQIColor(
-                                                    int.parse(pm25Value ?? "0"))
+                                                    double.parse(cityAirData
+                                                        .pm25
+                                                        .toString()))
                                                 .withAlpha(40),
                                             side: BorderSide.none),
                                         Text(
@@ -362,7 +358,9 @@ class _FeedDetailState extends State<FeedDetail> {
                                           .textTheme
                                           .labelMedium),
                                   trailing: Text(
-                                    cityNameValue ?? "Nothing",
+                                    cityAirData.cityName.length > 12
+                                        ? '${cityAirData.cityName.substring(0, 12)}...'
+                                        : cityAirData.cityName,
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
@@ -380,7 +378,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                           .textTheme
                                           .labelMedium),
                                   trailing: Text(
-                                    pm25Value ?? "null",
+                                    cityAirData.pm25.toString(),
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
@@ -398,7 +396,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                           .textTheme
                                           .labelMedium),
                                   trailing: Text(
-                                    pm10Value ?? "null",
+                                    cityAirData.pm10.toString(),
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
@@ -416,7 +414,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                           .textTheme
                                           .labelMedium),
                                   trailing: Text(
-                                    coValue ?? "N/A",
+                                    cityAirData.co.toString(),
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
@@ -494,15 +492,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                   // Add city logic (existing code)
                                   Provider.of<SavedCities>(context,
                                           listen: false)
-                                      .addCity(CityAirData(
-                                          cityName: _feedData['data']['city']
-                                              ['name'],
-                                          aqi: double.parse(_feedData['data']
-                                                  ['aqi']
-                                              .toString()),
-                                          pm25: double.parse(pm25Value ?? "0"),
-                                          pm10: double.parse(pm10Value ?? "0"),
-                                          o3: double.parse(o3Value ?? "0")));
+                                      .addCity(cityAirData);
                                   Navigator.pushReplacement(
                                     context,
                                     PageRouteBuilder(
@@ -528,7 +518,10 @@ class _FeedDetailState extends State<FeedDetail> {
                                         city.cityName == widget.cityName)
                                     ? 'REMOVE FROM DASHBOARD'
                                     : 'ADD TO DASHBOARD',
-                                style: Theme.of(context).textTheme.labelLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(color: Colors.white),
                               ),
                             ),
                           ),

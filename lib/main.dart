@@ -58,7 +58,7 @@ class SavedCities with ChangeNotifier {
       final jsonList = _cities.map((city) => city.toJson()).toList();
       await file.writeAsString(json.encode(jsonList));
     } catch (e) {
-      print('Error saving cities: $e');
+      // TODO: Handle error
     }
   }
 
