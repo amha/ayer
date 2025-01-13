@@ -35,14 +35,6 @@ class _FeedDetailState extends State<FeedDetail> {
   String? _error;
 
   late CityAirData cityAirData;
-  // Store api data for specific measuerments
-  // String? pm10Value;
-  // String? pm25Value;
-  // String? o3Value;
-  // String? coValue;
-  // String? no2Value;
-  // String? cityNameValue;
-  // String? timeStampValue;
 
   @override
   void initState() {
@@ -101,6 +93,24 @@ class _FeedDetailState extends State<FeedDetail> {
         _isLoading = false;
       });
     }
+  }
+
+  void _showInfoDialog(BuildContext context, String title, String description) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(description),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -291,19 +301,15 @@ class _FeedDetailState extends State<FeedDetail> {
                                             label: Text(
                                               getAQILabel(double.parse(
                                                   cityAirData.pm25.toString())),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: getAQIColor(double.parse(
-                                                    cityAirData.pm25
-                                                        .toString())),
+                                                color: Colors.black87,
                                                 fontSize: 16,
                                               ),
                                             ),
                                             backgroundColor: getAQIColor(
-                                                    double.parse(cityAirData
-                                                        .pm25
-                                                        .toString()))
-                                                .withAlpha(40),
+                                                double.parse(cityAirData.pm25
+                                                    .toString())),
                                             side: BorderSide.none),
                                         Text(
                                           _feedData['data']['aqi'].toString(),
@@ -312,22 +318,13 @@ class _FeedDetailState extends State<FeedDetail> {
                                               fontWeight: FontWeight.w200),
                                         ),
                                         const SizedBox(
-                                          height: 12,
+                                          height: 8,
                                         ),
                                         const Text(
                                             'Its a great day to be active outside.',
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300)),
-                                        const SizedBox(
-                                          height: 12,
-                                        ),
-                                        const Text('Learn more about AQI',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                decoration:
-                                                    TextDecoration.underline)),
                                       ],
                                     )
                                   ],
@@ -353,10 +350,35 @@ class _FeedDetailState extends State<FeedDetail> {
                                   thickness: .5,
                                 ),
                                 ListTile(
-                                  title: Text('CITY NAME',
+                                  title: TextButton.icon(
+                                    onPressed: () {
+                                      _showInfoDialog(
+                                        context,
+                                        'City Name',
+                                        'The name of the city where air quality is being measured.',
+                                      );
+                                    },
+                                    label: Text(
+                                      'CITY',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .labelMedium),
+                                          .labelMedium
+                                          ?.copyWith(
+                                            color: const Color(0xFF757575),
+                                            fontSize: 15,
+                                          ),
+                                    ),
+                                    icon: const Icon(
+                                      Icons.info_outline,
+                                      size: 16,
+                                      color: Color(0xFF757575),
+                                    ),
+                                    iconAlignment: IconAlignment.end,
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                  ),
                                   trailing: Text(
                                     cityAirData.cityName.length > 12
                                         ? '${cityAirData.cityName.substring(0, 12)}...'
@@ -373,10 +395,32 @@ class _FeedDetailState extends State<FeedDetail> {
                                   thickness: .5,
                                 ),
                                 ListTile(
-                                  title: Text('PM2.5',
+                                  title: TextButton.icon(
+                                    onPressed: () {
+                                      _showInfoDialog(
+                                        context,
+                                        'PM2.5',
+                                        'Fine particulate matter with diameter less than 2.5 micrometers. These particles can penetrate deep into your lungs.',
+                                      );
+                                    },
+                                    label: Text(
+                                      'PM2.5',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .labelMedium),
+                                          .labelMedium
+                                          ?.copyWith(
+                                            color: const Color(0xFF757575),
+                                            fontSize: 15,
+                                          ),
+                                    ),
+                                    icon: const Icon(Icons.info_outline,
+                                        size: 16, color: Color(0xFF757575)),
+                                    iconAlignment: IconAlignment.end,
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                  ),
                                   trailing: Text(
                                     cityAirData.pm25.toString(),
                                     style:
@@ -391,10 +435,30 @@ class _FeedDetailState extends State<FeedDetail> {
                                   thickness: .5,
                                 ),
                                 ListTile(
-                                  title: Text('PM10',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium),
+                                  title: TextButton.icon(
+                                    onPressed: () {
+                                      _showInfoDialog(
+                                        context,
+                                        'PM10',
+                                        'Coarse particulate matter with diameter less than 10 micrometers. These particles can enter your respiratory system.',
+                                      );
+                                    },
+                                    label: Text('PM10',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium
+                                            ?.copyWith(
+                                              color: const Color(0xFF757575),
+                                              fontSize: 15,
+                                            )),
+                                    icon: const Icon(Icons.info_outline,
+                                        size: 16, color: Color(0xFF757575)),
+                                    iconAlignment: IconAlignment.end,
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                  ),
                                   trailing: Text(
                                     cityAirData.pm10.toString(),
                                     style:
@@ -409,10 +473,30 @@ class _FeedDetailState extends State<FeedDetail> {
                                   thickness: .5,
                                 ),
                                 ListTile(
-                                  title: Text('CO',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium),
+                                  title: TextButton.icon(
+                                    onPressed: () {
+                                      _showInfoDialog(
+                                        context,
+                                        'Carbon Monoxide',
+                                        'A colorless, odorless gas that can be harmful when inhaled in large amounts. CO is released when something is burned.',
+                                      );
+                                    },
+                                    label: Text('CO',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium
+                                            ?.copyWith(
+                                              color: const Color(0xFF757575),
+                                              fontSize: 15,
+                                            )),
+                                    icon: const Icon(Icons.info_outline,
+                                        size: 16, color: Color(0xFF757575)),
+                                    iconAlignment: IconAlignment.end,
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                  ),
                                   trailing: Text(
                                     cityAirData.co.toString(),
                                     style:
@@ -425,6 +509,75 @@ class _FeedDetailState extends State<FeedDetail> {
                                   indent: 16,
                                   endIndent: 16,
                                   thickness: .5,
+                                ),
+                                ListTile(
+                                  title: TextButton.icon(
+                                    onPressed: () {
+                                      _showInfoDialog(
+                                        context,
+                                        'Ozone',
+                                        'Ground-level ozone is a major component of smog. It forms when pollutants react in sunlight and can cause respiratory problems.',
+                                      );
+                                    },
+                                    label: Text('O3',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium
+                                            ?.copyWith(
+                                              color: const Color(0xFF757575),
+                                              fontSize: 15,
+                                            )),
+                                    icon: const Icon(Icons.info_outline,
+                                        size: 16, color: Color(0xFF757575)),
+                                    iconAlignment: IconAlignment.end,
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    cityAirData.o3.toString(),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                  thickness: .5,
+                                ),
+                                ListTile(
+                                  title: TextButton.icon(
+                                    onPressed: () {
+                                      _showInfoDialog(
+                                        context,
+                                        'Nitrogen Dioxide',
+                                        'A reddish-brown gas that primarily comes from burning fuel. It can cause respiratory issues and contribute to the formation of other pollutants.',
+                                      );
+                                    },
+                                    label: Text('NO2',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium
+                                            ?.copyWith(
+                                              color: const Color(0xFF757575),
+                                              fontSize: 15,
+                                            )),
+                                    icon: const Icon(Icons.info_outline,
+                                        size: 16, color: Color(0xFF757575)),
+                                    iconAlignment: IconAlignment.end,
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    cityAirData.no2.toString(),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
                                 ),
                               ],
                             ),
@@ -513,16 +666,21 @@ class _FeedDetailState extends State<FeedDetail> {
                                   );
                                 }
                               },
-                              child: Text(
-                                context.read<SavedCities>().cities.any((city) =>
-                                        city.cityName == widget.cityName)
-                                    ? 'REMOVE FROM DASHBOARD'
-                                    : 'ADD TO DASHBOARD',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(color: Colors.white),
-                              ),
+                              child: context.read<SavedCities>().cities.any(
+                                      (city) =>
+                                          city.cityName == widget.cityName)
+                                  ? Text('REMOVE FROM DASHBOARD',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(color: Colors.black))
+                                  : Text(
+                                      'ADD TO DASHBOARD',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(color: Colors.white),
+                                    ),
                             ),
                           ),
                         ],

@@ -573,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            "CONDITIONS: ${getAQILabel(cities.cities[index].aqi)}",
+                            "Conditions: ${getAQILabel(cities.cities[index].aqi)}",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,

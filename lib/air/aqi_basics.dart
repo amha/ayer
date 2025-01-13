@@ -32,7 +32,7 @@ class AQIBasics extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: level.color.withOpacity(0.1),
+                    color: level.color.withAlpha(25),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: level.color,

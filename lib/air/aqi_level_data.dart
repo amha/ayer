@@ -19,15 +19,21 @@ class AQILevel {
 
 // Define the AQI levels
 final List<AQILevel> aqiLevels = [
-  AQILevel(min: 0, max: 50, label: "Good", color: Colors.green),
-  AQILevel(min: 51, max: 100, label: "Moderate", color: Colors.yellow),
+  AQILevel(min: 0, max: 50, label: "Good", color: const Color(0xFFa3e048)),
+  AQILevel(
+      min: 51, max: 100, label: "Moderate", color: const Color(0xFFf7d038)),
   AQILevel(
       min: 101,
       max: 150,
       label: "Unhealthy for Sensitive Groups",
-      color: Colors.orange),
-  AQILevel(min: 151, max: 200, label: "Unhealthy", color: Colors.red),
-  AQILevel(min: 201, max: 300, label: "Very Unhealthy", color: Colors.purple),
+      color: const Color(0xFFeb7532)),
+  AQILevel(
+      min: 151, max: 200, label: "Unhealthy", color: const Color(0xFFfe6261)),
+  AQILevel(
+      min: 201,
+      max: 300,
+      label: "Very Unhealthy",
+      color: const Color(0xFFd23be7)),
   AQILevel(min: 301, max: 500, label: "Hazardous", color: Colors.brown),
 ];
 
