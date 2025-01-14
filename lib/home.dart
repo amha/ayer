@@ -303,136 +303,108 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Add new view builders
   Widget _buildTableView(SavedCities cities) {
-    return ListView(
+    return ListView.builder(
       padding: const EdgeInsets.all(0.0),
-      children: [
-        DataTable(
-          dataRowMinHeight: 72,
-          dataRowMaxHeight: 72,
-          horizontalMargin: 0,
-          columnSpacing: 24,
-          showCheckboxColumn: false,
-          columns: const [
-            DataColumn(
-              label: Padding(
-                padding: EdgeInsets.only(left: 16.0),
-                child:
-                    Text('City', style: TextStyle(fontWeight: FontWeight.bold)),
+      itemCount: cities.citiesCount(),
+      itemBuilder: (context, index) {
+        final city = cities.cities[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+          elevation: 0.5,
+          child: ListTile(
+            isThreeLine: true,
+            tileColor: Colors.white,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            leading: CircleAvatar(
+              backgroundColor: getAQIColor(city.aqi),
+              radius: 10,
+            ),
+            title: Text(
+              city.cityName,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
-            DataColumn(
-              numeric: true,
-              label: Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child:
-                    Text('AQI', style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-            ),
-            DataColumn(
-              numeric: true,
-              label: Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child: Text('PM2.5',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-            ),
-            DataColumn(
-              numeric: true,
-              label: Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child:
-                    Text('PM10', style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ],
-          rows: cities.cities.map((city) {
-            bool isLastRow = cities.cities.last == city;
-            return DataRow(
-              onSelectChanged: (_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FeedDetail(
-                      cityName: city.cityName,
+            subtitle: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text:
+                        'PM2.5: ${city.pm25}  |  PM10: ${city.pm10}  |  O₃: ${city.o3}',
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                  const TextSpan(text: '\n'),
+                  TextSpan(
+                    text: getAQIDescription(city.aqi.toInt()),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      letterSpacing: 1,
+                      color: Color.fromARGB(255, 150, 147, 147),
                     ),
                   ),
-                );
-              },
-              cells: [
-                DataCell(
-                  Container(
-                    width: 180,
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 12.0),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF1F3F4),
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      city.cityName,
-                      style: const TextStyle(fontSize: 14),
-                    ),
+                ],
+              ),
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Text(
+                  'AQI',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF757575),
                   ),
                 ),
-                DataCell(
-                  Container(
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.only(right: 16.0),
-                    decoration: isLastRow
-                        ? const BoxDecoration(
-                            border: Border(
-                              bottom:
-                                  BorderSide(color: Colors.grey, width: 0.5),
-                            ),
-                          )
-                        : null,
-                    child: Text(city.aqi.toString()),
-                  ),
-                ),
-                DataCell(
-                  Container(
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.only(right: 16.0),
-                    decoration: isLastRow
-                        ? const BoxDecoration(
-                            color: Colors.teal,
-                            border: Border(
-                              bottom:
-                                  BorderSide(color: Colors.grey, width: 0.5),
-                            ),
-                          )
-                        : null,
-                    child: Text(city.pm25.toString()),
-                  ),
-                ),
-                DataCell(
-                  Container(
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.only(right: 16.0),
-                    decoration: isLastRow
-                        ? const BoxDecoration(
-                            color: Colors.amber,
-                            border: Border(
-                              bottom:
-                                  BorderSide(color: Colors.blue, width: 0.5),
-                            ),
-                          )
-                        : null,
-                    child: Text(city.pm10.toString()),
+                Text(
+                  city.aqi.toString(),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
-            );
-          }).toList(),
-        )
-      ],
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedDetail(
+                    cityName: city.cityName,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
+  }
+
+  // Add this helper function to get the AQI description
+  String getAQIDescription(int aqi) {
+    final label = getAQILabel(aqi.toDouble());
+    switch (label) {
+      case "Good":
+        return "Air quality is satisfactory, and air pollution poses little or no risk.";
+      case "Moderate":
+        return "Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.";
+      case "Unhealthy for Sensitive Groups":
+        return "ome members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.";
+      case "Unhealthy":
+        return "Health alert: The risk of health effects is increased for everyone.";
+      case "Very Unhealthy":
+        return "Health alert: The risk of health effects is increased for everyone.";
+      case "Hazardous":
+        return "Health warning of emergency conditions: everyone is more likely to be affected.";
+      default:
+        return "No description available";
+    }
   }
 
   Widget _buildChartView(SavedCities cities) {
@@ -634,7 +606,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const PopupMenuItem<ViewType>(
                       value: ViewType.table,
-                      child: Text('Table'),
+                      child: Text('List'),
                     ),
                     const PopupMenuItem<ViewType>(
                       value: ViewType.chart,
