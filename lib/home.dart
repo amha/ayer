@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'legal/terms.dart';
 import 'legal/privacy.dart';
 import 'air/aqi_level_data.dart';
+import 'package:ayer/settings/settings_screen.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -24,6 +25,8 @@ enum ViewType {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
   Widget _getSelectedView(SavedCities cities) {
     switch (cities.currentView) {
       case ViewType.table:
@@ -589,6 +592,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Add this method to handle navigation
+  void _onItemTapped(int index) {
+    if (_selectedIndex == index)
+      return; // Don't navigate if already on the page
+
+    switch (index) {
+      case 0: // Home
+        setState(() => _selectedIndex = 0);
+        break;
+      case 1: // AQI Basics
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AQIBasics()),
+        ).then((_) => setState(() => _selectedIndex = 0));
+        break;
+      case 2: // Settings
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingsScreen()),
+        ).then((_) => setState(() => _selectedIndex = 0));
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final cities = context.watch<SavedCities>();
@@ -688,6 +715,28 @@ class _HomeScreenState extends State<HomeScreen> {
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
           : _getSelectedView(cities),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.air_outlined),
+            activeIcon: Icon(Icons.air),
+            label: 'AQI',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
+      ),
       floatingActionButton: cities.citiesCount() == 0
           ? null
           : FloatingActionButton(
