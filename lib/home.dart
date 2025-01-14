@@ -20,8 +20,7 @@ class HomeScreen extends StatefulWidget {
 enum ViewType {
   card, // default view
   table,
-  chart,
-  story,
+  cards, // renamed from chart
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -29,11 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (cities.currentView) {
       case ViewType.table:
         return _buildTableView(cities);
-      case ViewType.chart:
+      case ViewType.cards:
         return _buildChartView(cities);
-      case ViewType.story:
-        return _buildStoryView(cities);
       case ViewType.card:
+      default:
         return _buildCityList(context);
     }
   }
@@ -188,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final SavedCities cities = context.read<SavedCities>();
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(0.0),
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: cities.citiesCount(),
@@ -208,51 +206,83 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        cities.cities[index].cityName.length > 20
-                            ? '${cities.cities[index].cityName.substring(0, 20)}...'
-                            : cities.cities[index].cityName,
-                        style: Theme.of(context).textTheme.headlineLarge,
-                        overflow: TextOverflow.ellipsis,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          label: Text(
+                            "${getAQILabel(cities.cities[index].aqi)}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                          backgroundColor:
+                              getAQIColor(cities.cities[index].aqi),
+                          side: BorderSide.none,
+                        ),
                       ),
-                    ),
-                    const Icon(
-                      Icons.chevron_right,
-                      color: Colors.black,
-                      size: 32,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Chip(
-                  label: Text(
-                    "Conditions are ${getAQILabel(cities.cities[index].aqi)}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: getAQIColor(cities.cities[index].aqi),
-                      fontSize: 14,
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          label: Text(
+                            "Updated ${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
-                  backgroundColor:
-                      getAQIColor(cities.cities[index].aqi).withAlpha(40),
-                  side: BorderSide.none,
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          cities.cities[index].cityName.length > 30
+                              ? '${cities.cities[index].cityName.substring(0, 30)}...'
+                              : cities.cities[index].cityName,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.chevron_right,
+                        color: Colors.black,
+                        size: 32,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
                 const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildMetricItem(
-                        "PM2.5", cities.cities[index].pm25.toString()),
-                    _buildMetricItem(
-                        "PM10", cities.cities[index].pm10.toString()),
-                    _buildMetricItem("O3", cities.cities[index].o3.toString()),
-                    _buildMetricItem(
-                        "AQI", cities.cities[index].aqi.toString()),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildMetricItem(
+                          "PM2.5", cities.cities[index].pm25.toString()),
+                      _buildMetricItem(
+                          "PM10", cities.cities[index].pm10.toString()),
+                      _buildMetricItem(
+                          "O3", cities.cities[index].o3.toString()),
+                      _buildMetricItem(
+                          "AQI", cities.cities[index].aqi.toString()),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 36),
                 const Divider(
@@ -452,16 +482,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               cities.cities[index].cityName.length > 25
                                   ? '${cities.cities[index].cityName.substring(0, 25)}...'
                                   : cities.cities[index].cityName,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.titleLarge,
                             ),
                             PopupMenuButton<String>(
                               icon: const Icon(
                                 Icons.more_vert,
-                                color: Colors.white,
+                                color: Colors.black,
                                 size: 24,
                               ),
                               onSelected: (value) {
@@ -516,7 +542,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 'AQI',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -528,7 +554,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   textHeightBehavior: const TextHeightBehavior(
                                       applyHeightToFirstAscent: false),
                                   style: const TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 100,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -542,16 +568,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       // Third row (1/5 height)
                       SizedBox(
                         height: (cardWidth * 0.75) * 0.14,
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            "Conditions: ${getAQILabel(cities.cities[index].aqi)}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                'PM10: ${cities.cities[index].pm10.toString()}'),
+                            Text('O3: ${cities.cities[index].o3.toString()}'),
+                            Text('CO: ${cities.cities[index].co.toString()}'),
+                          ],
                         ),
                       ),
                     ],
@@ -563,11 +587,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
-  }
-
-  Widget _buildStoryView(SavedCities cities) {
-    // TODO: Implement story view
-    return const Center(child: Text('Story View Coming Soon'));
   }
 
   @override
@@ -609,12 +628,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text('List'),
                     ),
                     const PopupMenuItem<ViewType>(
-                      value: ViewType.chart,
-                      child: Text('Chart'),
-                    ),
-                    const PopupMenuItem<ViewType>(
-                      value: ViewType.story,
-                      child: Text('Story'),
+                      value: ViewType.cards,
+                      child: Text('Cards'),
                     ),
                   ],
                 ),
