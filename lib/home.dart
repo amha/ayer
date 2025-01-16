@@ -57,7 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset('assets/wind_turbine_free_vector.jpg'),
+              child: Image.asset('assets/wind_turbine_free_vector.jpg',
+                  width: 300, height: 300),
             ),
           ),
           const Padding(padding: EdgeInsets.all(16.0)),
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 24,
                     height: 24,
                     decoration: const BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.black,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 24,
                     height: 24,
                     decoration: const BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.black,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 24,
                     height: 24,
                     decoration: const BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.black,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
@@ -157,10 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
             width: double.infinity,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.black,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(60),
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
@@ -305,9 +306,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border.all(
           color: Colors.grey.shade300,
-          width: 2,
+          width: 1,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -621,7 +623,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final cities = context.watch<SavedCities>();
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Color(0xffF2F2F2),
       appBar: AppBar(
         title: const Text('Ayer', style: TextStyle(fontSize: 24)),
         backgroundColor: Colors.transparent,
@@ -718,7 +720,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home),
             activeIcon: Icon(Icons.home),
             label: 'Home',
           ),
@@ -734,7 +736,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       floatingActionButton: cities.citiesCount() == 0
