@@ -8,6 +8,7 @@ import 'legal/terms.dart';
 import 'legal/privacy.dart';
 import 'air/aqi_level_data.dart';
 import 'package:ayer/settings/settings_screen.dart';
+import 'learning/learning_home.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -596,17 +597,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Add this method to handle navigation
   void _onItemTapped(int index) {
-    if (_selectedIndex == index)
-      return; // Don't navigate if already on the page
+    if (_selectedIndex == index) return;
 
     switch (index) {
       case 0: // Home
         setState(() => _selectedIndex = 0);
         break;
-      case 1: // AQI Basics
+      case 1: // Learning Home
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const AQIBasics()),
+          MaterialPageRoute(builder: (context) => const LearningHome()),
         ).then((_) => setState(() => _selectedIndex = 0));
         break;
       case 2: // Settings
@@ -618,12 +618,165 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Widget _buildEndDrawer() {
+    final cities = context.watch<SavedCities>();
+    final List<bool> selectedView = [
+      cities.currentView == ViewType.card,
+      cities.currentView == ViewType.table,
+      cities.currentView == ViewType.cards,
+    ];
+
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.black,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'View Options',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+                SizedBox(height: 16),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Display Style',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Center(
+                  child: ToggleButtons(
+                    direction: Axis.vertical,
+                    onPressed: (int index) {
+                      ViewType newView;
+                      switch (index) {
+                        case 0:
+                          newView = ViewType.card;
+                          break;
+                        case 1:
+                          newView = ViewType.table;
+                          break;
+                        case 2:
+                          newView = ViewType.cards;
+                          break;
+                        default:
+                          newView = ViewType.card;
+                      }
+                      context.read<SavedCities>().setCurrentView(newView);
+                    },
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    selectedBorderColor: Colors.black,
+                    selectedColor: Colors.white,
+                    fillColor: Colors.black,
+                    color: Colors.black,
+                    constraints: const BoxConstraints(
+                      minHeight: 40.0,
+                      minWidth: 200.0,
+                    ),
+                    isSelected: selectedView,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.view_agenda),
+                            SizedBox(width: 8),
+                            Text('Default'),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.list),
+                            SizedBox(width: 8),
+                            Text('List'),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.dashboard),
+                            SizedBox(width: 8),
+                            Text('Cards'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text('AQI Basics'),
+            onTap: () {
+              Navigator.pop(context); // Close drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AQIBasics()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.description_outlined),
+            title: const Text('Terms of Use'),
+            onTap: () {
+              Navigator.pop(context); // Close drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TermsOfUse()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: const Text('Privacy Policy'),
+            onTap: () {
+              Navigator.pop(context); // Close drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cities = context.watch<SavedCities>();
 
     return Scaffold(
-      backgroundColor: Color(0xffF2F2F2),
+      backgroundColor: const Color(0xffF2F2F2),
       appBar: AppBar(
         title: const Text('Ayer', style: TextStyle(fontSize: 24)),
         backgroundColor: Colors.transparent,
@@ -631,89 +784,17 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: cities.citiesCount() == 0
             ? null
             : [
-                PopupMenuButton<ViewType>(
-                  tooltip: 'View options',
-                  icon: const Icon(Icons.bar_chart),
-                  onSelected: (ViewType value) {
-                    context.read<SavedCities>().setCurrentView(value);
-                  },
-                  itemBuilder: (BuildContext context) => [
-                    const PopupMenuItem<ViewType>(
-                      enabled: false,
-                      child: Text(
-                        'View as',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    const PopupMenuItem<ViewType>(
-                      value: ViewType.card,
-                      child: Text('Default'),
-                    ),
-                    const PopupMenuItem<ViewType>(
-                      value: ViewType.table,
-                      child: Text('List'),
-                    ),
-                    const PopupMenuItem<ViewType>(
-                      value: ViewType.cards,
-                      child: Text('Cards'),
-                    ),
-                  ],
-                ),
-                PopupMenuButton<String>(
-                  onSelected: (value) {
-                    // Handle menu item selection
-                    switch (value) {
-                      case 'settings':
-                        // TODO: Navigate to settings
-                        break;
-                      case 'about':
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AQIBasics()),
-                        );
-                        break;
-                      case 'terms':
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const TermsOfUse()),
-                        );
-                        break;
-                      case 'privacy':
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PrivacyPolicy()),
-                        );
-                        break;
-                    }
-                  },
-                  itemBuilder: (BuildContext context) => [
-                    const PopupMenuItem<String>(
-                      value: 'settings',
-                      child: Text('Settings'),
-                    ),
-                    const PopupMenuItem<String>(
-                      value: 'about',
-                      child: Text('AQI Basics'),
-                    ),
-                    const PopupMenuDivider(),
-                    const PopupMenuItem<String>(
-                      value: 'terms',
-                      child: Text('Terms of Use'),
-                    ),
-                    const PopupMenuItem<String>(
-                      value: 'privacy',
-                      child: Text('Privacy Policy'),
-                    ),
-                  ],
+                Builder(
+                  builder: (context) => IconButton(
+                    icon: const Icon(Icons.remove_red_eye_rounded),
+                    onPressed: () {
+                      Scaffold.of(context).openEndDrawer();
+                    },
+                  ),
                 ),
               ],
       ),
+      endDrawer: cities.citiesCount() == 0 ? null : _buildEndDrawer(),
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
           : _getSelectedView(cities),
