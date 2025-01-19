@@ -1,10 +1,10 @@
 import 'package:ayer/main.dart';
 import 'package:flutter/material.dart';
 import 'air/air_search.dart';
-import 'air/feed_detail.dart';
+import 'air/city_view.dart';
 import 'package:provider/provider.dart';
 import 'air/aqi_level_data.dart';
-import 'package:ayer/air/aqi_basics.dart';
+import 'package:ayer/learning/aqi_basics.dart';
 import 'package:ayer/settings/settings_screen.dart';
 import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/legal/privacy.dart';

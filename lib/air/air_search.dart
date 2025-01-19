@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'feed_detail.dart';
+import 'city_view.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

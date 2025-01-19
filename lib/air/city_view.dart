@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:ayer/main.dart';
 import 'package:ayer/home.dart';
-import 'package:ayer/air/city_air_data.dart';
+import 'package:ayer/air/city_model.dart';
 import 'package:ayer/air/aqi_level_data.dart';
 
 /// FeedDetail is a StatefulWidget that displays detailed air quality information for a specific city

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ayer/air/aqi_basics.dart';
+import 'package:ayer/learning/aqi_basics.dart';
 import 'package:ayer/learning/pollutant_detail.dart';
 
 class LearningHome extends StatelessWidget {
