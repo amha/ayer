@@ -32,7 +32,7 @@ class PollutantDetail extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 32.0),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withAlpha(13),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(

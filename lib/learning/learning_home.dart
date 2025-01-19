@@ -75,7 +75,7 @@ class LearningHome extends StatelessWidget {
                 description:
                     'A colorless, odorless, and poisonous gas that can be fatal',
                 icon: Icons.wb_sunny,
-                route: PollutantDetail(
+                route: const PollutantDetail(
                   pollutantName: 'Carbon Monoxide (CO)',
                   details: [
                     'Carbon monoxide is a colorless, odorless gas that can be deadly',
@@ -104,7 +104,7 @@ class LearningHome extends StatelessWidget {
                 description:
                     'a toxic, reddish-brown gas that contributes to smog and respiratory illness',
                 icon: Icons.wb_sunny,
-                route: PollutantDetail(
+                route: const PollutantDetail(
                   pollutantName: 'Nitrogen Dioxide (NO₂)',
                   details: [
                     'NO₂ is a reddish-brown gas with a strong, harsh odor',
@@ -132,7 +132,7 @@ class LearningHome extends StatelessWidget {
                 title: 'Ozone (O₃)',
                 description: 'Understanding ground-level ozone pollution',
                 icon: Icons.wb_sunny,
-                route: PollutantDetail(
+                route: const PollutantDetail(
                   pollutantName: 'Ozone (O₃)',
                   details: [
                     'Ground-level ozone is a harmful air pollutant and the main ingredient in smog',

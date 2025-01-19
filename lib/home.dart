@@ -1,14 +1,9 @@
-import 'package:ayer/air/aqi_basics.dart';
 import 'package:ayer/main.dart';
 import 'package:flutter/material.dart';
 import 'air/air_search.dart';
 import 'air/feed_detail.dart';
 import 'package:provider/provider.dart';
-import 'legal/terms.dart';
-import 'legal/privacy.dart';
 import 'air/aqi_level_data.dart';
-import 'package:ayer/settings/settings_screen.dart';
-import 'learning/learning_home.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -26,17 +21,14 @@ enum ViewType {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
   Widget _getSelectedView(SavedCities cities) {
     switch (cities.currentView) {
       case ViewType.table:
-        return _buildTableView(cities);
+        return _buildContentList(cities);
       case ViewType.cards:
-        return _buildChartView(cities);
+        return _buildCardList(cities);
       case ViewType.card:
-      default:
-        return _buildCityList(context);
+        return _buildDenseList(context);
     }
   }
 
@@ -187,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Widget to display the list of saved cities
-  Widget _buildCityList(BuildContext context) {
+  Widget _buildDenseList(BuildContext context) {
     final SavedCities cities = context.read<SavedCities>();
 
     return Padding(
@@ -211,46 +203,14 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // City Name
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Chip(
-                          label: Text(
-                            "${getAQILabel(cities.cities[index].aqi)}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                          ),
-                          backgroundColor:
-                              getAQIColor(cities.cities[index].aqi),
-                          side: BorderSide.none,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Chip(
-                          label: Text(
-                            "Updated ${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                          ),
-                          backgroundColor: Colors.white,
-                        ),
-                      )
-                    ],
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    top: 16.0,
+                    bottom: 16.0,
+                    right: 16.0,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -271,8 +231,47 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 8),
-                const SizedBox(height: 16),
+
+                // Chip row
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          label: Text(
+                            getAQILabel(cities.cities[index].aqi),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                          backgroundColor:
+                              getAQIColor(cities.cities[index].aqi),
+                          side: BorderSide.none,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          label: Text(
+                            "🕙 ${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -338,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Add new view builders
-  Widget _buildTableView(SavedCities cities) {
+  Widget _buildContentList(SavedCities cities) {
     return ListView.builder(
       padding: const EdgeInsets.all(0.0),
       itemCount: cities.citiesCount(),
@@ -359,8 +358,8 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text(
               city.cityName,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
               ),
             ),
             subtitle: Text.rich(
@@ -369,18 +368,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   TextSpan(
                     text:
                         'PM2.5: ${city.pm25}  |  PM10: ${city.pm10}  |  O₃: ${city.o3}',
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromARGB(255, 135, 134, 134)),
                   ),
-                  const TextSpan(text: '\n'),
+                  const TextSpan(text: '\n\n'),
                   TextSpan(
                     text: getAQIDescription(city.aqi.toInt()),
                     style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      letterSpacing: 1,
-                      color: Color.fromARGB(255, 150, 147, 147),
-                    ),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1.5,
+                        color: Color.fromARGB(255, 66, 65, 65)),
                   ),
                 ],
               ),
@@ -443,7 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget _buildChartView(SavedCities cities) {
+  Widget _buildCardList(SavedCities cities) {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: cities.citiesCount(),
@@ -595,182 +595,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Add this method to handle navigation
-  void _onItemTapped(int index) {
-    if (_selectedIndex == index) return;
-
-    switch (index) {
-      case 0: // Home
-        setState(() => _selectedIndex = 0);
-        break;
-      case 1: // Learning Home
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LearningHome()),
-        ).then((_) => setState(() => _selectedIndex = 0));
-        break;
-      case 2: // Settings
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SettingsScreen()),
-        ).then((_) => setState(() => _selectedIndex = 0));
-        break;
-    }
-  }
-
-  Widget _buildEndDrawer() {
-    final cities = context.watch<SavedCities>();
-    final List<bool> selectedView = [
-      cities.currentView == ViewType.card,
-      cities.currentView == ViewType.table,
-      cities.currentView == ViewType.cards,
-    ];
-
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.black,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'View Options',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(height: 16),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Display Style',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Center(
-                  child: ToggleButtons(
-                    direction: Axis.vertical,
-                    onPressed: (int index) {
-                      ViewType newView;
-                      switch (index) {
-                        case 0:
-                          newView = ViewType.card;
-                          break;
-                        case 1:
-                          newView = ViewType.table;
-                          break;
-                        case 2:
-                          newView = ViewType.cards;
-                          break;
-                        default:
-                          newView = ViewType.card;
-                      }
-                      context.read<SavedCities>().setCurrentView(newView);
-                    },
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    selectedBorderColor: Colors.black,
-                    selectedColor: Colors.white,
-                    fillColor: Colors.black,
-                    color: Colors.black,
-                    constraints: const BoxConstraints(
-                      minHeight: 40.0,
-                      minWidth: 200.0,
-                    ),
-                    isSelected: selectedView,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.view_agenda),
-                            SizedBox(width: 8),
-                            Text('Default'),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.list),
-                            SizedBox(width: 8),
-                            Text('List'),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.dashboard),
-                            SizedBox(width: 8),
-                            Text('Cards'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.info_outline),
-            title: const Text('AQI Basics'),
-            onTap: () {
-              Navigator.pop(context); // Close drawer
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AQIBasics()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.description_outlined),
-            title: const Text('Terms of Use'),
-            onTap: () {
-              Navigator.pop(context); // Close drawer
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const TermsOfUse()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.privacy_tip_outlined),
-            title: const Text('Privacy Policy'),
-            onTap: () {
-              Navigator.pop(context); // Close drawer
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final cities = context.watch<SavedCities>();
@@ -778,48 +602,123 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
       appBar: AppBar(
-        title: const Text('Ayer', style: TextStyle(fontSize: 24)),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
+        title: const Text('Ayer',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
         actions: cities.citiesCount() == 0
             ? null
             : [
-                Builder(
-                  builder: (context) => IconButton(
-                    icon: const Icon(Icons.remove_red_eye_rounded),
-                    onPressed: () {
-                      Scaffold.of(context).openEndDrawer();
-                    },
-                  ),
+                PopupMenuButton<ViewType>(
+                  icon: const Icon(Icons.dashboard),
+                  onSelected: (ViewType result) {
+                    context.read<SavedCities>().setCurrentView(result);
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem<ViewType>(
+                      value: ViewType.card,
+                      child: Row(
+                        children: [
+                          Icon(Icons.view_agenda),
+                          SizedBox(width: 8),
+                          Text('Default'),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<ViewType>(
+                      value: ViewType.table,
+                      child: Row(
+                        children: [
+                          Icon(Icons.list),
+                          SizedBox(width: 8),
+                          Text('List'),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<ViewType>(
+                      value: ViewType.cards,
+                      child: Row(
+                        children: [
+                          Icon(Icons.dashboard),
+                          SizedBox(width: 8),
+                          Text('Cards'),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
       ),
-      endDrawer: cities.citiesCount() == 0 ? null : _buildEndDrawer(),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Text(
+                'Ayer',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.air),
+              title: const Text('AQI Learning'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/learning');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.privacy_tip_outlined),
+              title: const Text('Privacy Policy'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/privacy');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.description_outlined),
+              title: const Text('Terms of Use'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/terms');
+              },
+            ),
+          ],
+        ),
+      ),
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
           : _getSelectedView(cities),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            activeIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.air_outlined),
-            activeIcon: Icon(Icons.air),
-            label: 'AQI',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            activeIcon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        onTap: _onItemTapped,
-      ),
       floatingActionButton: cities.citiesCount() == 0
           ? null
           : FloatingActionButton(
@@ -830,10 +729,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               backgroundColor: Colors.black,
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.add, color: Colors.white),
             ),
     );
   }
