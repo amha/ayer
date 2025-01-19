@@ -4,6 +4,11 @@ import 'air/air_search.dart';
 import 'air/feed_detail.dart';
 import 'package:provider/provider.dart';
 import 'air/aqi_level_data.dart';
+import 'package:ayer/air/aqi_basics.dart';
+import 'package:ayer/settings/settings_screen.dart';
+import 'package:ayer/learning/learning_home.dart';
+import 'package:ayer/legal/privacy.dart';
+import 'package:ayer/legal/terms.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -685,7 +690,10 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('AQI Learning'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/learning');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LearningHome()),
+                );
               },
             ),
             ListTile(
@@ -693,7 +701,11 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Settings'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/settings');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()),
+                );
               },
             ),
             const Divider(),
@@ -702,7 +714,11 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Privacy Policy'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/privacy');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicy()),
+                );
               },
             ),
             ListTile(
@@ -710,7 +726,10 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Terms of Use'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/terms');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TermsOfUse()),
+                );
               },
             ),
           ],

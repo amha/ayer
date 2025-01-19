@@ -623,6 +623,14 @@ class _FeedDetailState extends State<FeedDetail> {
                                   context
                                       .read<SavedCities>()
                                       .removeCity(widget.cityName);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          '🗑️ City removed from dashboard'),
+                                      duration: Duration(seconds: 2),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
                                   Navigator.pushReplacement(
                                     context,
                                     PageRouteBuilder(
@@ -642,10 +650,18 @@ class _FeedDetailState extends State<FeedDetail> {
                                     ),
                                   );
                                 } else {
-                                  // Add city logic (existing code)
+                                  // Add city logic
                                   Provider.of<SavedCities>(context,
                                           listen: false)
                                       .addCity(cityAirData);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('✨ City added to dashboard'),
+                                      duration: Duration(seconds: 2),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
                                   Navigator.pushReplacement(
                                     context,
                                     PageRouteBuilder(
