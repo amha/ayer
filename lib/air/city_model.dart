@@ -6,6 +6,7 @@ class CityAirData {
   double? o3;
   double? co;
   double? no2;
+  DateTime time;
 
   CityAirData({
     required this.cityName,
@@ -15,7 +16,8 @@ class CityAirData {
     this.o3,
     this.co,
     this.no2,
-  });
+    DateTime? time,
+  }) : time = time ?? DateTime.now();
 
   @override
   bool operator ==(Object other) =>
@@ -30,20 +32,17 @@ class CityAirData {
 
   /// Creates a CityAirData instance from a JSON map
   factory CityAirData.fromJson(Map<String, dynamic> json) {
-    dynamic dynamicAqi = json['aqi'];
-    dynamic dynamicPm25 = json['iaqi']['pm25']['v'];
-    dynamic dynamicPm10 = json['iaqi']?['pm10']?['v'] ?? 0.0;
-    dynamic dynamicO3 = json['iaqi']?['o3']?['v'] ?? 0.0;
-    dynamic dynamicCo = json['iaqi']?['co']?['v'] ?? 0.0;
-    dynamic dynamicNo2 = json['iaqi']?['no2']?['v'] ?? 0.0;
     return CityAirData(
       cityName: json['city']['name'],
-      aqi: dynamicAqi.toDouble(), // Ensure aqi is a string
-      pm25: dynamicPm25.toDouble(),
-      pm10: dynamicPm10.toDouble(),
-      o3: dynamicO3.toDouble(),
-      co: dynamicCo.toDouble(),
-      no2: dynamicNo2.toDouble(),
+      aqi: json['aqi'].toDouble(),
+      pm25: json['iaqi']['pm25']['v'].toDouble(),
+      pm10: json['iaqi']?['pm10']?['v']?.toDouble() ?? 0.0,
+      o3: json['iaqi']?['o3']?['v']?.toDouble() ?? 0.0,
+      co: json['iaqi']?['co']?['v']?.toDouble() ?? 0.0,
+      no2: json['iaqi']?['no2']?['v']?.toDouble() ?? 0.0,
+      time: json['time']['s'] != null
+          ? DateTime.parse(json['time']['s'])
+          : DateTime.now(),
     );
   }
 
@@ -57,6 +56,7 @@ class CityAirData {
       'o3': o3,
       'co': co,
       'no2': no2,
+      'time': time.toIso8601String(),
     };
   }
 }

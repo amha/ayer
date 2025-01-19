@@ -291,7 +291,10 @@ class _FeedDetailState extends State<FeedDetail> {
                                               .titleLarge,
                                         ),
                                         Text(
-                                          "Time",
+                                          cityAirData.time
+                                              .toLocal()
+                                              .toString()
+                                              .split('.')[0],
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
