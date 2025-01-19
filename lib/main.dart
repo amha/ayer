@@ -8,8 +8,8 @@ import 'login/login_form.dart';
 import 'home.dart';
 import 'air/city_search.dart';
 import 'air/city_model.dart';
-import 'design/ayer_text.dart';
 import 'package:path_provider/path_provider.dart';
+import 'design/light_theme.dart';
 
 /// Entry point of the application
 /// Loads environment variables and initializes the app with state management
@@ -72,6 +72,7 @@ class SavedCities with ChangeNotifier {
   void addCity(CityAirData city) {
     _cities.add(city);
     _saveCities();
+    _currentView = ViewType.cards;
     notifyListeners();
   }
 
@@ -114,12 +115,7 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       title: 'Āyer',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-        textTheme: ayerTextTheme,
-      ),
+      theme: lightTheme(),
       home: const MyHomePage(),
     );
   }

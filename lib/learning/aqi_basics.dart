@@ -9,9 +9,10 @@ class AQIBasics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('AQI Information'),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
 
       /// Creates a scrollable list of AQI levels using ListView.builder

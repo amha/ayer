@@ -116,9 +116,10 @@ class _FeedDetailState extends State<FeedDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
           title: Text(widget.cityName),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         ),
         body: SafeArea(
           child: _isLoading
@@ -271,7 +272,6 @@ class _FeedDetailState extends State<FeedDetail> {
                         children: <Widget>[
                           // First Child - AQI Display
                           Container(
-                            color: Colors.white,
                             padding:
                                 const EdgeInsets.fromLTRB(0, 12.0, 0.0, 12.0),
                             width: MediaQuery.of(context).size.width,

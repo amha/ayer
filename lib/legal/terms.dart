@@ -6,6 +6,7 @@ class TermsOfUse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Terms of Use'),
         backgroundColor: Colors.white,

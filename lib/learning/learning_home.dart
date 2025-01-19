@@ -8,7 +8,7 @@ class LearningHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
           title: const Text('AQI',
               style:

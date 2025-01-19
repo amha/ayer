@@ -4,7 +4,6 @@ import 'air/city_search.dart';
 import 'air/city_view.dart';
 import 'package:provider/provider.dart';
 import 'air/aqi_level_data.dart';
-import 'package:ayer/learning/aqi_basics.dart';
 import 'package:ayer/settings/settings_screen.dart';
 import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/legal/privacy.dart';
@@ -605,7 +604,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final cities = context.watch<SavedCities>();
 
     return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         leading: Builder(
           builder: (context) => IconButton(
@@ -615,9 +614,8 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        title: const Text('Ayer',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.transparent,
+        title: const Text('Āyer'),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         actions: cities.citiesCount() == 0
             ? null
             : [
@@ -628,12 +626,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   itemBuilder: (BuildContext context) => [
                     const PopupMenuItem<ViewType>(
-                      value: ViewType.card,
+                      value: ViewType.cards,
                       child: Row(
                         children: [
-                          Icon(Icons.view_agenda),
+                          Icon(Icons.dashboard),
                           SizedBox(width: 8),
-                          Text('Default'),
+                          Text('Cards'),
                         ],
                       ),
                     ),
@@ -648,12 +646,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const PopupMenuItem<ViewType>(
-                      value: ViewType.cards,
+                      value: ViewType.card,
                       child: Row(
                         children: [
-                          Icon(Icons.dashboard),
+                          Icon(Icons.view_agenda),
                           SizedBox(width: 8),
-                          Text('Cards'),
+                          Text('Dense'),
                         ],
                       ),
                     ),
