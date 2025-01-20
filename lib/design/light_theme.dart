@@ -15,5 +15,33 @@ ThemeData lightTheme() {
         fontSize: 20,
       ),
     ),
+    buttonTheme: const ButtonThemeData(
+      buttonColor: Colors.black,
+      textTheme: ButtonTextTheme.primary,
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+        textStyle: const TextStyle(
+          color: Colors.black,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(60),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: Colors.black,
+        textStyle: const TextStyle(
+          color: Colors.white,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(60),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
+    ),
   );
 }

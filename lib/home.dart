@@ -153,15 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 40),
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
+            child: FilledButton(
+              style: Theme.of(context).filledButtonTheme.style,
               onPressed: () {
                 Navigator.push(
                   context,

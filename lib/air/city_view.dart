@@ -245,15 +245,8 @@ class _FeedDetailState extends State<FeedDetail> {
                             ),
                           ),
                           const SizedBox(height: 32),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 48),
-                              backgroundColor: Colors.black,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
+                          FilledButton(
+                            style: Theme.of(context).filledButtonTheme.style,
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -592,14 +585,14 @@ class _FeedDetailState extends State<FeedDetail> {
                           Container(
                             padding: const EdgeInsets.all(16.0),
                             width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
+                            child: FilledButton(
+                              style: FilledButton.styleFrom(
                                 backgroundColor: context
                                         .read<SavedCities>()
                                         .cities
                                         .any((city) =>
                                             city.cityName == widget.cityName)
-                                    ? Colors.white
+                                    ? const Color(0xffffc7b8)
                                     : Colors.black,
                                 foregroundColor: context
                                         .read<SavedCities>()
@@ -610,10 +603,6 @@ class _FeedDetailState extends State<FeedDetail> {
                                     : Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(36),
-                                  side: const BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
                                 ),
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16),
@@ -692,7 +681,9 @@ class _FeedDetailState extends State<FeedDetail> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelLarge
-                                          ?.copyWith(color: Colors.black))
+                                          ?.copyWith(
+                                              color: const Color(0xffC32813),
+                                              fontWeight: FontWeight.bold))
                                   : Text(
                                       'ADD TO DASHBOARD',
                                       style: Theme.of(context)
