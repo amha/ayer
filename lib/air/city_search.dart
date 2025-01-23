@@ -91,6 +91,8 @@ class _SearchScreenState extends State<SearchScreen> {
               controller: _searchController,
               autofocus: true,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 hintText: 'Enter city name',
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
@@ -110,38 +112,90 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(
-              'Recent Searches',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              'Suggested searches',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1 / 1.1, // width:height ratio of 1:2
+                children: [
+                  _buildCityButton('New York City', '🏢'),
+                  _buildCityButton('London', '🇬🇧'),
+                  _buildCityButton('Addis Ababa', '🇪🇹'),
+                  _buildCityButton('Seoul', '🇰🇷'),
+                ],
               ),
             ),
           ),
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: filteredItems.length,
-          //     itemBuilder: (context, index) {
-          //       return ListTile(
-          //         title: Text(filteredItems[index],
-          //             style: const TextStyle(
-          //                 fontSize: 18, fontWeight: FontWeight.w400)),
-          //         trailing: const Icon(Icons.arrow_forward_ios),
-          //         onTap: () {
-          //           Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //               builder: (context) =>
-          //                   FeedDetail(cityName: filteredItems[index]),
-          //             ),
-          //           );
-          //         },
-          //       );
-          //     },
-          //   ),
-          // ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCityButton(String cityName, String emoji) {
+    return OutlinedButton(
+      style: Theme.of(context).outlinedButtonTheme.style?.copyWith(
+            side: WidgetStateProperty.all<BorderSide>(
+              BorderSide(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                width: .5,
+                strokeAlign: BorderSide.strokeAlignInside,
+              ),
+            ),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+      onPressed: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FeedDetail(
+              cityName: cityName,
+            ),
+          ),
+        );
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  emoji,
+                  style: const TextStyle(fontSize: 40),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  cityName,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 20),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

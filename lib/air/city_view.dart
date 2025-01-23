@@ -132,15 +132,17 @@ class _FeedDetailState extends State<FeedDetail> {
                         children: [
                           Text(
                             "Didn't find ${widget.cityName}",
-                            style: Theme.of(context).textTheme.headlineLarge,
+                            style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           const SizedBox(height: 8),
                           Text(
                             "Maybe the city doesn't exist and you should create it. 🤔",
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: Colors.grey[600],
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                  color: const Color.fromARGB(255, 75, 74, 74),
+                                ),
                           ),
                           const SizedBox(height: 32),
                           Text(
@@ -149,7 +151,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                 .textTheme
                                 .titleMedium
                                 ?.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                 ),
                           ),
                           const SizedBox(height: 16),
@@ -245,14 +247,17 @@ class _FeedDetailState extends State<FeedDetail> {
                             ),
                           ),
                           const SizedBox(height: 32),
-                          FilledButton(
-                            style: Theme.of(context).filledButtonTheme.style,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              "Try searching again",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                          SizedBox(
+                            width: double.infinity,
+                            child: FilledButton(
+                              style: Theme.of(context).filledButtonTheme.style,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                "Try searching again",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ],
