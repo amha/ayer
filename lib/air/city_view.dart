@@ -71,7 +71,8 @@ class _FeedDetailState extends State<FeedDetail> {
           _isLoading = false;
 
           if (_feedData['data'].containsKey('city')) {
-            cityAirData = CityAirData.fromJson(_feedData['data']);
+            cityAirData =
+                CityAirData.fromJson(_feedData['data'], widget.cityName);
             _isLoading = false;
           } else {
             _error = 'Error: ${_feedData['message']}';
@@ -558,14 +559,14 @@ class _FeedDetailState extends State<FeedDetail> {
                                         .read<SavedCities>()
                                         .cities
                                         .any((city) =>
-                                            city.cityName == widget.cityName)
+                                            city.searchTerm == widget.cityName)
                                     ? const Color(0xffffc7b8)
                                     : Colors.black,
                                 foregroundColor: context
                                         .read<SavedCities>()
                                         .cities
                                         .any((city) =>
-                                            city.cityName == widget.cityName)
+                                            city.searchTerm == widget.cityName)
                                     ? Colors.black
                                     : Colors.white,
                                 shape: RoundedRectangleBorder(
@@ -577,7 +578,7 @@ class _FeedDetailState extends State<FeedDetail> {
                               onPressed: () {
                                 if (context.read<SavedCities>().cities.any(
                                     (city) =>
-                                        city.cityName == widget.cityName)) {
+                                        city.searchTerm == widget.cityName)) {
                                   // Remove city logic
                                   context
                                       .read<SavedCities>()
@@ -643,7 +644,7 @@ class _FeedDetailState extends State<FeedDetail> {
                               },
                               child: context.read<SavedCities>().cities.any(
                                       (city) =>
-                                          city.cityName == widget.cityName)
+                                          city.searchTerm == widget.cityName)
                                   ? Text('REMOVE FROM DASHBOARD',
                                       style: Theme.of(context)
                                           .textTheme

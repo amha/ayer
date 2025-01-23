@@ -42,7 +42,9 @@ class SavedCities with ChangeNotifier {
         final List<dynamic> jsonList = json.decode(contents);
         _cities.clear();
         _cities.addAll(
-          jsonList.map((json) => CityAirData.fromJson(json)).toList(),
+          jsonList
+              .map((json) => CityAirData.fromJson(json, json['searchTerm']))
+              .toList(),
         );
         notifyListeners();
       }

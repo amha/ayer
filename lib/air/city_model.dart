@@ -1,4 +1,5 @@
 class CityAirData {
+  String searchTerm;
   String cityName;
   double aqi;
   double pm25;
@@ -9,6 +10,7 @@ class CityAirData {
   DateTime time;
 
   CityAirData({
+    required this.searchTerm,
     required this.cityName,
     required this.aqi,
     required this.pm25,
@@ -31,8 +33,9 @@ class CityAirData {
   int get hashCode => Object.hash(cityName, aqi, pm25, pm10, o3);
 
   /// Creates a CityAirData instance from a JSON map
-  factory CityAirData.fromJson(Map<String, dynamic> json) {
+  factory CityAirData.fromJson(Map<String, dynamic> json, String searchTerm) {
     return CityAirData(
+      searchTerm: searchTerm,
       cityName: json['city']['name'],
       aqi: json['aqi'].toDouble(),
       pm25: json['iaqi']['pm25']['v'].toDouble(),
@@ -49,6 +52,7 @@ class CityAirData {
   /// Converts the CityAirData instance to a JSON map
   Map<String, dynamic> toJson() {
     return {
+      'searchTerm': searchTerm,
       'cityName': cityName,
       'aqi': aqi,
       'pm25': pm25,

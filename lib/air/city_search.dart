@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'city_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ayer/learning/aqi_basics.dart';
+import 'package:provider/provider.dart';
+import 'package:ayer/main.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -112,18 +114,35 @@ class _SearchScreenState extends State<SearchScreen> {
               //onChanged: _filterItems,
               onSubmitted: (value) {
                 if (value.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FeedDetail(cityName: value),
-                    ),
-                  );
+                  final savedCities = context.read<SavedCities>();
+                  final existingCity = savedCities.cities
+                      .where((city) =>
+                          city.searchTerm.toLowerCase() == value.toLowerCase())
+                      .toList();
+
+                  if (existingCity.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            FeedDetail(cityName: existingCity[0].searchTerm),
+                      ),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FeedDetail(cityName: value),
+                      ),
+                    );
+                  }
                 }
               },
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(
               'Suggested searches',
               style: Theme.of(context).textTheme.titleMedium,

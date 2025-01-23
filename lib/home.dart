@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => FeedDetail(
-                    cityName: cities.cities[index].cityName,
+                    cityName: cities.cities[index].searchTerm,
                   ),
                 ),
               );
@@ -390,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => FeedDetail(
-                    cityName: city.cityName,
+                    cityName: city.searchTerm,
                   ),
                 ),
               );
@@ -445,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => FeedDetail(
-                      cityName: cities.cities[index].cityName,
+                      cityName: cities.cities[index].searchTerm,
                     ),
                   ),
                 );
