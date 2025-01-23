@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'city_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:ayer/learning/aqi_basics.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -50,6 +51,15 @@ class _SearchScreenState extends State<SearchScreen> {
         title: const Text('Search'),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.air),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AQIBasics()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
@@ -148,7 +158,7 @@ class _SearchScreenState extends State<SearchScreen> {
               BorderSide(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 width: .5,
-                strokeAlign: BorderSide.strokeAlignInside,
+                strokeAlign: -1.0,
               ),
             ),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(

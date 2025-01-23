@@ -355,51 +355,6 @@ class _FeedDetailState extends State<FeedDetail> {
                                     onPressed: () {
                                       _showInfoDialog(
                                         context,
-                                        'City Name',
-                                        'The name of the city where air quality is being measured.',
-                                      );
-                                    },
-                                    label: Text(
-                                      'CITY',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium
-                                          ?.copyWith(
-                                            color: const Color(0xFF757575),
-                                            fontSize: 15,
-                                          ),
-                                    ),
-                                    icon: const Icon(
-                                      Icons.info_outline,
-                                      size: 16,
-                                      color: Color(0xFF757575),
-                                    ),
-                                    iconAlignment: IconAlignment.end,
-                                    style: TextButton.styleFrom(
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    cityAirData.cityName.length > 12
-                                        ? '${cityAirData.cityName.substring(0, 12)}...'
-                                        : cityAirData.cityName,
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Colors.grey,
-                                  height: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: .5,
-                                ),
-                                ListTile(
-                                  title: TextButton.icon(
-                                    onPressed: () {
-                                      _showInfoDialog(
-                                        context,
                                         'PM2.5',
                                         'Fine particulate matter with diameter less than 2.5 micrometers. These particles can penetrate deep into your lungs.',
                                       );
@@ -579,6 +534,13 @@ class _FeedDetailState extends State<FeedDetail> {
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                  thickness: .5,
                                 ),
                               ],
                             ),

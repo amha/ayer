@@ -43,5 +43,8 @@ ThemeData lightTheme() {
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
     ),
+    popupMenuTheme: const PopupMenuThemeData(
+      color: Colors.white,
+    ),
   );
 }

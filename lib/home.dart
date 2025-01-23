@@ -8,6 +8,7 @@ import 'package:ayer/settings/settings_screen.dart';
 import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/legal/privacy.dart';
 import 'package:ayer/legal/terms.dart';
+import 'package:ayer/learning/aqi_basics.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -180,12 +181,14 @@ class _HomeScreenState extends State<HomeScreen> {
     final SavedCities cities = context.read<SavedCities>();
 
     return Padding(
-      padding: const EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(16.0),
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: cities.citiesCount(),
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
+        itemBuilder: (context, index) => Card(
+          margin: const EdgeInsets.only(bottom: 16.0),
+          elevation: 0,
+          color: Colors.white,
           child: InkWell(
             onTap: () {
               Navigator.push(
@@ -197,18 +200,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // City Name
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16.0,
-                    top: 16.0,
-                    bottom: 16.0,
-                    right: 16.0,
-                  ),
-                  child: Row(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // City Name
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
@@ -227,30 +225,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 16),
 
-                // Chip row
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
+                  // Chip row
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Chip(
-                          label: Text(
-                            getAQILabel(cities.cities[index].aqi),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                          ),
-                          backgroundColor:
-                              getAQIColor(cities.cities[index].aqi),
-                          side: BorderSide.none,
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: Chip(
@@ -267,31 +247,36 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                     ],
                   ),
-                ),
-                const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
+                  const SizedBox(height: 24),
+
+                  // Metrics row
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildMetricItem(
-                          "PM2.5", cities.cities[index].pm25.toString()),
+                        "PM2.5",
+                        cities.cities[index].pm25.toString(),
+                        getAQIColor(cities.cities[index].pm25),
+                      ),
                       _buildMetricItem(
-                          "PM10", cities.cities[index].pm10.toString()),
+                        "PM10",
+                        cities.cities[index].pm10.toString(),
+                        getAQIColor(cities.cities[index].pm10?.toDouble() ?? 0),
+                      ),
                       _buildMetricItem(
-                          "O3", cities.cities[index].o3.toString()),
+                        "O3",
+                        cities.cities[index].o3.toString(),
+                        getAQIColor(cities.cities[index].o3?.toDouble() ?? 0),
+                      ),
                       _buildMetricItem(
-                          "AQI", cities.cities[index].aqi.toString()),
+                        "AQI",
+                        cities.cities[index].aqi.toString(),
+                        getAQIColor(cities.cities[index].aqi),
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 36),
-                const Divider(
-                  height: 1,
-                  color: Colors.grey,
-                  thickness: 0.5,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -299,15 +284,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildMetricItem(String label, String value) {
+  Widget _buildMetricItem(String label, String value, Color backgroundColor) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1,
-        ),
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -317,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: Colors.grey,
+              color: Colors.black87,
             ),
           ),
           const SizedBox(height: 4),
@@ -326,6 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
+              color: Colors.black,
             ),
           ),
         ],
@@ -612,6 +594,16 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: cities.citiesCount() == 0
             ? null
             : [
+                IconButton(
+                  icon: const Icon(Icons.air),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AQIBasics()),
+                    );
+                  },
+                ),
                 PopupMenuButton<ViewType>(
                   icon: const Icon(Icons.dashboard),
                   onSelected: (ViewType result) {
