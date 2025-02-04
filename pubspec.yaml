@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.1.2
   path_provider: ^2.1.2
   url_launcher: ^6.3.1
+  rive: ^0.13.20
 
 dev_dependencies:
   flutter_test:
@@ -63,10 +64,12 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
+  # To add a  ssets to your application, add an assets section, like this:
   assets:
   - .env
   - assets/wind_turbine_free_vector.jpg
+  - assets/windmill.riv
+  - assets/plant_game_test.riv
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

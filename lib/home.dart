@@ -9,6 +9,7 @@ import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/legal/privacy.dart';
 import 'package:ayer/legal/terms.dart';
 import 'package:ayer/learning/aqi_basics.dart';
+import 'package:rive/rive.dart' as rive;
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -45,6 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // Container(
+          //   width: 300,
+          //   height: 300,
+          //   child: RiveAnimation.asset(
+          //     'assets/plant_game_test.riv',
+          //     fit: BoxFit.cover,
+          //     placeHolder: const Center(child: CircularProgressIndicator()),
+          //   ),
+          // ),
           Container(
             decoration: BoxDecoration(
               border: Border.all(
@@ -65,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: Theme.of(context).textTheme.headlineLarge,
             textAlign: TextAlign.center,
           ),
+
           const SizedBox(height: 40),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildMetricItem(String label, String value, Color backgroundColor) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(8),
