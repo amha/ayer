@@ -1,3 +1,4 @@
+import 'package:ayer/devices/device_list.dart';
 import 'package:ayer/main.dart';
 import 'package:flutter/material.dart';
 import 'air/city_search.dart';
@@ -9,7 +10,6 @@ import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/legal/privacy.dart';
 import 'package:ayer/legal/terms.dart';
 import 'package:ayer/learning/aqi_basics.dart';
-import 'package:rive/rive.dart' as rive;
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -568,9 +568,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                                'PM10: ${cities.cities[index].pm10.toString()}'),
-                            Text('O3: ${cities.cities[index].o3.toString()}'),
-                            Text('CO: ${cities.cities[index].co.toString()}'),
+                              'PM10: ${cities.cities[index].pm10.toString()}',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            Text(
+                              'O3: ${cities.cities[index].o3.toString()}',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            Text(
+                              'CO: ${cities.cities[index].co.toString()}',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
                           ],
                         ),
                       ),
@@ -661,7 +669,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Colors.white,
               ),
               child: Text(
                 'Ayer',
@@ -699,6 +707,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const SettingsScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.device_thermostat),
+              title: const Text('My Sensors'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DeviceList()),
                 );
               },
             ),

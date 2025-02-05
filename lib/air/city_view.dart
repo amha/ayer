@@ -101,6 +101,7 @@ class _FeedDetailState extends State<FeedDetail> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).dialogBackgroundColor,
           title: Text(title),
           content: Text(description),
           actions: [

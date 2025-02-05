@@ -46,6 +46,7 @@ ThemeData lightTheme() {
     popupMenuTheme: const PopupMenuThemeData(
       color: Colors.white,
     ),
+    dialogBackgroundColor: Colors.white,
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
     ),
