@@ -164,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
               radius: 30,
               backgroundColor: Colors.black,
               child: Text(
-                'A',
+                'Ā',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 32,

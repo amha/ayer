@@ -658,10 +658,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
               ),
               child: Text(
-                'Ayer',
+                'Āyer',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -670,15 +670,20 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
+              leading: const Icon(Icons.space_dashboard_outlined,
+                  color: Colors.black),
+              title: const Text('Dashboard',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: const Icon(Icons.air),
-              title: const Text('AQI Learning'),
+              leading: const Icon(Icons.air_outlined, color: Colors.black),
+              title: const Text('AQI Learning',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -688,20 +693,11 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SettingsScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.device_thermostat),
-              title: const Text('My Sensors'),
+              leading: const Icon(Icons.device_thermostat_outlined,
+                  color: Colors.black),
+              title: const Text('My Sensors',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -710,10 +706,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            const Divider(),
             ListTile(
-              leading: const Icon(Icons.privacy_tip_outlined),
-              title: const Text('Privacy Policy'),
+              leading:
+                  const Icon(Icons.privacy_tip_outlined, color: Colors.black),
+              title: const Text('Privacy Policy',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -724,13 +722,30 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.description_outlined),
-              title: const Text('Terms of Use'),
+              leading:
+                  const Icon(Icons.description_outlined, color: Colors.black),
+              title: const Text('Terms of Use',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const TermsOfUse()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_outlined, color: Colors.black),
+              title: const Text('Settings',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w400)),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()),
                 );
               },
             ),
