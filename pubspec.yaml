@@ -41,6 +41,8 @@ dependencies:
   path_provider: ^2.1.2
   url_launcher: ^6.3.1
   rive: ^0.13.20
+  lottie: ^3.3.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +54,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.14.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -70,6 +73,8 @@ flutter:
   - assets/wind_turbine_free_vector.jpg
   - assets/windmill.riv
   - assets/plant_game_test.riv
+  - assets/turbine.json
+  - assets/ac.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -97,3 +102,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/light.logo.png" # Path to your source icon
+  min_sdk_android: 21 # android min sdk min:16, default 21

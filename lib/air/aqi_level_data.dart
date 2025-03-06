@@ -34,7 +34,8 @@ final List<AQILevel> aqiLevels = [
       max: 300,
       label: "Very Unhealthy",
       color: const Color(0xFFd23be7)),
-  AQILevel(min: 301, max: 500, label: "Hazardous", color: Colors.brown),
+  AQILevel(
+      min: 301, max: 500, label: "Hazardous", color: const Color(0xFF795548)),
 ];
 
 String getAQILabel(double aqi) {

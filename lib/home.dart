@@ -10,6 +10,7 @@ import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/legal/privacy.dart';
 import 'package:ayer/legal/terms.dart';
 import 'package:ayer/learning/aqi_basics.dart';
+import 'package:lottie/lottie.dart';
 
 /// HomeScreen is the main landing page of the application
 /// It displays either a search prompt or a list of saved cities
@@ -46,36 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Container(
-          //   width: 300,
-          //   height: 300,
-          //   child: RiveAnimation.asset(
-          //     'assets/plant_game_test.riv',
-          //     fit: BoxFit.cover,
-          //     placeHolder: const Center(child: CircularProgressIndicator()),
-          //   ),
-          // ),
           Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey[200]!,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset('assets/wind_turbine_free_vector.jpg',
-                  width: 300, height: 300),
-            ),
+            child: Lottie.asset('assets/turbine.json'),
           ),
           const Padding(padding: EdgeInsets.all(16.0)),
           Text(
-            'Track air quality in your city',
-            style: Theme.of(context).textTheme.headlineLarge,
-            textAlign: TextAlign.center,
+            'Here\'s how to breathe easy and live healthy with Āyer',
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.left,
           ),
-
           const SizedBox(height: 40),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,14 +66,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 24,
                     height: 24,
                     decoration: const BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
                       child: Text(
                         '1',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -101,8 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Learn about Air Quality Basics (AQI)',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    'Find your city. Save your city.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
@@ -113,14 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 24,
                     height: 24,
                     decoration: const BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
                       child: Text(
                         '2',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -128,8 +111,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Search and save cities you visit',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    'Check the AQI before you go out.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
@@ -140,14 +126,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 24,
                     height: 24,
                     decoration: const BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
                       child: Text(
                         '3',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -155,8 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Review AQI before you go out',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    'Learn about air quality.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
