@@ -320,14 +320,6 @@ class _FeedDetailState extends State<FeedDetail> {
                                               fontSize: 90,
                                               fontWeight: FontWeight.w200),
                                         ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        const Text(
-                                            'Its a great day to be active outside.',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w300)),
                                       ],
                                     )
                                   ],
@@ -548,7 +540,7 @@ class _FeedDetailState extends State<FeedDetail> {
                             ),
                           ),
 
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
 
                           // Third Child - Button
                           Container(
@@ -561,8 +553,8 @@ class _FeedDetailState extends State<FeedDetail> {
                                         .cities
                                         .any((city) =>
                                             city.searchTerm == widget.cityName)
-                                    ? const Color(0xffffc7b8)
-                                    : Colors.black,
+                                    ? const Color.fromARGB(255, 255, 232, 226)
+                                    : Theme.of(context).primaryColor,
                                 foregroundColor: context
                                         .read<SavedCities>()
                                         .cities

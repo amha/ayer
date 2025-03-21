@@ -182,7 +182,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(6),
               ),
             ),
           ),
@@ -202,25 +202,29 @@ class _SearchScreenState extends State<SearchScreen> {
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  emoji,
-                  style: const TextStyle(fontSize: 40),
-                ),
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: Icon(
+                    Icons.chevron_right,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                )
               ],
             ),
           ),
-          const SizedBox(height: 8),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   cityName,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 20),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Colors.black),
                 ),
               ],
             ),

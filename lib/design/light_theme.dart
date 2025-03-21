@@ -50,5 +50,6 @@ ThemeData lightTheme() {
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
     ),
+    primaryColor: Colors.black,
   );
 }

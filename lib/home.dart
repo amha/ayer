@@ -764,8 +764,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialPageRoute(builder: (context) => const SearchScreen()),
                 );
               },
-              backgroundColor: Colors.black,
-              child: const Icon(Icons.add, color: Colors.white),
+              backgroundColor: Theme.of(context).primaryColor,
+              child: const Icon(Icons.search, color: Colors.white),
             ),
     );
   }
