@@ -221,10 +221,10 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 Text(
                   cityName,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
-                      color: Colors.black),
+                      color: Theme.of(context).primaryColor),
                 ),
               ],
             ),

@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'air/aqi_level_data.dart';
 import 'package:ayer/settings/settings_screen.dart';
 import 'package:ayer/learning/learning_home.dart';
-import 'package:ayer/legal/privacy.dart';
-import 'package:ayer/legal/terms.dart';
 import 'package:ayer/learning/aqi_basics.dart';
 import 'package:lottie/lottie.dart';
 
@@ -188,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) => Card(
           margin: const EdgeInsets.only(bottom: 16.0),
           elevation: 0,
-          color: Colors.white,
+          color: Theme.of(context).primaryColorDark,
           child: InkWell(
             onTap: () {
               Navigator.push(
@@ -467,7 +465,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               cities.cities[index].cityName.length > 25
                                   ? '${cities.cities[index].cityName.substring(0, 25)}...'
                                   : cities.cities[index].cityName,
-                              style: Theme.of(context).textTheme.titleLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(color: Colors.black),
                             ),
                             PopupMenuButton<String>(
                               icon: const Icon(
@@ -558,15 +559,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Text(
                               'PM10: ${cities.cities[index].pm10.toString()}',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: Colors.black),
                             ),
                             Text(
                               'O3: ${cities.cities[index].o3.toString()}',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: Colors.black),
                             ),
                             Text(
                               'CO: ${cities.cities[index].co.toString()}',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: Colors.black),
                             ),
                           ],
                         ),
@@ -656,34 +666,37 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Theme.of(context).primaryColor,
               ),
               child: Text(
                 'Āyer',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).primaryColorDark,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.space_dashboard_outlined,
-                  color: Colors.black),
-              title: const Text('Dashboard',
+              leading: Icon(Icons.space_dashboard_outlined,
+                  color: Theme.of(context).primaryColor),
+              title: Text('Dashboard',
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400)),
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: const Icon(Icons.air_outlined, color: Colors.black),
-              title: const Text('AQI Learning',
+              leading: Icon(Icons.air_outlined,
+                  color: Theme.of(context).primaryColor),
+              title: Text('AQI Learning',
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400)),
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -693,11 +706,12 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.device_thermostat_outlined,
-                  color: Colors.black),
-              title: const Text('My Sensors',
+              leading: Icon(Icons.device_thermostat_outlined,
+                  color: Theme.of(context).primaryColor),
+              title: Text('My Sensors',
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400)),
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -707,39 +721,12 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              leading:
-                  const Icon(Icons.privacy_tip_outlined, color: Colors.black),
-              title: const Text('Privacy Policy',
+              leading: Icon(Icons.settings_outlined,
+                  color: Theme.of(context).primaryColor),
+              title: Text('Settings',
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400)),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PrivacyPolicy()),
-                );
-              },
-            ),
-            ListTile(
-              leading:
-                  const Icon(Icons.description_outlined, color: Colors.black),
-              title: const Text('Terms of Use',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400)),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TermsOfUse()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings_outlined, color: Colors.black),
-              title: const Text('Settings',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400)),
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w400)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -765,7 +752,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               backgroundColor: Theme.of(context).primaryColor,
-              child: const Icon(Icons.search, color: Colors.white),
+              child:
+                  Icon(Icons.search, color: Theme.of(context).primaryColorDark),
             ),
     );
   }

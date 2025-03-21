@@ -51,5 +51,6 @@ ThemeData lightTheme() {
       backgroundColor: Colors.white,
     ),
     primaryColor: Colors.black,
+    primaryColorDark: Colors.white,
   );
 }

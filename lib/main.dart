@@ -10,6 +10,8 @@ import 'air/city_search.dart';
 import 'air/city_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'design/light_theme.dart';
+import 'design/dark_theme.dart';
+import 'design/theme_provider.dart';
 
 /// Entry point of the application
 /// Loads environment variables and initializes the app with state management
@@ -18,8 +20,13 @@ void main() async {
   await dotenv.load(fileName: '.env');
 
   // Initialize the app with SavedCities provider for state management
-  runApp(ChangeNotifierProvider(
-      create: (context) => SavedCities(), child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => SavedCities()),
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 /// SavedCities is a ChangeNotifier that manages the state of saved cities
@@ -108,17 +115,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Define named routes for navigation
-      routes: {
-        '/home': (context) => const HomeScreen(),
-        '/login': (context) => const LoginForm(),
-        '/search': (context) => const SearchScreen(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          // Define named routes for navigation
+          routes: {
+            '/home': (context) => const HomeScreen(),
+            '/login': (context) => const LoginForm(),
+            '/search': (context) => const SearchScreen(),
+          },
+          debugShowCheckedModeBanner: false,
+          title: 'Āyer',
+          theme: lightTheme(),
+          darkTheme: darkTheme(),
+          themeMode: themeProvider.themeMode,
+          home: const MyHomePage(),
+        );
       },
-      debugShowCheckedModeBanner: false,
-      title: 'Āyer',
-      theme: lightTheme(),
-      home: const MyHomePage(),
     );
   }
 }
