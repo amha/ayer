@@ -9,7 +9,7 @@ class PrivacyPolicy extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Privacy Policy'),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColorDark,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

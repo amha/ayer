@@ -72,9 +72,9 @@ class SettingsScreen extends StatelessWidget {
             color: Theme.of(context).dividerColor,
           ),
           ListTile(
-            leading: Icon(Icons.privacy_tip_outlined),
-            title: Text('Privacy Policy'),
-            subtitle: Text('Legal stuff'),
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: const Text('Privacy Policy'),
+            subtitle: const Text('Legal stuff'),
             onTap: () {
               Navigator.push(
                 context,
@@ -83,9 +83,9 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.description_outlined),
-            title: Text('Terms of Use'),
-            subtitle: Text('More legal stuff'),
+            leading: const Icon(Icons.description_outlined),
+            title: const Text('Terms of Use'),
+            subtitle: const Text('More legal stuff'),
             onTap: () {
               Navigator.push(
                 context,

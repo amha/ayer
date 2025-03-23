@@ -13,8 +13,8 @@ ThemeData darkTheme() {
         brightness: Brightness.dark,
         surface: const Color(0xff1E1E1E),
         onSurface: Colors.white,
-        background: const Color(0xff121212),
-        onBackground: Colors.white,
+        surfaceContainerHighest: const Color(0xff121212),
+        onSurfaceVariant: Colors.white,
       ),
       scaffoldBackgroundColor: const Color(0xff121212),
       appBarTheme: const AppBarTheme(
