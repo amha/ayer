@@ -33,7 +33,7 @@ void main() async {
 /// and their air quality data throughout the app, with persistence support
 class SavedCities with ChangeNotifier {
   final List<CityAirData> _cities = [];
-  ViewType _currentView = ViewType.card;
+  //ViewType _currentView = ViewType.card;
 
   /// Constructor that initializes by loading saved data
   SavedCities() {
@@ -81,7 +81,7 @@ class SavedCities with ChangeNotifier {
   void addCity(CityAirData city) {
     _cities.add(city);
     _saveCities();
-    _currentView = ViewType.cards;
+    // _currentView = ViewType.cards;
     notifyListeners();
   }
 
@@ -91,15 +91,6 @@ class SavedCities with ChangeNotifier {
     _saveCities();
     notifyListeners();
   }
-
-  /// Updates the current view type for the cities list
-  void setCurrentView(ViewType viewType) {
-    _currentView = viewType;
-    notifyListeners();
-  }
-
-  /// Getter for current view type
-  ViewType get currentView => _currentView;
 
   /// Getter for list of saved cities
   List<CityAirData> get cities => _cities;

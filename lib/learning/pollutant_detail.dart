@@ -33,7 +33,7 @@ class PollutantDetail extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 32.0),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(13),
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
@@ -41,7 +41,6 @@ class PollutantDetail extends StatelessWidget {
                     pollutantName,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                     textAlign: TextAlign.center,
                   ),
@@ -54,7 +53,7 @@ class PollutantDetail extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.grey.shade200),
                 ),
@@ -101,7 +100,7 @@ class PollutantDetail extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.grey.shade200),
                 ),
@@ -148,7 +147,7 @@ class PollutantDetail extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.grey.shade200),
                 ),

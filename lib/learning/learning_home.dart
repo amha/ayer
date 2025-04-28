@@ -10,10 +10,10 @@ class LearningHome extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-          title: const Text('AQI',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-          backgroundColor: const Color(0xffF2F2F2)),
+          title: const Text(
+            'AQI',
+          ),
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -206,7 +206,7 @@ class LearningHome extends StatelessWidget {
   Widget _buildLearningCard(BuildContext context, LearningItem item) {
     return Card(
       elevation: 0,
-      color: Colors.white,
+      color: Theme.of(context).cardColor,
       margin: const EdgeInsets.only(bottom: 12.0),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16.0),
