@@ -70,7 +70,7 @@ ThemeData darkTheme() {
         indicatorColor: Colors.white24,
         tileHeight: 56,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: const Color(0xff1E1E1E),
         elevation: 2,
         shadowColor: Colors.black,
