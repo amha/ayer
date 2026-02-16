@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_tabbar_minimize/liquid_tabbar_minimize.dart';
 import 'package:ayer/home.dart';
@@ -25,6 +26,14 @@ class _MainShellState extends State<MainShell> {
     LearningHome(),
     SearchScreen(),
     SettingsScreen(),
+  ];
+
+  static const List<String> _tabTitles = [
+    'Dashboard',
+    'Sensors',
+    'AQI',
+    'Search',
+    'Settings',
   ];
 
   static const List<LiquidTabItem> _tabItems = [
@@ -67,37 +76,55 @@ class _MainShellState extends State<MainShell> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          if (notification is ScrollUpdateNotification) {
-            final offset = notification.metrics.pixels;
-            final delta = offset - _lastScrollOffset;
-            LiquidBottomNavigationBar.handleScroll(offset, delta);
-            _lastScrollOffset = offset;
-          }
-          return false;
-        },
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _screens,
-        ),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar.large(
+        largeTitle: Text(_tabTitles[_selectedIndex]),
+        automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: LiquidBottomNavigationBar(
-        currentIndex: _selectedIndex,
-        items: _tabItems,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-            _lastScrollOffset = 0;
-          });
-        },
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-        labelVisibility: LabelVisibility.always,
-        enableMinimize: true,
-        height: 68,
-        bottomOffset: 8,
+      child: Column(
+        children: [
+          Expanded(
+            child: SafeArea(
+              top: true,
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    if (notification is ScrollUpdateNotification) {
+                      final offset = notification.metrics.pixels;
+                      final delta = offset - _lastScrollOffset;
+                      LiquidBottomNavigationBar.handleScroll(offset, delta);
+                      _lastScrollOffset = offset;
+                    }
+                    return false;
+                  },
+                  child: IndexedStack(
+                    index: _selectedIndex,
+                    children: _screens,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          LiquidBottomNavigationBar(
+            currentIndex: _selectedIndex,
+            items: _tabItems,
+            onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+                _lastScrollOffset = 0;
+              });
+            },
+            selectedItemColor: Theme.of(context).primaryColor,
+            unselectedItemColor:
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            labelVisibility: LabelVisibility.always,
+            enableMinimize: true,
+            height: 68,
+            bottomOffset: 8,
+          ),
+        ],
       ),
     );
   }

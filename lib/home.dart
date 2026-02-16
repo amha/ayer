@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         if (isLargeScreen) {
           return GridView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount >= 2 ? crossAxisCount : 2,
               childAspectRatio: 0.95,
@@ -58,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 onRemove: () {
                   context.read<SavedCities>().removeCity(city.cityName);
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('🗑️ City removed'),
@@ -71,12 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         } else {
           return ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
             itemCount: cities.citiesCount(),
             itemBuilder: (context, index) {
               final city = cities.cities[index];
               return Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
+                padding: const EdgeInsets.only(bottom: 20.0),
                 child: CityCard(
                   city: city,
                   onTap: () {
@@ -101,6 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   onRemove: () {
                     context.read<SavedCities>().removeCity(city.cityName);
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('🗑️ City removed'),
@@ -121,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Widget to display when there are no saved cities
   Widget _buildEmptyState() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,10 +263,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: const Text('Āyer'),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      ),
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
           : _buildCardList(cities),

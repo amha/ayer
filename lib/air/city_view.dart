@@ -576,6 +576,8 @@ class _FeedDetailState extends State<FeedDetail> {
                                   context
                                       .read<SavedCities>()
                                       .removeCity(widget.cityName);
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
@@ -607,11 +609,13 @@ class _FeedDetailState extends State<FeedDetail> {
                                   Provider.of<SavedCities>(context,
                                           listen: false)
                                       .addCity(cityAirData);
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('✨ City added to dashboard'),
-                                      duration: Duration(seconds: 2),
+                                    SnackBar(
+                                      content: Text(
+                                          '✨ ${widget.cityName} added to dashboard'),
+                                      duration: const Duration(seconds: 2),
                                       behavior: SnackBarBehavior.floating,
                                     ),
                                   );

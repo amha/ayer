@@ -20,8 +20,18 @@ class CityCard extends StatelessWidget {
 
   String _formatDateTime(DateTime dt) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
     ];
     final hour = dt.hour.toString().padLeft(2, '0');
     final minute = dt.minute.toString().padLeft(2, '0');
@@ -36,9 +46,7 @@ class CityCard extends StatelessWidget {
     final progress = (aqiInt / 500).clamp(0.0, 1.0);
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark
-        ? Theme.of(context).cardColor
-        : Colors.white;
+    final cardColor = isDark ? Theme.of(context).cardColor : Colors.white;
     final textColor = isDark
         ? Theme.of(context).colorScheme.onSurface
         : const Color(0xFF1A1A1A);
@@ -74,18 +82,20 @@ class CityCard extends StatelessWidget {
                           city.cityName.length > 25
                               ? '${city.cityName.substring(0, 25)}...'
                               : city.cityName,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                color: textColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: textColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           _formatDateTime(city.time),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: mutedColor,
-                                fontSize: 12,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: mutedColor,
+                                    fontSize: 12,
+                                  ),
                         ),
                       ],
                     ),

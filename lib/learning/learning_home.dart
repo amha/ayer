@@ -9,11 +9,6 @@ class LearningHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-          title: const Text(
-            'AQI',
-          ),
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [

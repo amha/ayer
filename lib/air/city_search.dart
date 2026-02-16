@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'city_view.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:ayer/learning/aqi_basics.dart';
 import 'package:provider/provider.dart';
 import 'package:ayer/main.dart';
 
@@ -25,12 +23,6 @@ class _SearchScreenState extends State<SearchScreen> {
   List<String> filteredItems = [];
   final TextEditingController _searchController = TextEditingController();
 
-  Future<void> _launchURL(String url) async {
-    if (await canLaunchUrlString(url)) {
-      await launchUrlString(url, mode: LaunchMode.externalApplication);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -49,51 +41,6 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: const Text('Search'),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.air),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AQIBasics()),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.info_outline),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('About this search'),
-                    content: const Text(
-                        'Āyer uses the World Air Quality project\'s APIs to provide air quality data.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Close'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _launchURL('https://aqicn.org/faq/');
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Learn More'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

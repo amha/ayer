@@ -8,10 +8,6 @@ class DeviceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: const Text('My Sensors'),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Card(
