@@ -201,7 +201,7 @@ class LearningHome extends StatelessWidget {
   Widget _buildLearningCard(BuildContext context, LearningItem item) {
     return Card(
       elevation: 0,
-      color: Theme.of(context).cardColor,
+      color: Colors.white,
       margin: const EdgeInsets.only(bottom: 12.0),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16.0),

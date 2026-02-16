@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'city_view.dart';
-import 'package:provider/provider.dart';
-import 'package:ayer/main.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -11,172 +9,196 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  // Example list of strings - replace with your actual data
-  final List<String> items = [
-    'New York City',
-    'Montreal',
-    'Addis Ababa',
-    'Athens',
-    'Paris',
-  ];
-
-  List<String> filteredItems = [];
   final TextEditingController _searchController = TextEditingController();
+
+  static const List<String> _suggestedCities = [
+    'New York City',
+    'London',
+    'Addis Ababa',
+    'Seoul',
+    'Paris',
+    'Montreal',
+    'Athens',
+    'Tokyo',
+  ];
 
   @override
   void initState() {
     super.initState();
-    filteredItems = items;
   }
 
-  // void _filterItems(String query) {
-  //   setState(() {
-  //     filteredItems = items
-  //         .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-  //         .toList();
-  //   });
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              autofocus: true,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Enter city name',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              //onChanged: _filterItems,
-              onSubmitted: (value) {
-                if (value.isNotEmpty) {
-                  final savedCities = context.read<SavedCities>();
-                  final existingCity = savedCities.cities
-                      .where((city) =>
-                          city.searchTerm.toLowerCase() == value.toLowerCase())
-                      .toList();
-
-                  if (existingCity.isNotEmpty) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            FeedDetail(cityName: existingCity[0].searchTerm),
-                      ),
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FeedDetail(cityName: value),
-                      ),
-                    );
-                  }
-                }
-              },
-            ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Text(
-              'Suggested searches',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 1 / 1.1, // width:height ratio of 1:2
-                children: [
-                  _buildCityButton('New York City', '🏢'),
-                  _buildCityButton('London', '🇬🇧'),
-                  _buildCityButton('Addis Ababa', '🇪🇹'),
-                  _buildCityButton('Seoul', '🇰🇷'),
-                ],
-              ),
-            ),
-          ),
-        ],
+  void _onCitySelected(String cityName) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FeedDetail(cityName: cityName),
       ),
     );
   }
 
-  Widget _buildCityButton(String cityName, String emoji) {
-    return OutlinedButton(
-      style: Theme.of(context).outlinedButtonTheme.style?.copyWith(
-            side: WidgetStateProperty.all<BorderSide>(
-              BorderSide(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                width: .5,
-                strokeAlign: -1.0,
-              ),
-            ),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ),
-          ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FeedDetail(
-              cityName: cityName,
-            ),
-          ),
-        );
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  child: Icon(
-                    Icons.chevron_right,
-                    color: Theme.of(context).colorScheme.onPrimary,
+  void _onAutoDetect() {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Location detection coming soon. Enter a city below.'),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+    final textColor = Theme.of(context).colorScheme.onSurface;
+    final mutedColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 16),
+            // Search icon (white background, black icon in light mode)
+            Builder(
+              builder: (context) {
+                final isDark = Theme.of(context).brightness == Brightness.dark;
+                return Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Theme.of(context).cardColor
+                        : Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                )
-              ],
+                  child: Icon(
+                    Icons.search,
+                    size: 40,
+                    color: isDark ? Colors.white : Colors.black,
+                  ),
+                );
+              },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            const SizedBox(height: 24),
+            // Title
+            Text(
+              'Find cities around you',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            // Description
+            Text(
+              'Click auto-find or enter a city to check air quality',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: mutedColor,
+                    fontSize: 14,
+                  ),
+            ),
+            const SizedBox(height: 32),
+            // Auto-detect button
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: _onAutoDetect,
+                style: FilledButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('Nearest Location Detection'),
+              ),
+            ),
+            const SizedBox(height: 24),
+            // Or separator
+            Row(
               children: [
-                Text(
-                  cityName,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Theme.of(context).primaryColor),
+                Expanded(
+                  child: Divider(
+                    color: Theme.of(context).dividerColor,
+                    thickness: 1,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Or',
+                    style: TextStyle(
+                      color: mutedColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    color: Theme.of(context).dividerColor,
+                    thickness: 1,
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 24),
+            // City input field
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Enter city name',
+                hintStyle: TextStyle(color: mutedColor),
+                prefixIcon: Icon(
+                  Icons.location_on_outlined,
+                  color: mutedColor,
+                  size: 22,
+                ),
+              ),
+              onSubmitted: (value) {
+                if (value.trim().isNotEmpty) {
+                  _onCitySelected(value.trim());
+                }
+              },
+            ),
+            const SizedBox(height: 32),
+            // Suggested cities list
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Suggested cities',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                    ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: _suggestedCities.map((cityName) {
+                return _CityPill(
+                  cityName: cityName,
+                  onTap: () => _onCitySelected(cityName),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
     );
   }
@@ -185,5 +207,57 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+}
+
+class _CityPill extends StatelessWidget {
+  final String cityName;
+  final VoidCallback onTap;
+
+  const _CityPill({
+    required this.cityName,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textColor = Theme.of(context).colorScheme.onSurface;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pillColor = isDark ? Theme.of(context).cardColor : Colors.white;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          decoration: BoxDecoration(
+            color: pillColor,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: Theme.of(context).dividerColor.withOpacity(0.5),
+            ),
+            boxShadow: isDark
+                ? null
+                : [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+          ),
+          child: Text(
+            cityName,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
+              color: textColor,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

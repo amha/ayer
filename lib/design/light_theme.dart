@@ -6,9 +6,9 @@ ThemeData lightTheme() {
     useMaterial3: true,
     textTheme: ayerTextTheme,
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-    scaffoldBackgroundColor: const Color(0xffF2F2F2),
+    scaffoldBackgroundColor: const Color(0xffF3F3F3),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xffF2F2F2),
+      backgroundColor: Color(0xffF3F3F3),
       titleTextStyle: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.bold,
@@ -49,6 +49,22 @@ ThemeData lightTheme() {
     dialogBackgroundColor: Colors.white,
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.black, width: 1.5),
+      ),
     ),
     primaryColor: Colors.black,
     primaryColorDark: Colors.white,
