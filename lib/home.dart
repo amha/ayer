@@ -1,13 +1,9 @@
-import 'package:ayer/devices/device_list.dart';
 import 'package:ayer/main.dart';
 import 'package:flutter/material.dart';
 import 'air/city_search.dart';
 import 'air/city_view.dart';
 import 'air/city_card.dart';
 import 'package:provider/provider.dart';
-import 'package:ayer/settings/settings_screen.dart';
-import 'package:ayer/learning/learning_home.dart';
-import 'package:ayer/learning/aqi_basics.dart';
 import 'package:lottie/lottie.dart';
 
 /// HomeScreen is the main landing page of the application
@@ -266,124 +262,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-        ),
         title: const Text('Āyer'),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        actions: cities.citiesCount() == 0
-            ? null
-            : [
-                IconButton(
-                  icon: const Icon(Icons.air),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AQIBasics()),
-                    );
-                  },
-                ),
-              ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Text(
-                'Āyer',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColorDark,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.space_dashboard_outlined,
-                  color: Theme.of(context).primaryColor),
-              title: Text('Dashboard',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w400)),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.air_outlined,
-                  color: Theme.of(context).primaryColor),
-              title: Text('AQI Learning',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w400)),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LearningHome()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.device_thermostat_outlined,
-                  color: Theme.of(context).primaryColor),
-              title: Text('My Sensors',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w400)),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const DeviceList()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings_outlined,
-                  color: Theme.of(context).primaryColor),
-              title: Text('Settings',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w400)),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SettingsScreen()),
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: cities.citiesCount() == 0
           ? _buildEmptyState()
           : _buildCardList(cities),
-      floatingActionButton: cities.citiesCount() == 0
-          ? null
-          : FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SearchScreen()),
-                );
-              },
-              backgroundColor: Theme.of(context).primaryColor,
-              child:
-                  Icon(Icons.search, color: Theme.of(context).primaryColorDark),
-            ),
     );
   }
 }

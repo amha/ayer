@@ -187,7 +187,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
       onPressed: () {
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => FeedDetail(

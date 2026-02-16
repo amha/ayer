@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:ayer/main.dart';
-import 'package:ayer/home.dart';
+import 'package:ayer/navigation/main_shell.dart';
 import 'package:ayer/air/city_model.dart';
 import 'package:ayer/air/aqi_level_data.dart';
 
@@ -589,7 +589,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation,
                                               secondaryAnimation) =>
-                                          const HomeScreen(),
+                                          const MainShell(),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         return SlideTransition(
@@ -620,7 +620,7 @@ class _FeedDetailState extends State<FeedDetail> {
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation,
                                               secondaryAnimation) =>
-                                          const HomeScreen(),
+                                          const MainShell(),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         return SlideTransition(

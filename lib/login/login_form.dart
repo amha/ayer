@@ -1,4 +1,4 @@
-import 'package:ayer/home.dart';
+import 'package:ayer/navigation/main_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:ayer/legal/terms.dart';
 import 'package:ayer/legal/privacy.dart';
@@ -57,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder: (context) => const MainShell(),
                           ),
                         );
                       },

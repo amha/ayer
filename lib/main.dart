@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'login/login_form.dart';
 import 'home.dart';
+import 'navigation/main_shell.dart';
 import 'air/city_search.dart';
 import 'air/city_model.dart';
 import 'package:path_provider/path_provider.dart';
@@ -111,7 +112,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           // Define named routes for navigation
           routes: {
-            '/home': (context) => const HomeScreen(),
+            '/home': (context) => const MainShell(),
             '/login': (context) => const LoginForm(),
             '/search': (context) => const SearchScreen(),
           },
