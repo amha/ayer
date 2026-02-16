@@ -3,8 +3,8 @@ import 'package:ayer/main.dart';
 import 'package:flutter/material.dart';
 import 'air/city_search.dart';
 import 'air/city_view.dart';
+import 'air/city_card.dart';
 import 'package:provider/provider.dart';
-import 'air/aqi_level_data.dart';
 import 'package:ayer/settings/settings_screen.dart';
 import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/learning/aqi_basics.dart';
@@ -31,151 +31,45 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(16),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount >= 2 ? crossAxisCount : 2,
-              childAspectRatio: 1.33,
+              childAspectRatio: 0.95,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
             ),
             itemCount: cities.citiesCount(),
             itemBuilder: (context, index) {
-              return GestureDetector(
+              final city = cities.cities[index];
+              return CityCard(
+                city: city,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => FeedDetail(
-                        cityName: cities.cities[index].searchTerm,
+                        cityName: city.searchTerm,
                       ),
                     ),
                   );
                 },
-                child: Card(
-                  elevation: 27,
-                  shadowColor: Colors.black.withAlpha(115),
-                  color: getAQIColor(cities.cities[index].aqi),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  surfaceTintColor: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                cities.cities[index].cityName.length > 25
-                                    ? '${cities.cities[index].cityName.substring(0, 25)}...'
-                                    : cities.cities[index].cityName,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
-                                    ?.copyWith(color: Colors.black),
-                              ),
-                            ),
-                            PopupMenuButton<String>(
-                              icon: const Icon(
-                                Icons.more_vert,
-                                color: Colors.black,
-                                size: 24,
-                              ),
-                              onSelected: (value) {
-                                switch (value) {
-                                  case 'details':
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => FeedDetail(
-                                          cityName:
-                                              cities.cities[index].cityName,
-                                        ),
-                                      ),
-                                    );
-                                    break;
-                                  case 'remove':
-                                    context.read<SavedCities>().removeCity(
-                                        cities.cities[index].cityName);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('🗑️ City removed'),
-                                        duration: Duration(seconds: 2),
-                                        behavior: SnackBarBehavior.floating,
-                                      ),
-                                    );
-                                    break;
-                                }
-                              },
-                              itemBuilder: (BuildContext context) => [
-                                const PopupMenuItem<String>(
-                                  value: 'details',
-                                  child: Text('View details'),
-                                ),
-                                const PopupMenuItem<String>(
-                                  value: 'remove',
-                                  child: Text('Remove from list'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'AQI',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              cities.cities[index].aqi.toInt().toString(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 100,
-                                fontWeight: FontWeight.w300,
-                                height: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'PM10: ${cities.cities[index].pm10.toString()}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: Colors.black),
-                            ),
-                            Text(
-                              'O3: ${cities.cities[index].o3.toString()}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: Colors.black),
-                            ),
-                            Text(
-                              'CO: ${cities.cities[index].co.toString()}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ],
+                onViewDetails: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedDetail(
+                        cityName: city.cityName,
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
+                onRemove: () {
+                  context.read<SavedCities>().removeCity(city.cityName);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('🗑️ City removed'),
+                      duration: Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
               );
             },
           );
@@ -184,152 +78,41 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(16),
             itemCount: cities.citiesCount(),
             itemBuilder: (context, index) {
-              double cardWidth = MediaQuery.of(context).size.width - 32;
+              final city = cities.cities[index];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: GestureDetector(
+                child: CityCard(
+                  city: city,
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => FeedDetail(
-                          cityName: cities.cities[index].searchTerm,
+                          cityName: city.searchTerm,
                         ),
                       ),
                     );
                   },
-                  child: Card(
-                    elevation: 27,
-                    shadowColor: Colors.black.withAlpha(115),
-                    color: getAQIColor(cities.cities[index].aqi),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    surfaceTintColor: Colors.transparent,
-                    child: SizedBox(
-                      width: cardWidth,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    cities.cities[index].cityName.length > 25
-                                        ? '${cities.cities[index].cityName.substring(0, 25)}...'
-                                        : cities.cities[index].cityName,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(color: Colors.black),
-                                  ),
-                                ),
-                                PopupMenuButton<String>(
-                                  icon: const Icon(
-                                    Icons.more_vert,
-                                    color: Colors.black,
-                                    size: 24,
-                                  ),
-                                  onSelected: (value) {
-                                    switch (value) {
-                                      case 'details':
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => FeedDetail(
-                                              cityName:
-                                                  cities.cities[index].cityName,
-                                            ),
-                                          ),
-                                        );
-                                        break;
-                                      case 'remove':
-                                        context.read<SavedCities>().removeCity(
-                                            cities.cities[index].cityName);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text('🗑️ City removed'),
-                                            duration: Duration(seconds: 2),
-                                            behavior: SnackBarBehavior.floating,
-                                          ),
-                                        );
-                                        break;
-                                    }
-                                  },
-                                  itemBuilder: (BuildContext context) => [
-                                    const PopupMenuItem<String>(
-                                      value: 'details',
-                                      child: Text('View details'),
-                                    ),
-                                    const PopupMenuItem<String>(
-                                      value: 'remove',
-                                      child: Text('Remove from list'),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'AQI',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  cities.cities[index].aqi.toInt().toString(),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 100,
-                                    fontWeight: FontWeight.w300,
-                                    height: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'PM10: ${cities.cities[index].pm10.toString()}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(color: Colors.black),
-                                ),
-                                Text(
-                                  'O3: ${cities.cities[index].o3.toString()}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(color: Colors.black),
-                                ),
-                                Text(
-                                  'CO: ${cities.cities[index].co.toString()}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ],
+                  onViewDetails: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FeedDetail(
+                          cityName: city.cityName,
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
+                  onRemove: () {
+                    context.read<SavedCities>().removeCity(city.cityName);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('🗑️ City removed'),
+                        duration: Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
                 ),
               );
             },
