@@ -77,10 +77,22 @@ class _MainShellState extends State<MainShell> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final scaffoldBg = Theme.of(context).scaffoldBackgroundColor;
+    final navBarBg = Theme.of(context).appBarTheme.backgroundColor ??
+        (isDark ? const Color(0xff121212) : const Color(0xffF3F3F3));
+    final navBarFg = isDark ? CupertinoColors.white : CupertinoColors.black;
+
     return CupertinoPageScaffold(
+      backgroundColor: scaffoldBg,
       navigationBar: CupertinoNavigationBar.large(
-        largeTitle: Text(_tabTitles[_selectedIndex]),
+        largeTitle: Text(
+          _tabTitles[_selectedIndex],
+          style: TextStyle(color: navBarFg),
+        ),
+        backgroundColor: navBarBg,
         automaticallyImplyLeading: false,
+        brightness: isDark ? Brightness.dark : Brightness.light,
       ),
       child: Column(
         children: [
