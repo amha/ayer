@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../design/theme_provider.dart';
@@ -10,87 +11,116 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final accentColor = Theme.of(context).colorScheme.primary;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: ListView(
-        children: [
-          ListTile(
-            leading: const Icon(Icons.dark_mode_outlined),
-            title: const Text('Theme'),
-            subtitle: Text(themeProvider.isDarkMode ? 'Dark' : 'Light'),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    title: const Text('Select a theme'),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        RadioListTile<bool>(
-                          title: const Text('Light'),
-                          value: false,
-                          groupValue: themeProvider.isDarkMode,
-                          onChanged: (bool? value) {
-                            if (value != null) {
-                              themeProvider.toggleTheme(value);
-                              Navigator.pop(context);
-                            }
-                          },
-                        ),
-                        RadioListTile<bool>(
-                          title: const Text('Dark'),
-                          value: true,
-                          groupValue: themeProvider.isDarkMode,
-                          onChanged: (bool? value) {
-                            if (value != null) {
-                              themeProvider.toggleTheme(value);
-                              Navigator.pop(context);
-                            }
-                          },
-                        ),
-                      ],
+      backgroundColor: isDark
+          ? Theme.of(context).scaffoldBackgroundColor
+          : CupertinoColors.systemGroupedBackground,
+      body: CustomScrollView(
+        primary: false,
+        slivers: [
+          const SliverToBoxAdapter(child: SizedBox(height: 16)),
+          SliverToBoxAdapter(
+            child: CupertinoListSection.insetGrouped(
+              header: const Text('Appearance'),
+              children: [
+                CupertinoListTile.notched(
+                  leading: Container(
+                    width: 29,
+                    height: 29,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      CupertinoIcons.moon_fill,
+                      color: accentColor,
                     ),
-                  );
-                },
-              );
-            },
+                  ),
+                  title: const Text('Dark Mode'),
+                  trailing: CupertinoSwitch(
+                    value: themeProvider.isDarkMode,
+                    onChanged: (value) {
+                      themeProvider.toggleTheme(value);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-          const ListTile(
-            leading: Icon(Icons.check),
-            title: Text('AQI Service'),
-            subtitle: Text('Select the AQI service you want'),
+          SliverToBoxAdapter(
+            child: CupertinoListSection.insetGrouped(
+              header: const Text('Data'),
+              children: [
+                CupertinoListTile.notched(
+                  leading: Container(
+                    width: 29,
+                    height: 29,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      CupertinoIcons.cloud_fill,
+                      color: accentColor,
+                    ),
+                  ),
+                  title: const Text('AQI Service'),
+                  additionalInfo: const Text('World Air Quality'),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: () {
+                    // TODO: Navigate to AQI service selection
+                  },
+                ),
+              ],
+            ),
           ),
-          Divider(
-            indent: 16,
-            color: Theme.of(context).dividerColor,
+          SliverToBoxAdapter(
+            child: CupertinoListSection.insetGrouped(
+              header: const Text('Legal'),
+              children: [
+                CupertinoListTile.notched(
+                  leading: Container(
+                    width: 29,
+                    height: 29,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      CupertinoIcons.lock_shield_fill,
+                      color: accentColor,
+                    ),
+                  ),
+                  title: const Text('Privacy Policy'),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const PrivacyPolicy(),
+                      ),
+                    );
+                  },
+                ),
+                CupertinoListTile.notched(
+                  leading: Container(
+                    width: 29,
+                    height: 29,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      CupertinoIcons.doc_text_fill,
+                      color: accentColor,
+                    ),
+                  ),
+                  title: const Text('Terms of Use'),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const TermsOfUse(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.privacy_tip_outlined),
-            title: const Text('Privacy Policy'),
-            subtitle: const Text('Legal stuff'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.description_outlined),
-            title: const Text('Terms of Use'),
-            subtitle: const Text('More legal stuff'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const TermsOfUse()),
-              );
-            },
-          ),
-
-          // Add more settings options as needed
+          const SliverToBoxAdapter(child: SizedBox(height: 32)),
         ],
       ),
     );
