@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './ayer_text.dart';
+import './light_theme.dart';
 
 ThemeData darkTheme() {
   return ThemeData(
@@ -9,7 +10,8 @@ ThemeData darkTheme() {
         displayColor: Colors.white,
       ),
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.white,
+        seedColor: ayerAccentColor,
+        primary: ayerAccentColor,
         brightness: Brightness.dark,
         surface: const Color(0xff1E1E1E),
         onSurface: Colors.white,
@@ -33,10 +35,11 @@ ThemeData darkTheme() {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           backgroundColor: const Color(0xff1E1E1E),
-          foregroundColor: Colors.white,
-          side: const BorderSide(color: Colors.white),
+          foregroundColor: ayerAccentColor,
+          side: const BorderSide(color: ayerAccentColor),
           textStyle: const TextStyle(
-            color: Colors.white,
+            color: ayerAccentColor,
+            fontWeight: FontWeight.bold,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(60),
@@ -46,10 +49,11 @@ ThemeData darkTheme() {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
+          backgroundColor: ayerAccentColor,
+          foregroundColor: Colors.white,
           textStyle: const TextStyle(
-            color: Colors.black,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(60),
@@ -88,6 +92,6 @@ ThemeData darkTheme() {
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
-      primaryColor: Colors.white,
+      primaryColor: ayerAccentColor,
       primaryColorDark: Colors.black);
 }

@@ -6,6 +6,7 @@ import 'package:ayer/devices/device_list.dart';
 import 'package:ayer/learning/learning_home.dart';
 import 'package:ayer/air/city_search.dart';
 import 'package:ayer/settings/settings_screen.dart';
+import 'package:ayer/design/light_theme.dart';
 
 /// Main app shell with iOS 26-style bottom navigation.
 /// Uses liquid_tabbar_minimize for scroll-aware minimize behavior.
@@ -116,7 +117,7 @@ class _MainShellState extends State<MainShell> {
                 _lastScrollOffset = 0;
               });
             },
-            selectedItemColor: Theme.of(context).primaryColor,
+            selectedItemColor: ayerAccentColor,
             unselectedItemColor:
                 Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             labelVisibility: LabelVisibility.always,

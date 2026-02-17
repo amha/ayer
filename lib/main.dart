@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundColor: Colors.black,
+              backgroundColor: ayerAccentColor,
               child: Text(
                 'Ā',
                 style: TextStyle(

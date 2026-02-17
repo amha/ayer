@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ayer/main.dart';
 import 'package:ayer/navigation/main_shell.dart';
 import 'package:ayer/air/city_model.dart';
+import 'package:ayer/air/forecast_model.dart';
 import 'package:ayer/air/aqi_level_data.dart';
 
 /// FeedDetail is a StatefulWidget that displays detailed air quality information for a specific city
@@ -35,6 +36,9 @@ class _FeedDetailState extends State<FeedDetail> {
   String? _error;
 
   late CityAirData cityAirData;
+
+  // Forecast data (optional - not all cities have forecast)
+  AirForecast? _forecast;
 
   @override
   void initState() {
@@ -73,6 +77,7 @@ class _FeedDetailState extends State<FeedDetail> {
           if (_feedData['data'].containsKey('city')) {
             cityAirData =
                 CityAirData.fromJson(_feedData['data'], widget.cityName);
+            _forecast = AirForecast.fromJson(_feedData['data']);
             _isLoading = false;
           } else {
             _error = 'Error: ${_feedData['message']}';
@@ -94,6 +99,333 @@ class _FeedDetailState extends State<FeedDetail> {
         _isLoading = false;
       });
     }
+  }
+
+  String _formatTimestamp(DateTime dt) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    final hour12 = dt.hour == 0 ? 12 : (dt.hour > 12 ? dt.hour - 12 : dt.hour);
+    final minute = dt.minute.toString().padLeft(2, '0');
+    final period = dt.hour < 12 ? 'am' : 'pm';
+    return '${months[dt.month - 1]} ${dt.day}, $hour12:$minute$period';
+  }
+
+  Widget _buildCard1(BuildContext context) {
+    final aqi = cityAirData.aqi;
+    final aqiColor = getAQIColor(aqi);
+    final aqiLabel = getAQILabel(aqi);
+    final aqiInt = aqi.toInt();
+    final progress = (aqiInt / 500).clamp(0.0, 1.0);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? Theme.of(context).cardColor : Colors.white;
+    final textColor = isDark
+        ? Theme.of(context).colorScheme.onSurface
+        : const Color(0xFF1A1A1A);
+    final mutedColor = isDark
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+        : const Color(0xFF757575);
+
+    return Card(
+      elevation: 4,
+      shadowColor: Colors.black.withOpacity(0.08),
+      color: cardColor,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cityAirData.cityName,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    aqiLabel,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: aqiColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    _formatTimestamp(cityAirData.time),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: mutedColor,
+                          fontSize: 12,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: CircularProgressIndicator(
+                      value: progress,
+                      strokeWidth: 8,
+                      backgroundColor: aqiColor.withOpacity(0.25),
+                      valueColor: AlwaysStoppedAnimation<Color>(aqiColor),
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        aqiInt.toString(),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
+                          height: 1.1,
+                        ),
+                      ),
+                      Text(
+                        'AQI',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: mutedColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard2(BuildContext context) {
+    final forecast = _forecast!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? Theme.of(context).cardColor : Colors.white;
+    final textColor = isDark
+        ? Theme.of(context).colorScheme.onSurface
+        : const Color(0xFF1A1A1A);
+    final mutedColor = isDark
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+        : const Color(0xFF757575);
+    const maxAqi = 200.0;
+
+    return Card(
+      elevation: 4,
+      shadowColor: Colors.black.withOpacity(0.08),
+      color: cardColor,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'FORECAST ${forecast.pollutantName}',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: forecast.days.take(7).map((day) {
+                  final barHeight = (day.aqi / maxAqi).clamp(0.05, 1.0) * 60.0;
+                  final color = getAQIColor(day.aqi);
+                  const months = [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec'
+                  ];
+                  final label = '${months[day.date.month - 1]} ${day.date.day}';
+                  final aqiValue = day.aqi.toInt();
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            aqiValue.toString(),
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            height: barHeight,
+                            decoration: BoxDecoration(
+                              color: color,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            label,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: mutedColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  // TODO: Implement reminder
+                },
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(36),
+                  ),
+                ),
+                child: const Text('Set Reminder'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard3(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? Theme.of(context).cardColor : Colors.white;
+    final textColor = isDark
+        ? Theme.of(context).colorScheme.onSurface
+        : const Color(0xFF1A1A1A);
+    final mutedColor = isDark
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+        : const Color(0xFF757575);
+
+    String formatPollutant(double? value) {
+      if (value == null || value == 0) return 'Unavailable';
+      return value.toStringAsFixed(0);
+    }
+
+    final pollutants = [
+      ('PM2.5', formatPollutant(cityAirData.pm25)),
+      ('PM10', formatPollutant(cityAirData.pm10)),
+      ('CO', formatPollutant(cityAirData.co)),
+      ('O3', formatPollutant(cityAirData.o3)),
+      ('NO2', formatPollutant(cityAirData.no2)),
+    ];
+
+    return Card(
+      elevation: 4,
+      shadowColor: Colors.black.withOpacity(0.08),
+      color: cardColor,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'POLLUTANTS',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 16),
+            for (var i = 0; i < pollutants.length; i++) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      pollutants[i].$1,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: mutedColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      pollutants[i].$2,
+                      style: pollutants[i].$2 == 'Unavailable'
+                          ? TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: mutedColor,
+                            )
+                          : TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+              if (i < pollutants.length - 1) const Divider(height: 1),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 
   void _showInfoDialog(BuildContext context, String title, String description) {
@@ -266,397 +598,134 @@ class _FeedDetailState extends State<FeedDetail> {
                       ),
                     )
                   : SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // First Child - AQI Display
-                          Container(
-                            padding:
-                                const EdgeInsets.fromLTRB(0, 12.0, 0.0, 12.0),
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'AIR QUALITY INDEX',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge,
-                                        ),
-                                        Text(
-                                          cityAirData.time
-                                              .toLocal()
-                                              .toString()
-                                              .split('.')[0],
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(color: Colors.grey),
-                                        ),
-                                        Chip(
-                                            label: Text(
-                                              getAQILabel(double.parse(
-                                                  cityAirData.pm25.toString())),
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black87,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            backgroundColor: getAQIColor(
-                                                double.parse(cityAirData.pm25
-                                                    .toString())),
-                                            side: BorderSide.none),
-                                        Text(
-                                          _feedData['data']['aqi'].toString(),
-                                          style: const TextStyle(
-                                              fontSize: 90,
-                                              fontWeight: FontWeight.w200),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Card 1: City name, status, timestamp, AQI gauge
+                          _buildCard1(context),
                           const SizedBox(height: 16),
 
-                          // Second Child - Metrics List
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const Divider(
-                                  color: Colors.grey,
-                                  height: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: .5,
-                                ),
-                                ListTile(
-                                  title: TextButton.icon(
-                                    onPressed: () {
-                                      _showInfoDialog(
-                                        context,
-                                        'PM2.5',
-                                        'Fine particulate matter with diameter less than 2.5 micrometers. These particles can penetrate deep into your lungs.',
-                                      );
-                                    },
-                                    label: Text(
-                                      'PM2.5',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium
-                                          ?.copyWith(
-                                            color: const Color(0xFF757575),
-                                            fontSize: 15,
-                                          ),
-                                    ),
-                                    icon: const Icon(Icons.info_outline,
-                                        size: 16, color: Color(0xFF757575)),
-                                    iconAlignment: IconAlignment.end,
-                                    style: TextButton.styleFrom(
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    cityAirData.pm25.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Colors.grey,
-                                  height: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: .5,
-                                ),
-                                ListTile(
-                                  title: TextButton.icon(
-                                    onPressed: () {
-                                      _showInfoDialog(
-                                        context,
-                                        'PM10',
-                                        'Coarse particulate matter with diameter less than 10 micrometers. These particles can enter your respiratory system.',
-                                      );
-                                    },
-                                    label: Text('PM10',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: const Color(0xFF757575),
-                                              fontSize: 15,
-                                            )),
-                                    icon: const Icon(Icons.info_outline,
-                                        size: 16, color: Color(0xFF757575)),
-                                    iconAlignment: IconAlignment.end,
-                                    style: TextButton.styleFrom(
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    cityAirData.pm10.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Colors.grey,
-                                  height: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: .5,
-                                ),
-                                ListTile(
-                                  title: TextButton.icon(
-                                    onPressed: () {
-                                      _showInfoDialog(
-                                        context,
-                                        'Carbon Monoxide',
-                                        'A colorless, odorless gas that can be harmful when inhaled in large amounts. CO is released when something is burned.',
-                                      );
-                                    },
-                                    label: Text('CO',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: const Color(0xFF757575),
-                                              fontSize: 15,
-                                            )),
-                                    icon: const Icon(Icons.info_outline,
-                                        size: 16, color: Color(0xFF757575)),
-                                    iconAlignment: IconAlignment.end,
-                                    style: TextButton.styleFrom(
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    cityAirData.co.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Colors.grey,
-                                  height: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: .5,
-                                ),
-                                ListTile(
-                                  title: TextButton.icon(
-                                    onPressed: () {
-                                      _showInfoDialog(
-                                        context,
-                                        'Ozone',
-                                        'Ground-level ozone is a major component of smog. It forms when pollutants react in sunlight and can cause respiratory problems.',
-                                      );
-                                    },
-                                    label: Text('O3',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: const Color(0xFF757575),
-                                              fontSize: 15,
-                                            )),
-                                    icon: const Icon(Icons.info_outline,
-                                        size: 16, color: Color(0xFF757575)),
-                                    iconAlignment: IconAlignment.end,
-                                    style: TextButton.styleFrom(
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    cityAirData.o3.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Colors.grey,
-                                  height: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: .5,
-                                ),
-                                ListTile(
-                                  title: TextButton.icon(
-                                    onPressed: () {
-                                      _showInfoDialog(
-                                        context,
-                                        'Nitrogen Dioxide',
-                                        'A reddish-brown gas that primarily comes from burning fuel. It can cause respiratory issues and contribute to the formation of other pollutants.',
-                                      );
-                                    },
-                                    label: Text('NO2',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: const Color(0xFF757575),
-                                              fontSize: 15,
-                                            )),
-                                    icon: const Icon(Icons.info_outline,
-                                        size: 16, color: Color(0xFF757575)),
-                                    iconAlignment: IconAlignment.end,
-                                    style: TextButton.styleFrom(
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    cityAirData.no2.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Colors.grey,
-                                  height: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: .5,
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Card 2: Forecast (only if available)
+                          if (_forecast != null &&
+                              _forecast!.days.isNotEmpty) ...[
+                            _buildCard2(context),
+                            const SizedBox(height: 16),
+                          ],
 
-                          const SizedBox(height: 8),
+                          // Card 3: Pollutant list
+                          _buildCard3(context),
+                          const SizedBox(height: 16),
 
-                          // Third Child - Button
-                          Container(
-                            padding: const EdgeInsets.all(16.0),
-                            width: MediaQuery.of(context).size.width,
-                            child: FilledButton(
-                              style: FilledButton.styleFrom(
-                                backgroundColor: context
-                                        .read<SavedCities>()
-                                        .cities
-                                        .any((city) =>
-                                            city.searchTerm == widget.cityName)
-                                    ? const Color.fromARGB(255, 255, 232, 226)
-                                    : Theme.of(context).primaryColor,
-                                foregroundColor: context
-                                        .read<SavedCities>()
-                                        .cities
-                                        .any((city) =>
-                                            city.searchTerm == widget.cityName)
-                                    ? Colors.black
-                                    : Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(36),
-                                ),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                              ),
-                              onPressed: () {
-                                if (context.read<SavedCities>().cities.any(
-                                    (city) =>
-                                        city.searchTerm == widget.cityName)) {
-                                  // Remove city logic
-                                  context
+                          // Add/Remove from Dashboard button
+                          FilledButton(
+                            style: FilledButton.styleFrom(
+                              backgroundColor: context
                                       .read<SavedCities>()
-                                      .removeCity(widget.cityName);
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentSnackBar();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          '🗑️ City removed from dashboard'),
-                                      duration: Duration(seconds: 2),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          const MainShell(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        return SlideTransition(
-                                          position: Tween<Offset>(
-                                            begin: const Offset(-1.0, 0.0),
-                                            end: Offset.zero,
-                                          ).animate(animation),
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                } else {
-                                  // Add city logic
-                                  Provider.of<SavedCities>(context,
-                                          listen: false)
-                                      .addCity(cityAirData);
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentSnackBar();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          '✨ ${widget.cityName} added to dashboard'),
-                                      duration: const Duration(seconds: 2),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          const MainShell(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        return SlideTransition(
-                                          position: Tween<Offset>(
-                                            begin: const Offset(-1.0, 0.0),
-                                            end: Offset.zero,
-                                          ).animate(animation),
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
-                              },
-                              child: context.read<SavedCities>().cities.any(
-                                      (city) =>
+                                      .cities
+                                      .any((city) =>
                                           city.searchTerm == widget.cityName)
-                                  ? Text('REMOVE FROM DASHBOARD',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge
-                                          ?.copyWith(
-                                              color: const Color(0xffC32813),
-                                              fontWeight: FontWeight.bold))
-                                  : Text(
-                                      'ADD TO DASHBOARD',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge
-                                          ?.copyWith(color: Colors.white),
-                                    ),
+                                  ? const Color.fromARGB(255, 255, 232, 226)
+                                  : Theme.of(context).primaryColor,
+                              foregroundColor: context
+                                      .read<SavedCities>()
+                                      .cities
+                                      .any((city) =>
+                                          city.searchTerm == widget.cityName)
+                                  ? Colors.black
+                                  : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(36),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
                             ),
+                            onPressed: () {
+                              if (context.read<SavedCities>().cities.any(
+                                  (city) =>
+                                      city.searchTerm == widget.cityName)) {
+                                // Remove city logic
+                                context
+                                    .read<SavedCities>()
+                                    .removeCity(widget.cityName);
+                                ScaffoldMessenger.of(context)
+                                    .hideCurrentSnackBar();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('🗑️ City removed from dashboard'),
+                                    duration: Duration(seconds: 2),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                                Navigator.pushReplacement(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        const MainShell(),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(-1.0, 0.0),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              } else {
+                                // Add city logic
+                                Provider.of<SavedCities>(context, listen: false)
+                                    .addCity(cityAirData);
+                                ScaffoldMessenger.of(context)
+                                    .hideCurrentSnackBar();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        '✨ ${widget.cityName} added to dashboard'),
+                                    duration: const Duration(seconds: 2),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                                Navigator.pushReplacement(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        const MainShell(),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(-1.0, 0.0),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                            },
+                            child: context.read<SavedCities>().cities.any(
+                                    (city) =>
+                                        city.searchTerm == widget.cityName)
+                                ? Text('REMOVE FROM DASHBOARD',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
+                                            color: const Color(0xffC32813),
+                                            fontWeight: FontWeight.bold))
+                                : Text(
+                                    'ADD TO DASHBOARD',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(color: Colors.white),
+                                  ),
                           ),
                         ],
                       ),

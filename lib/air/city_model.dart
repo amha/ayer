@@ -34,9 +34,11 @@ class CityAirData {
 
   /// Creates a CityAirData instance from a JSON map
   factory CityAirData.fromJson(Map<String, dynamic> json, String searchTerm) {
+    final cityNameVal = json['city']?['name'];
+    final cityName = cityNameVal is String ? cityNameVal : searchTerm;
     return CityAirData(
       searchTerm: searchTerm,
-      cityName: json['city']['name'],
+      cityName: cityName,
       aqi: json['aqi'].toDouble(),
       pm25: json['iaqi']['pm25']['v'].toDouble(),
       pm10: json['iaqi']?['pm10']?['v']?.toDouble() ?? 0.0,

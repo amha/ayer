@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import './ayer_text.dart';
 
+/// App accent color used for primary actions, selected states, and icons.
+const Color ayerAccentColor = Color(0xFFD95407);
+
 ThemeData lightTheme() {
   return ThemeData(
     useMaterial3: true,
     textTheme: ayerTextTheme,
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: ayerAccentColor,
+      primary: ayerAccentColor,
+    ),
     scaffoldBackgroundColor: const Color(0xffF3F3F3),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xffF3F3F3),
@@ -16,14 +22,17 @@ ThemeData lightTheme() {
       ),
     ),
     buttonTheme: const ButtonThemeData(
-      buttonColor: Colors.black,
+      buttonColor: ayerAccentColor,
       textTheme: ButtonTextTheme.primary,
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.white,
+        foregroundColor: ayerAccentColor,
+        side: const BorderSide(color: ayerAccentColor),
         textStyle: const TextStyle(
-          color: Colors.black,
+          color: ayerAccentColor,
+          fontWeight: FontWeight.bold,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(60),
@@ -33,9 +42,11 @@ ThemeData lightTheme() {
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: Colors.black,
+        backgroundColor: ayerAccentColor,
+        foregroundColor: Colors.white,
         textStyle: const TextStyle(
           color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(60),
@@ -66,7 +77,7 @@ ThemeData lightTheme() {
         borderSide: const BorderSide(color: Colors.black, width: 1.5),
       ),
     ),
-    primaryColor: Colors.black,
+    primaryColor: ayerAccentColor,
     primaryColorDark: Colors.white,
   );
 }

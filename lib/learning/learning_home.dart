@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ayer/learning/aqi_basics.dart';
 import 'package:ayer/learning/pollutant_detail.dart';
+import 'package:ayer/design/light_theme.dart';
 
 class LearningHome extends StatelessWidget {
   const LearningHome({super.key});
@@ -199,16 +200,25 @@ class LearningHome extends StatelessWidget {
   }
 
   Widget _buildLearningCard(BuildContext context, LearningItem item) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = Theme.of(context).cardTheme.color ??
+        Theme.of(context).colorScheme.surface;
+    final titleColor = Theme.of(context).colorScheme.onSurface;
+    final subtitleColor = isDark
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.8)
+        : Colors.grey[600]!;
+    final chevronColor = Theme.of(context).colorScheme.onSurface;
+
     return Card(
       elevation: 0,
-      color: Colors.white,
+      color: cardColor,
       margin: const EdgeInsets.only(bottom: 12.0),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16.0),
         leading: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: ayerAccentColor,
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Icon(
@@ -218,9 +228,10 @@ class LearningHome extends StatelessWidget {
         ),
         title: Text(
           item.title,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
+            color: titleColor,
           ),
         ),
         subtitle: Padding(
@@ -228,12 +239,12 @@ class LearningHome extends StatelessWidget {
           child: Text(
             item.description,
             style: TextStyle(
-              color: Colors.grey[600],
+              color: subtitleColor,
               fontSize: 14,
             ),
           ),
         ),
-        trailing: const Icon(Icons.chevron_right),
+        trailing: Icon(Icons.chevron_right, color: chevronColor),
         onTap: () {
           Navigator.push(
             context,

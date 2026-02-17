@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../design/theme_provider.dart';
+import '../design/light_theme.dart';
 import '../legal/privacy.dart';
 import '../legal/terms.dart';
 
@@ -11,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final accentColor = Theme.of(context).colorScheme.primary;
+    final accentColor = ayerAccentColor;
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
